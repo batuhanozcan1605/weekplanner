@@ -12,7 +12,7 @@ class DayScreen extends StatelessWidget {
       body: CalenderWidget(),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add, color: Colors.black),
-        backgroundColor: Constants.primaryColor,
+        backgroundColor: Constants.themePurple,
         onPressed: () => Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => EventEditingPage()),
         ),

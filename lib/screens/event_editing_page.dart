@@ -48,7 +48,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
               onPressed: () => (),
               icon: Icon(
                 Icons.check,
-                color: Constants.primaryColor,
+                color: Constants.themePurple,
               ))
         ],
         title: Text(
@@ -71,7 +71,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                   border:
                       Border.all(width: 1.0, color: const Color(0xff707070)),
                 ),
-                height: 66,
+                height: 56,
               ),
             ),
             Padding(
@@ -126,8 +126,9 @@ class _EventEditingPageState extends State<EventEditingPage> {
                         ),
                         Text('Color', style: TextStyle(
                             color: Constants.softColor,
-                            fontSize: 22,
-                            fontFamily: 'Segoe UI')
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Segoe UI'),
                         )
                       ],
                     )
@@ -174,7 +175,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
                         children: [
                               Text('Time', style: TextStyle(
                               color: Constants.softColor,
-                              fontSize: 22,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
                               fontFamily: 'Segoe UI'),),
                             ],
                       ),
@@ -212,7 +214,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
   Widget buildDateTimePicker() => Column(
         children: [
           buildFrom(),
-          //buildTo(),
+          buildTo(),
         ],
       );
 
@@ -228,16 +230,9 @@ class _EventEditingPageState extends State<EventEditingPage> {
                     height: 15,
                     width: 15,
                     decoration: BoxDecoration(
-                      color: const Color(0xffbfb528),
+                      color: Constants.themePurple,
                       borderRadius: BorderRadius.all(Radius.elliptical(9999.0, 9999.0)),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 4.0),
-                    child: Text('From', style: TextStyle(
-                        color: Constants.softColor,
-                        fontSize: 14,
-                        fontFamily: 'Segoe UI'),),
                   ),
                 ],
               ),
@@ -246,15 +241,90 @@ class _EventEditingPageState extends State<EventEditingPage> {
             Expanded(
               flex: 2,
               child: buildDropdownField(
-                  text: Utils.toDate(fromDate), onClicked: () {}),
+                  text: Utils.toDate(fromDate), onClicked: () => pickFromDateTime(pickDate: true)),
             ),
             Expanded(
               flex: 2,
                 child: buildDropdownField(
-                    text: Utils.toTime(fromDate), onClicked: () {})),
+                    text: Utils.toTime(fromDate), onClicked: () => pickFromDateTime(pickDate: false))),
           ],
         ),
   );
+
+  Widget buildTo() => Padding(
+    padding: const EdgeInsets.only(left: 14.0),
+    child: Row(
+      children: [
+        Expanded(
+          flex: 1,
+          child: Row(
+            children: [
+              Container(
+                height: 15,
+                width: 15,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.elliptical(9999.0, 9999.0)),
+                  border: Border.all(width: 1.0, color: Constants.themePurple,),
+                ),
+              )
+            ],
+          ),
+        ),
+
+        Expanded(
+          flex: 2,
+          child: buildDropdownField(
+              text: Utils.toDate(toDate), onClicked: () {}),
+        ),
+        Expanded(
+            flex: 2,
+            child: buildDropdownField(
+                text: Utils.toTime(toDate), onClicked: () {})),
+      ],
+    ),
+  );
+
+  Future pickFromDateTime({required bool pickDate}) async {
+    final date = await pickDateTime(fromDate, pickDate: pickDate);
+    if(date == null) return;
+
+    if(date.isAfter(toDate)) {
+        toDate = DateTime(date.year, date.month, date.day, toDate.hour, toDate.minute);
+    }
+
+    setState(() {
+      fromDate = date;
+    });
+  }
+
+  Future<DateTime?> pickDateTime(
+      DateTime initialDate, {
+        required bool pickDate,
+        DateTime? firstDate,
+}) async {
+    if (pickDate) {
+      final date = await showDatePicker(
+          context: context,
+          initialDate: initialDate,
+          firstDate: firstDate ?? DateTime(2021, 8),
+          lastDate: DateTime(2101));
+      if(date==null) return null;
+      final time = Duration(hours: initialDate.hour, minutes: initialDate.minute);
+      return date.add(time);
+    } else {
+      final timeOfDay = await showTimePicker(
+          context: context,
+          initialTime: TimeOfDay.fromDateTime(initialDate));
+
+      if(timeOfDay == null) return null;
+
+      final date = DateTime(initialDate.year, initialDate.month, initialDate.day);
+      final time = Duration(hours: timeOfDay.hour, minutes: timeOfDay.minute);
+
+      return date.add(time);
+    }
+
+  }
 
   Widget buildDropdownField({
     required String text,
