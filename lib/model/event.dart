@@ -1,15 +1,25 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
+import 'package:weekplanner/constants.dart';
+
 class Event {
   final String title;
-  final String detail;
-  final String icon;
+  final String? detail;
+  final String? icon;
   final DateTime from;
   final DateTime to;
-  final String backgroundColor;
-  final bool isEveryDay;
+  final Color backgroundColor;
+  final bool isAllDay;
   final bool isRepetative;
 
-  Event(this.title, this.detail, this.icon, this.from, this.to,
-      this.backgroundColor, this.isEveryDay, this.isRepetative);
+  Event(
+      {required this.title,
+      this.detail,
+      this.icon,
+      required this.from,
+      required this.to,
+      this.backgroundColor = Colors.deepPurple,
+      required this.isAllDay,
+      required this.isRepetative});
 }

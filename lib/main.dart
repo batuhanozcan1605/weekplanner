@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:weekplanner/constants.dart';
+import 'package:weekplanner/provider/event_provider.dart';
 import 'package:weekplanner/screens/day_screen.dart';
+import 'package:provider/provider.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -12,22 +15,29 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Week Planner App',
-      themeMode: ThemeMode.dark,
-      darkTheme: ThemeData.dark().copyWith(
-          scaffoldBackgroundColor: Colors.black,
-        primaryColor: Constants.primaryColor
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<EventProvider>(
+          create: (_) => EventProvider(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Week Planner App',
+        themeMode: ThemeMode.dark,
+        darkTheme: ThemeData.dark().copyWith(
+            scaffoldBackgroundColor: Colors.black,
+          primaryColor: Constants.primaryColor
+        ),
+        home: const DayScreen(),
       ),
-      home: const DayScreen(),
     );
   }
 }
 
 
 //to test the system
-class MyCalendar extends StatelessWidget {
+/*class MyCalendar extends StatelessWidget {
   CalendarController _controller = CalendarController();
 
   @override
@@ -112,4 +122,4 @@ class DataSource extends CalendarDataSource {
     appointments = source;
   }
 }
-
+*/
