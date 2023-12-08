@@ -10,7 +10,7 @@ class Event {
   final DateTime from;
   final DateTime to;
   final Color backgroundColor;
-  final bool isAllDay;
+  final bool isAllDay; //bu iptal olacak.
   final bool isRepetative;
 
   Event(
