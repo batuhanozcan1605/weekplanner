@@ -20,6 +20,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
   final detailController = TextEditingController();
   late DateTime fromDate;
   late DateTime toDate;
+  bool isChecked = false;
 
   @override
   void initState() {
@@ -194,9 +195,23 @@ class _EventEditingPageState extends State<EventEditingPage> {
                     ),
                     buildDateTimePicker(),
                     Padding(
-                      padding: const EdgeInsets.all(18.0),
+                      padding: const EdgeInsets.all(14.0),
                       child: Divider(color: Constants.themePurple,),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 13.0, right: 13.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Days", style: TextStyle(
+                              color: Constants.softColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Segoe UI'),),
+                          myCheckBox()
+                        ],
+                      ),
+                    )
                   ],
                 ),
               )
@@ -206,6 +221,22 @@ class _EventEditingPageState extends State<EventEditingPage> {
       ),
     );
   }
+
+  Widget myCheckBox() => Row(
+    children: [
+      Text('Everyday'),
+      Checkbox(
+        activeColor: Colors.deepPurple,
+        checkColor: Constants.softColor,
+        value: isChecked,
+        onChanged: (value) {
+          setState(() {
+            isChecked = value!;
+          });
+        },
+      ),
+    ],
+  );
 
   Future saveForm() async {
 
@@ -391,3 +422,5 @@ class _EventEditingPageState extends State<EventEditingPage> {
         onTap: onClicked,
       );
 }
+
+
