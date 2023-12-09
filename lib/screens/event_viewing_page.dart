@@ -82,7 +82,7 @@ class EventViewingPage extends StatelessWidget {
             ),
             Text(event.title,style: TextStyle(
               fontFamily: 'Segoe UI',
-              fontSize: 16,
+              fontSize: 20,
               fontWeight: FontWeight.bold
             ),),
             Padding(

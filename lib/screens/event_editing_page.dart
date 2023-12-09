@@ -70,28 +70,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 1.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Constants.lightGrey,
-                  borderRadius: BorderRadius.circular(11.0),
-                  border:
-                      Border.all(width: 1.0, color: const Color(0xff707070)),
-                ),
-                height: 56,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 13.0),
-              child: Text(
-                "Or go custom",
-                style: TextStyle(
-                    color: Constants.softColor,
-                    fontSize: 18,
-                    fontFamily: 'Segoe UI'),
-              ),
-            ),
+
             Padding(
               padding: const EdgeInsets.only(top: 10.0),
               child: Container(
@@ -100,17 +79,41 @@ class _EventEditingPageState extends State<EventEditingPage> {
                   color: Constants.lightGrey,
                   borderRadius: BorderRadius.circular(11.0),
                 ),
-                child: Column(
+                child: Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16.0),
-                      child: buildTitle(),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 16.0,
+                    Expanded(
+                      flex: 9,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 16.0),
+                            child: buildTitle(),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 16.0,
+                            ),
+                            child: buildDetailInput(),
+                          ),
+                        ],
                       ),
-                      child: buildDetailInput(),
+                    ),
+                    Expanded(
+                      flex: 2,
+                        child: Column(
+                          children: [
+                            IconButton(
+                                onPressed: (){},
+                                icon: Icon( Icons.add_circle, color: Constants.softColor,),
+                              iconSize: 30,
+                            ),
+                            Text("Event",
+                                style: TextStyle(color: Constants.softColor,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Segoe UI')),
+                          ],
+                        )
                     ),
                   ],
                 ),
@@ -170,7 +173,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
             Padding(
               padding: const EdgeInsets.only(top: 11.0),
               child: Container(
-                height: 256,
+                height: 350,
                 decoration: BoxDecoration(
                   color: const Color(0xff74736f),
                   borderRadius: BorderRadius.circular(11.0),
@@ -190,10 +193,14 @@ class _EventEditingPageState extends State<EventEditingPage> {
                       ),
                     ),
                     buildDateTimePicker(),
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: Divider(color: Constants.themePurple,),
+                    ),
                   ],
                 ),
               )
-            )
+            ),
           ],
         ),
       ),
@@ -224,14 +231,13 @@ class _EventEditingPageState extends State<EventEditingPage> {
       Navigator.pop(context);
     }
 
-
   }
 
   Widget buildTitle() => TextFormField(
         style: TextStyle(
-            color: Constants.softColor, fontSize: 22, fontFamily: 'Segoe UI'),
+            color: Constants.softColor, fontSize: 20, fontFamily: 'Segoe UI'),
         decoration:
-            InputDecoration(border: InputBorder.none, hintText: 'Title'),
+            InputDecoration(border: InputBorder.none, hintText: 'Title',),
         onFieldSubmitted: (_) => saveForm(),
         //validator: (title) => title != null && title.isEmpty ? 'Title can not be empty' : null,
         controller: titleController,
