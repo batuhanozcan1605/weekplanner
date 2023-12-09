@@ -20,7 +20,7 @@ class CalenderWidget extends StatelessWidget {
         if(details.appointments == null) return;
 
         final event = details.appointments!.first;
-        
+        print('DEBUG ${event.title}');
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventViewingPage(event: event)));
       },
       headerHeight: 0,

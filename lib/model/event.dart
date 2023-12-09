@@ -5,7 +5,7 @@ import 'package:weekplanner/constants.dart';
 
 class Event {
   final String title;
-  final String? detail;
+  final String detail;
   final String? icon;
   final DateTime from;
   final DateTime to;
@@ -15,7 +15,7 @@ class Event {
 
   Event(
       {required this.title,
-      this.detail,
+      required this.detail,
       this.icon,
       required this.from,
       required this.to,
