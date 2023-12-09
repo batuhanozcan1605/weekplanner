@@ -212,10 +212,18 @@ class _EventEditingPageState extends State<EventEditingPage> {
       isRepetative: false,
     );
 
+    final isEditing = widget.event != null;
     final provider = Provider.of<EventProvider>(context, listen: false);
-    provider.addEvent(event);
 
-    Navigator.pop(context);
+    if(isEditing) {
+      provider.editEvent(event, widget.event!);
+
+      Navigator.pop(context);
+    } else {
+      provider.addEvent(event);
+      Navigator.pop(context);
+    }
+
 
   }
 
