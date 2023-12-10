@@ -1,16 +1,18 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:interval_time_picker/interval_time_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:weekplanner/constants.dart';
 import 'package:weekplanner/provider/event_provider.dart';
 import 'package:weekplanner/utils.dart';
 import 'package:weekplanner/widgets/color_listview_widget.dart';
-import '../model/event.dart';
 
 class EventEditingPage extends StatefulWidget {
-  const EventEditingPage({Key? key, this.event}) : super(key: key);
+  const EventEditingPage({Key? key, this.appointment}) : super(key: key);
 
-  final Event? event;
+  final Appointment? appointment;
 
   @override
   State<EventEditingPage> createState() => _EventEditingPageState();
@@ -24,21 +26,24 @@ class _EventEditingPageState extends State<EventEditingPage> {
   late DateTime toDate;
   Color backgroundColor = Colors.deepPurple;
   bool isChecked = false;
-  bool isRecurrenceEnabled = false;
+  late bool isRecurrenceEnabled;
 
   @override
   void initState() {
     super.initState();
 
-    if (widget.event == null) {
+    if (widget.appointment == null) {
+      isRecurrenceEnabled = false;
       fromDate = DateTime.now();
       toDate = DateTime.now().add(Duration(hours: 2));
     } else {
-      final event = widget.event!;
+      final event = widget.appointment!;
 
       titleController.text = event.subject;
-      fromDate = event.from;
-      toDate = event.to;
+      fromDate = event.startTime;
+      toDate = event.endTime;
+      isRecurrenceEnabled = widget.appointment == null ? false : true;
+      backgroundColor = widget.appointment!.color;
     }
   }
 
@@ -279,20 +284,19 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
   Future saveForm() async {
 
-    final event = Event(
-        subject: titleController.text,
-        detail: detailController.text,
-        from: fromDate,
-        to: toDate,
-      icon: Icons.square_rounded,
+    final event = Appointment(
+      subject: titleController.text,
+      notes: detailController.text,
+      startTime: fromDate,
+      endTime: toDate,
       color: backgroundColor,
     );
 
-    final isEditing = widget.event != null;
-    final provider = Provider.of<EventProvider>(context, listen: false);
+    final isEditing = widget.appointment != null;
+    final provider = Provider.of<AppointmentProvider>(context, listen: false);
 
     if(isEditing) {
-      provider.editEvent(event, widget.event!);
+      provider.editEvent(event, widget.appointment!);
 
       Navigator.pop(context);
     } else {
@@ -304,20 +308,20 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
   Future saveWeeklyEvent(String days) async {
 
-    final event = Event(
+    final event = Appointment(
       subject: titleController.text,
-      detail: detailController.text,
-      from: fromDate,
-      to: toDate,
-      icon: Icons.square_rounded,
+      notes: detailController.text,
+      startTime: fromDate,
+      endTime: toDate,
+      color: backgroundColor,
       recurrenceRule: 'FREQ=WEEKLY;BYDAY=$days',
     );
 
-    final isEditing = widget.event != null;
-    final provider = Provider.of<EventProvider>(context, listen: false);
+    final isEditing = widget.appointment != null;
+    final provider = Provider.of<AppointmentProvider>(context, listen: false);
 
     if(isEditing) {
-      provider.editEvent(event, widget.event!);
+      provider.editEvent(event, widget.appointment!);
 
       Navigator.pop(context);
     } else {

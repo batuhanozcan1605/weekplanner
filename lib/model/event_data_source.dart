@@ -1,24 +1,22 @@
 import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:weekplanner/model/event.dart';
 
 class EventDataSource extends CalendarDataSource{
-  EventDataSource(List<Event> appointments) {
+  EventDataSource(List<Appointment> appointments) {
     this.appointments = appointments;
   }
 
-  Event getEvent(int index) => appointments![index] as Event;
+  Appointment getEvent(int index) => appointments![index] as Appointment;
 
-  IconData getIcon(int index) => getEvent(index).icon;
-
-  @override
-  DateTime getStartTime(int index) => getEvent(index).from;
-
+ //IconData getIcon(int index) => getEvent(index).icon;
 
   @override
-  DateTime getEndTime(int index) => getEvent(index).to;
+  DateTime getStartTime(int index) => getEvent(index).startTime;
+
+
+  @override
+  DateTime getEndTime(int index) => getEvent(index).endTime;
 
 
   @override

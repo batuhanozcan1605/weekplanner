@@ -8,7 +8,7 @@ import '../screens/event_viewing_page.dart';
 class CalenderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final events = Provider.of<EventProvider>(context).events;
+    final events = Provider.of<AppointmentProvider>(context).events;
 
     return SfCalendar(
       view: CalendarView.day,
@@ -20,7 +20,7 @@ class CalenderWidget extends StatelessWidget {
         if(details.appointments == null) return;
         final event = details.appointments!.first;
         print('DEBUG ${event.subject}');
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventViewingPage(event: event)));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventViewingPage(appointment: event)));
       },
       headerHeight: 0,
     );

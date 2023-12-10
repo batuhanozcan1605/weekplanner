@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:weekplanner/constants.dart';
 import 'package:weekplanner/model/event.dart';
 import 'package:weekplanner/screens/event_editing_page.dart';
@@ -8,9 +9,9 @@ import 'package:weekplanner/utils.dart';
 import '../provider/event_provider.dart';
 
 class EventViewingPage extends StatelessWidget {
-  const EventViewingPage({Key? key, required this.event}) : super(key: key);
+  const EventViewingPage({Key? key, required this.appointment}) : super(key: key);
 
-  final Event event;
+  final Appointment appointment;
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +21,13 @@ class EventViewingPage extends StatelessWidget {
           IconButton(
             onPressed: () {
               Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => EventEditingPage(event: event,)));
+                  MaterialPageRoute(builder: (context) => EventEditingPage(appointment: appointment,)));
             },
             icon: Icon(Icons.edit), color: Constants.softColor,),
           IconButton(
             onPressed: () {
-              final provider = Provider.of<EventProvider>(context, listen: false);
-              provider.deleteEvent(event);
+              final provider = Provider.of<AppointmentProvider>(context, listen: false);
+              provider.deleteEvent(appointment);
               Navigator.pop(context);
             },
             icon: Icon(Icons.delete), color: Constants.softColor,)
@@ -48,8 +49,8 @@ class EventViewingPage extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(Utils.toDate(event.from)),
-                      Text(Utils.toTime(event.from)),
+                      Text(Utils.toDate(appointment.startTime)),
+                      Text(Utils.toTime(appointment.startTime)),
                     ],
                   ),
                 )
@@ -68,8 +69,8 @@ class EventViewingPage extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(Utils.toDate(event.to)),
-                        Text(Utils.toTime(event.to)),
+                        Text(Utils.toDate(appointment.endTime)),
+                        Text(Utils.toTime(appointment.endTime)),
                       ],
                     ),
                   )
@@ -80,14 +81,14 @@ class EventViewingPage extends StatelessWidget {
               padding: const EdgeInsets.all(18.0),
               child: Divider(color: Constants.themePurple,),
             ),
-            Text(event.subject,style: TextStyle(
+            Text(appointment.subject,style: TextStyle(
               fontFamily: 'Segoe UI',
               fontSize: 20,
               fontWeight: FontWeight.bold
             ),),
             Padding(
               padding: const EdgeInsets.only(top: 18.0),
-              child: Text(event.detail),
+              child: Text(appointment.notes!),
             ),
           ],
         ),

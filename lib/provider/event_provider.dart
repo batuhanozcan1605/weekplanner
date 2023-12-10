@@ -1,27 +1,48 @@
 import 'package:flutter/cupertino.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 import '../model/event.dart';
 
-class EventProvider extends ChangeNotifier {
-  final List<Event> _events = [];
+class AppointmentProvider extends ChangeNotifier {
+  final List<Appointment> _appointments = [];
 
-  List<Event> get events => _events;
+  List<Appointment> get events => _appointments;
 
-  void addEvent(Event event) {
-    _events.add(event);
-
-    notifyListeners();
-  }
-
-  void deleteEvent(Event event) {
-    _events.remove(event);
+  void addEvent(Appointment event) {
+    _appointments.add(event);
 
     notifyListeners();
   }
 
-  void editEvent(Event newEvent, Event oldEvent) {
-    final index = _events.indexOf(oldEvent);
-    _events[index] = newEvent;
+  void deleteEvent(Appointment event) {
+    if (event.recurrenceRule != null) {
+      // Handle recurring appointment deletion
+      _appointments.removeWhere((existingEvent) =>
+      existingEvent.recurrenceId == event.recurrenceId &&
+          existingEvent.recurrenceRule != null);
+    } else {
+      // Handle non-recurring appointment deletion
+      _appointments.remove(event);
+    }
 
     notifyListeners();
   }
+
+  void editEvent(Appointment newEvent, Appointment oldEvent) {
+    if (oldEvent.recurrenceRule != null) {
+      // Handle recurring appointment deletion
+      _appointments.removeWhere((existingEvent) =>
+      existingEvent.recurrenceId == oldEvent.recurrenceId &&
+          existingEvent.recurrenceRule != null);
+
+      _appointments.add(newEvent);
+    } else {
+    final index = _appointments.indexOf(oldEvent);
+    _appointments[index] = newEvent;
+
+
+    }
+    notifyListeners();
+  }
+
+
 }

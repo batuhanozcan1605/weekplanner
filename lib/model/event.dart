@@ -1,9 +1,8 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:weekplanner/constants.dart';
-
-class Event {
+//not in use
+/*class Events {
   final String subject;
   final String detail;
   final IconData icon;
@@ -12,7 +11,7 @@ class Event {
   final Color color;
   final String? recurrenceRule;
 
-  Event(
+  Events(
       {required this.subject,
       required this.detail,
       required this.icon,
@@ -22,3 +21,4 @@ class Event {
         this.recurrenceRule,
       });
 }
+*/
