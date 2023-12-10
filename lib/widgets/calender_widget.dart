@@ -18,9 +18,8 @@ class CalenderWidget extends StatelessWidget {
       appointmentBuilder: appointmentBuilder,
       onTap: (details) {
         if(details.appointments == null) return;
-
         final event = details.appointments!.first;
-        print('DEBUG ${event.title}');
+        print('DEBUG ${event.subject}');
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventViewingPage(event: event)));
       },
       headerHeight: 0,
@@ -32,12 +31,12 @@ class CalenderWidget extends StatelessWidget {
       CalendarAppointmentDetails details,
       ) {
     final event = details.appointments.first;
-
+    //IconData iconData = event.icon;
     return Container(
       width: details.bounds.width,
       height: details.bounds.height,
       decoration: BoxDecoration(
-        color: event.backgroundColor.withOpacity(0.7),
+        color: event.color.withOpacity(0.7),
             borderRadius: BorderRadius.circular(12),
       ),
       child: Center(
@@ -46,12 +45,12 @@ class CalenderWidget extends StatelessWidget {
           children: [
             Expanded(
               flex: 2,
-                child: Icon(event.icon, color: Colors.white)), // Add some spacing between the Icon and Text
+                child: Icon(Icons.square_rounded, color: Colors.white)), // Add some spacing between the Icon and Text
             Expanded(
               flex: 10,
               child: Center(
                 child: Text(
-                  event.title,
+                  event.subject,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(

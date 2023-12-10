@@ -80,7 +80,7 @@ class EventViewingPage extends StatelessWidget {
               padding: const EdgeInsets.all(18.0),
               child: Divider(color: Constants.themePurple,),
             ),
-            Text(event.title,style: TextStyle(
+            Text(event.subject,style: TextStyle(
               fontFamily: 'Segoe UI',
               fontSize: 20,
               fontWeight: FontWeight.bold

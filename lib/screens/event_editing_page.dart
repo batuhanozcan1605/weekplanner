@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:weekplanner/constants.dart';
 import 'package:weekplanner/provider/event_provider.dart';
 import 'package:weekplanner/utils.dart';
+import 'package:weekplanner/widgets/color_listview_widget.dart';
 import '../model/event.dart';
 
 class EventEditingPage extends StatefulWidget {
@@ -21,7 +22,9 @@ class _EventEditingPageState extends State<EventEditingPage> {
   final detailController = TextEditingController();
   late DateTime fromDate;
   late DateTime toDate;
+  Color backgroundColor = Colors.deepPurple;
   bool isChecked = false;
+  bool isRecurrenceEnabled = false;
 
   @override
   void initState() {
@@ -33,7 +36,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
     } else {
       final event = widget.event!;
 
-      titleController.text = event.title;
+      titleController.text = event.subject;
       fromDate = event.from;
       toDate = event.to;
     }
@@ -55,7 +58,13 @@ class _EventEditingPageState extends State<EventEditingPage> {
         ),
         actions: [
           IconButton(
-              onPressed: saveForm,
+              onPressed: (){
+                if(isRecurrenceEnabled) {
+                  saveWeeklyEvent('MO');
+                }else{
+                  saveForm();
+                }
+              },
               icon: Icon(
                 Icons.check,
                 color: Constants.themePurple,
@@ -72,61 +81,57 @@ class _EventEditingPageState extends State<EventEditingPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
-            Padding(
-              padding: const EdgeInsets.only(top: 10.0),
-              child: Container(
-                height: 115,
-                decoration: BoxDecoration(
-                  color: Constants.lightGrey,
-                  borderRadius: BorderRadius.circular(11.0),
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 9,
+            Container(
+              height: 115,
+              decoration: BoxDecoration(
+                color: backgroundColor,
+                borderRadius: BorderRadius.circular(11.0),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 9,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16.0),
+                          child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: Icon(Icons.square_rounded, color: Constants.softColor,),
+                                ),
+                                Expanded(child: buildTitle()),
+                              ]
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 16.0,
+                          ),
+                          child: buildDetailInput(),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
                       child: Column(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 16.0),
-                            child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 8.0),
-                                    child: Icon(Icons.square_rounded, color: Constants.softColor,),
-                                  ),
-                                  Expanded(child: buildTitle()),
-                                ]
-                            ),
+                          IconButton(
+                              onPressed: (){},
+                              icon: Icon( Icons.add_circle, color: Constants.softColor,),
+                            iconSize: 30,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              left: 16.0,
-                            ),
-                            child: buildDetailInput(),
-                          ),
+                          Text("Event",
+                              style: TextStyle(color: Constants.softColor,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Segoe UI')),
                         ],
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                        child: Column(
-                          children: [
-                            IconButton(
-                                onPressed: (){},
-                                icon: Icon( Icons.add_circle, color: Constants.softColor,),
-                              iconSize: 30,
-                            ),
-                            Text("Event",
-                                style: TextStyle(color: Constants.softColor,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Segoe UI')),
-                          ],
-                        )
-                    ),
-                  ],
-                ),
+                      )
+                  ),
+                ],
               ),
             ),
             Padding(
@@ -147,13 +152,22 @@ class _EventEditingPageState extends State<EventEditingPage> {
                         ),
                         Text('Color', style: TextStyle(
                             color: Constants.softColor,
-                            fontSize: 16,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Segoe UI'),
                         )
                       ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 5),
+                      child: ColorListView(
+                        selectedColor: backgroundColor,
+                          onColorSelected: (Color color){
+                            setState(() {
+                              backgroundColor = color;
+                            });
+                          }),
                     )
-                    //Color circles
                   ],
                 ),
               ),
@@ -193,6 +207,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                     Padding(
                       padding: const EdgeInsets.all(13.0),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                               Text('Time', style: TextStyle(
                               color: Constants.softColor,
@@ -220,7 +235,22 @@ class _EventEditingPageState extends State<EventEditingPage> {
                           myCheckBox()
                         ],
                       ),
-                    )
+                    ),
+                    // Day Picking
+                    Expanded(
+                      child: ListTile(
+                        title: Text('Repeat Each Week'),
+                        trailing: Switch(
+                          value: isRecurrenceEnabled,
+                          onChanged: (value) {
+                            setState(() {
+                              print(value);
+                              isRecurrenceEnabled = value;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               )
@@ -250,12 +280,12 @@ class _EventEditingPageState extends State<EventEditingPage> {
   Future saveForm() async {
 
     final event = Event(
-        title: titleController.text,
+        subject: titleController.text,
         detail: detailController.text,
         from: fromDate,
         to: toDate,
-      isAllDay: false,
-      isRepetitive: false,
+      icon: Icons.square_rounded,
+      color: backgroundColor,
     );
 
     final isEditing = widget.event != null;
@@ -272,11 +302,38 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
   }
 
+  Future saveWeeklyEvent(String days) async {
+
+    final event = Event(
+      subject: titleController.text,
+      detail: detailController.text,
+      from: fromDate,
+      to: toDate,
+      icon: Icons.square_rounded,
+      recurrenceRule: 'FREQ=WEEKLY;BYDAY=$days',
+    );
+
+    final isEditing = widget.event != null;
+    final provider = Provider.of<EventProvider>(context, listen: false);
+
+    if(isEditing) {
+      provider.editEvent(event, widget.event!);
+
+      Navigator.pop(context);
+    } else {
+      provider.addEvent(event);
+      Navigator.pop(context);
+    }
+
+  }
+
+
+
   Widget buildTitle() => TextFormField(
         style: TextStyle(
             color: Constants.softColor, fontSize: 20, fontFamily: 'Segoe UI'),
         decoration:
-            InputDecoration(border: InputBorder.none, hintText: 'Title',),
+            InputDecoration(border: InputBorder.none, hintText: 'Title', hintStyle: TextStyle(color: Constants.softColor)),
         onFieldSubmitted: (_) {},
         //validator: (title) => title != null && title.isEmpty ? 'Title can not be empty' : null,
         controller: titleController,
