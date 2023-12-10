@@ -89,7 +89,15 @@ class _EventEditingPageState extends State<EventEditingPage> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(left: 16.0),
-                            child: buildTitle(),
+                            child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 8.0),
+                                    child: Icon(Icons.square_rounded, color: Constants.softColor,),
+                                  ),
+                                  Expanded(child: buildTitle()),
+                                ]
+                            ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(
@@ -244,7 +252,6 @@ class _EventEditingPageState extends State<EventEditingPage> {
     final event = Event(
         title: titleController.text,
         detail: detailController.text,
-        icon: '',
         from: fromDate,
         to: toDate,
       isAllDay: false,
@@ -270,7 +277,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
             color: Constants.softColor, fontSize: 20, fontFamily: 'Segoe UI'),
         decoration:
             InputDecoration(border: InputBorder.none, hintText: 'Title',),
-        onFieldSubmitted: (_) => saveForm(),
+        onFieldSubmitted: (_) {},
         //validator: (title) => title != null && title.isEmpty ? 'Title can not be empty' : null,
         controller: titleController,
       );
