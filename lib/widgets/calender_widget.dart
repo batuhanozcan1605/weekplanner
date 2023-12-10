@@ -14,7 +14,7 @@ class CalenderWidget extends StatelessWidget {
       view: CalendarView.day,
       dataSource: EventDataSource(events),
       initialSelectedDate: DateTime.now(),
-      cellBorderColor: Colors.transparent,
+      //cellBorderColor: Colors.transparent,
       appointmentBuilder: appointmentBuilder,
       onTap: (details) {
         if(details.appointments == null) return;

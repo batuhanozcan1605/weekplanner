@@ -187,7 +187,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                         children: [
                               Text('Time', style: TextStyle(
                               color: Constants.softColor,
-                              fontSize: 16,
+                              fontSize: 18,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Segoe UI'),),
                             ],
@@ -205,7 +205,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                         children: [
                           Text("Days", style: TextStyle(
                               color: Constants.softColor,
-                              fontSize: 16,
+                              fontSize: 18,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Segoe UI'),),
                           myCheckBox()
@@ -247,7 +247,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
         from: fromDate,
         to: toDate,
       isAllDay: false,
-      isRepetative: false,
+      isRepetitive: false,
     );
 
     final isEditing = widget.event != null;
@@ -311,7 +311,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
             ),
 
             Expanded(
-              flex: 2,
+              flex: 3,
               child: buildDropdownField(
                   text: Utils.toDate(fromDate), onClicked: () => pickFromDateTime(pickDate: true)),
             ),
@@ -345,7 +345,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
         ),
 
         Expanded(
-          flex: 2,
+          flex: 3,
           child: buildDropdownField(
               text: Utils.toDate(toDate), onClicked: () => pickToDateTime(pickDate: true)),
         ),
@@ -363,7 +363,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
     if(date == null) return;
 
     if(date.isAfter(toDate)) {
-        toDate = DateTime(date.year, date.month, date.day, toDate.hour, toDate.minute);
+        toDate = DateTime(date.year, date.month, date.day, date.hour, date.minute);
     }
 
     setState(() {

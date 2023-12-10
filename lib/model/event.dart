@@ -11,7 +11,7 @@ class Event {
   final DateTime to;
   final Color backgroundColor;
   final bool isAllDay; //bu iptal olacak.
-  final bool isRepetative;
+  final bool isRepetitive;
 
   Event(
       {required this.title,
@@ -21,5 +21,5 @@ class Event {
       required this.to,
       this.backgroundColor = Colors.deepPurple,
       required this.isAllDay,
-      required this.isRepetative});
+      required this.isRepetitive});
 }
