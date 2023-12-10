@@ -42,7 +42,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
       titleController.text = event.subject;
       fromDate = event.startTime;
       toDate = event.endTime;
-      isRecurrenceEnabled = widget.appointment == null ? false : true;
+      isRecurrenceEnabled = widget.appointment!.recurrenceRule == null ? false : true;
       backgroundColor = widget.appointment!.color;
     }
   }
@@ -89,7 +89,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
             Container(
               height: 115,
               decoration: BoxDecoration(
-                color: backgroundColor,
+                color: backgroundColor.withOpacity(0.7),
                 borderRadius: BorderRadius.circular(11.0),
               ),
               child: Row(
@@ -300,7 +300,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
       Navigator.pop(context);
     } else {
-      provider.addEvent(event);
+      provider.addEvent(event, Icons.square_rounded);
       Navigator.pop(context);
     }
 
@@ -325,7 +325,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
       Navigator.pop(context);
     } else {
-      provider.addEvent(event);
+      provider.addEvent(event, Icons.square_rounded);
       Navigator.pop(context);
     }
 
