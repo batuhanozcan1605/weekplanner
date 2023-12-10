@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:interval_time_picker/interval_time_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:weekplanner/constants.dart';
 import 'package:weekplanner/provider/event_provider.dart';
@@ -399,9 +400,12 @@ class _EventEditingPageState extends State<EventEditingPage> {
       final time = Duration(hours: initialDate.hour, minutes: initialDate.minute);
       return date.add(time);
     } else {
-      final timeOfDay = await showTimePicker(
+      final timeOfDay = await showIntervalTimePicker(
           context: context,
-          initialTime: TimeOfDay.fromDateTime(initialDate));
+          initialTime: TimeOfDay.fromDateTime(initialDate),
+          interval: 30,
+          visibleStep: VisibleStep.thirtieths
+      );
 
       if(timeOfDay == null) return null;
 
