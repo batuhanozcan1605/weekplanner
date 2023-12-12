@@ -12,4 +12,17 @@ class Utils {
     final time = DateFormat.Hm().format(dateTime);
     return '$time';
   }
+
+  static DateTime roundOffMinute(DateTime dateTime) {
+    int roundedMinute = dateTime.minute < 30 ? 30 : 0;
+    final newDateTime = dateTime.subtract(Duration(minutes: dateTime.minute % 30)).add(Duration(minutes: roundedMinute));
+    return DateTime(
+      newDateTime.year,
+      newDateTime.month,
+      newDateTime.day,
+      newDateTime.hour,
+      roundedMinute,
+    );
+  }
+
 }

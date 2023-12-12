@@ -34,8 +34,9 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
     if (widget.appointment == null) {
       isRecurrenceEnabled = false;
-      fromDate = DateTime.now();
-      toDate = DateTime.now().add(Duration(hours: 2));
+      DateTime fromDateWithExactMinute = DateTime.now();
+      fromDate = Utils.roundOffMinute(fromDateWithExactMinute);
+      toDate = fromDate.add(Duration(hours: 2));
     } else {
       final event = widget.appointment!;
 
@@ -476,7 +477,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
           context: context,
           initialTime: TimeOfDay.fromDateTime(initialDate),
           interval: 30,
-          visibleStep: VisibleStep.thirtieths
+          visibleStep: VisibleStep.thirtieths,
       );
 
       if(timeOfDay == null) return null;
