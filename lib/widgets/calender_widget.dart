@@ -40,24 +40,23 @@ class CalenderWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
       ),
       child: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Stack(
           children: [
-            Expanded(
-              flex: 2,
-                child: Icon(Icons.square_rounded, color: Colors.white)), // Add some spacing between the Icon and Text
-            Expanded(
-              flex: 10,
-              child: Center(
-                child: Text(
-                  event.subject,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontFamily: 'Segoe UI',
-                  ),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                  child: Icon(Icons.square_rounded, color: Colors.white)),
+            ), // Add some spacing between the Icon and Text
+            Center(
+              child: Text(
+                event.subject,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontFamily: 'Segoe UI',
                 ),
               ),
             ),

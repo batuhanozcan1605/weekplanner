@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:interval_time_picker/interval_time_picker.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +26,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
   Color backgroundColor = Colors.deepPurple;
   bool isChecked = false;
   late bool isRecurrenceEnabled;
+  List<bool> selectedDays = [false, false, false, false, false, false, false];
 
   @override
   void initState() {
@@ -202,7 +202,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
             Padding(
               padding: const EdgeInsets.only(top: 11.0),
               child: Container(
-                height: 350,
+                height: 390,
                 decoration: BoxDecoration(
                   color: const Color(0xff74736f),
                   borderRadius: BorderRadius.circular(11.0),
@@ -237,12 +237,16 @@ class _EventEditingPageState extends State<EventEditingPage> {
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Segoe UI'),),
-                          myCheckBox()
+                          myCheckBox(),
                         ],
                       ),
                     ),
-                    // Day Picking
-                    Expanded(
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+                      child: dayPicker(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
                       child: ListTile(
                         title: Text('Repeat Each Week'),
                         trailing: Switch(
@@ -493,6 +497,47 @@ class _EventEditingPageState extends State<EventEditingPage> {
         title: Text(text),
         onTap: onClicked,
       );
-}
 
+  Widget dayPicker() => SizedBox(
+      height: 40,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: List.generate(7, (index) {
+          return InkWell(
+            onTap: () {
+              setState(() {
+                selectedDays[index] = !selectedDays[index];
+              });
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: Container(
+                height: 40,
+                width: 40,
+                decoration: BoxDecoration(
+                  color: selectedDays[index] ? Colors.deepPurple : Colors.grey,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Center(
+                  child: Text(
+                    _getDayAbbreviation(index),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        }),
+      )
+  );
+
+  String _getDayAbbreviation(int index) {
+    final daysOfWeek = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+    return daysOfWeek[index];
+  }
+
+}
 
