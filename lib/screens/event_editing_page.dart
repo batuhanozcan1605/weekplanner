@@ -165,7 +165,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 5),
+                      padding: const EdgeInsets.symmetric(horizontal: 38.0, vertical: 5),
                       child: ColorListView(
                         selectedColor: backgroundColor,
                           onColorSelected: (Color color){
@@ -453,6 +453,12 @@ class _EventEditingPageState extends State<EventEditingPage> {
     );
     if(date == null) return;
 
+    if(date.isBefore(fromDate)) {
+      setState(() {
+        toDate = fromDate;
+      });
+      return;
+    }
     setState(() {
       toDate = date;
     });

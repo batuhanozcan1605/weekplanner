@@ -22,7 +22,7 @@ class _ColorListViewState extends State<ColorListView> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 50,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
@@ -39,13 +39,13 @@ class _ColorListViewState extends State<ColorListView> {
               child: Stack(
                 children: [
                   CircleAvatar(
-                    radius: 10,
+                    radius: 12,
                     backgroundColor: colors[index],
                   ),
                   if (isSelected)
                     Container(
-                      height: 22,
-                      width: 22,
+                      height: 24,
+                      width: 24,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.elliptical(9999.0, 9999.0)),
                         border: Border.all(width: 2.0, color: Constants.softColor),
