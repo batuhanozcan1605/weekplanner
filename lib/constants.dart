@@ -9,8 +9,47 @@ class Constants {
   static final themePurple = Color(0xFFD0BBFF);
 
 
-  Widget MyText(input) => Text(
+  Widget myText(input) => Text(
     '$input',
     style: TextStyle(color: softColor),
   );
+
+  Widget eventCard(String subject, IconData icon,Color color) => Card(
+    color: Colors.transparent,
+    child: Column(
+      children: [
+        Flexible(
+          flex: 4,
+            child: AspectRatio(
+              aspectRatio: 1,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: color,
+                  borderRadius: BorderRadius.circular(11.0),
+                ),
+
+                child: Center(child: Icon(icon)),
+                      ),
+            ),
+        ),
+        Flexible(
+            flex: 2,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: FittedBox(
+                fit: BoxFit.fitHeight,
+                child: Text(
+                  subject,
+                  style: const TextStyle(
+                    fontFamily: 'Segoe UI',
+                    fontSize: 16,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            )),
+      ],
+    ),
+  );
+
 }

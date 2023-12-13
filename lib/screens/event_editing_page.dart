@@ -6,12 +6,17 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:weekplanner/constants.dart';
 import 'package:weekplanner/provider/event_provider.dart';
 import 'package:weekplanner/utils.dart';
+import 'package:weekplanner/widgets/choose_event_widget.dart';
 import 'package:weekplanner/widgets/color_listview_widget.dart';
 
+import '../model/event.dart';
+
 class EventEditingPage extends StatefulWidget {
-  const EventEditingPage({Key? key, this.appointment}) : super(key: key);
+  const EventEditingPage({Key? key, this.appointment, this.eventTemplate}) : super(key: key);
 
   final Appointment? appointment;
+  final Events? eventTemplate;
+
 
   @override
   State<EventEditingPage> createState() => _EventEditingPageState();
@@ -26,11 +31,24 @@ class _EventEditingPageState extends State<EventEditingPage> {
   Color backgroundColor = Colors.deepPurple;
   bool isChecked = false;
   late bool isRecurrenceEnabled;
+  IconData icon = Icons.square_rounded;
   List<bool> selectedDays = [false, false, false, false, false, false, false];
 
   @override
   void initState() {
     super.initState();
+
+    if(widget.eventTemplate != null) {
+      final eventTemplate = widget.eventTemplate!;
+
+      titleController.text = eventTemplate.subject;
+      DateTime fromDateWithExactMinute = DateTime.now();
+      fromDate = Utils.roundOffMinute(fromDateWithExactMinute);
+      toDate = fromDate.add(Duration(hours: 2));
+      isRecurrenceEnabled = false;
+      backgroundColor = widget.eventTemplate!.color;
+      icon = widget.eventTemplate!.icon;
+    }
 
     if (widget.appointment == null) {
       isRecurrenceEnabled = false;
@@ -105,7 +123,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(right: 8.0),
-                                  child: Icon(Icons.square_rounded, color: Constants.softColor,),
+                                  child: Icon(icon, color: Constants.softColor,),
                                 ),
                                 Expanded(child: buildTitle()),
                               ]
@@ -125,7 +143,9 @@ class _EventEditingPageState extends State<EventEditingPage> {
                       child: Column(
                         children: [
                           IconButton(
-                              onPressed: (){},
+                              onPressed: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ChooseEvent()));
+                              },
                               icon: Icon( Icons.add_circle, color: Constants.softColor,),
                             iconSize: 30,
                           ),

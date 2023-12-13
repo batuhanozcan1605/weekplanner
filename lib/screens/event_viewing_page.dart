@@ -23,14 +23,14 @@ class EventViewingPage extends StatelessWidget {
               Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => EventEditingPage(appointment: appointment,)));
             },
-            icon: Icon(Icons.edit), color: Constants.softColor,),
+            icon: const Icon(Icons.edit), color: Constants.softColor,),
           IconButton(
             onPressed: () {
               final provider = Provider.of<AppointmentProvider>(context, listen: false);
               provider.deleteEvent(appointment);
               Navigator.pop(context);
             },
-            icon: Icon(Icons.delete), color: Constants.softColor,)
+            icon: const Icon(Icons.delete), color: Constants.softColor,)
         ],
       ),
       body: Padding(
@@ -81,15 +81,15 @@ class EventViewingPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
               Icon(Icons.repeat, color: Constants.themePurple,),
-              SizedBox(width: 8,),
-              Text('Recurring Event'),
+              const SizedBox(width: 8,),
+              const Text('Recurring Event'),
             ],
             ),
             Padding(
               padding: const EdgeInsets.all(18.0),
               child: Divider(color: Constants.themePurple,),
             ),
-            Text(appointment.subject,style: TextStyle(
+            Text(appointment.subject,style: const TextStyle(
               fontFamily: 'Segoe UI',
               fontSize: 20,
               fontWeight: FontWeight.bold
