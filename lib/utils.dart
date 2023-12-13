@@ -25,4 +25,25 @@ class Utils {
     );
   }
 
+  static String dayAbbreviation(DateTime fromDate) {
+    int weekday = fromDate.weekday;
+    switch(weekday) {
+      case 1:
+        return 'MO'; // The switch statement must be told to exit, or it will execute every case.
+      case 2:
+        return 'TU';
+      case 3:
+        return 'WE';
+      case 4:
+        return 'TH';
+      case 5:
+        return 'FR';
+      case 6:
+        return 'SA';
+      case 7:
+        return 'SU';
+      default: return '';
+    }
+  }
+
 }

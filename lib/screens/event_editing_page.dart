@@ -66,7 +66,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
           IconButton(
               onPressed: (){
                 if(isRecurrenceEnabled) {
-                  saveWeeklyEvent('MO');
+                  saveWeeklyEvent();
                 }else{
                   saveForm();
                 }
@@ -311,7 +311,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
   }
 
-  Future saveWeeklyEvent(String days) async {
+  Future saveWeeklyEvent() async {
+    String days = Utils.dayAbbreviation(fromDate);
 
     final event = Appointment(
       subject: titleController.text,

@@ -57,7 +57,7 @@ class EventViewingPage extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 18.0),
+              padding: const EdgeInsets.symmetric(vertical: 18.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -76,6 +76,14 @@ class EventViewingPage extends StatelessWidget {
                   )
                 ],
               ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+              Icon(Icons.repeat, color: Constants.themePurple,),
+              SizedBox(width: 8,),
+              Text('Recurring Event'),
+            ],
             ),
             Padding(
               padding: const EdgeInsets.all(18.0),
