@@ -323,10 +323,10 @@ class _EventEditingPageState extends State<EventEditingPage> {
     if(isEditing) {
       provider.editEvent(event, widget.appointment!);
 
-      Navigator.pop(context);
+      Navigator.popUntil(context, (route) => route.isFirst);
     } else {
       provider.addEvent(event, Icons.square_rounded);
-      Navigator.pop(context);
+      Navigator.popUntil(context, (route) => route.isFirst);
     }
 
   }
