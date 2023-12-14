@@ -391,18 +391,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
           children: [
             Expanded(
               flex: 1,
-              child: Row(
-                children: [
-                  Container(
-                    height: 15,
-                    width: 15,
-                    decoration: BoxDecoration(
-                      color: Constants.themePurple,
-                      borderRadius: BorderRadius.all(Radius.elliptical(9999.0, 9999.0)),
-                    ),
-                  ),
-                ],
-              ),
+              child: Icon(Icons.arrow_forward, color: Constants.themePurple,),
             ),
 
             Expanded(
@@ -425,18 +414,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
       children: [
         Expanded(
           flex: 1,
-          child: Row(
-            children: [
-              Container(
-                height: 15,
-                width: 15,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.elliptical(9999.0, 9999.0)),
-                  border: Border.all(width: 1.0, color: Constants.themePurple,),
-                ),
-              )
-            ],
-          ),
+          child: Icon(Icons.arrow_back, color: Constants.themePurple,),
         ),
 
         Expanded(

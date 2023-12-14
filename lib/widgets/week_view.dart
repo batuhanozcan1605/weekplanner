@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import '../constants.dart';
+import 'package:weekplanner/constants.dart';
 import '../model/event_data_source.dart';
 import '../provider/event_provider.dart';
 import '../screens/event_viewing_page.dart';
 
-class ScheduleView extends StatelessWidget {
-  const ScheduleView({Key? key}) : super(key: key);
+class WeekView extends StatelessWidget {
+  const WeekView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final events = Provider.of<AppointmentProvider>(context).events;
 
     return SfCalendar(
-      view: CalendarView.schedule,
+      view: CalendarView.week,
       scheduleViewSettings: ScheduleViewSettings(monthHeaderSettings: MonthHeaderSettings(backgroundColor: Constants.themePurple, monthTextStyle: TextStyle(color: Colors.black))),
       dataSource: EventDataSource(events),
       initialSelectedDate: DateTime.now(),
@@ -44,31 +44,11 @@ class ScheduleView extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Center(
-        child: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 18.0),
-              child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Icon(Icons.square_rounded, color: Colors.white)),
-            ), // Add some spacing between the Icon and Text
-            Center(
-              child: Text(
-                event.subject,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontFamily: 'Segoe UI',
-                ),
-              ),
-            ),
-          ],
-        ),
+        child: Icon(Icons.square_rounded, color: Colors.white),
       ),
     );
 
 
   }
 }
+
