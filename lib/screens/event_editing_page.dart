@@ -201,7 +201,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
             Padding(
               padding: const EdgeInsets.only(top: 12.0),
               child: Container(
-                height: 73,
+                height: 50,
                 decoration: BoxDecoration(
                   color: const Color(0xffffffff),
                   borderRadius: BorderRadius.circular(12.0),
