@@ -4,7 +4,7 @@ import 'package:interval_time_picker/interval_time_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:weekplanner/constants.dart';
-import 'package:weekplanner/provider/event_provider.dart';
+import 'package:weekplanner/provider/appointment_provider.dart';
 import 'package:weekplanner/utils.dart';
 import 'package:weekplanner/widgets/choose_event_widget.dart';
 import 'package:weekplanner/widgets/color_listview_widget.dart';
@@ -325,7 +325,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
       Navigator.popUntil(context, (route) => route.isFirst);
     } else {
-      provider.addEvent(event, Icons.square_rounded);
+      provider.addEvent(event, icon);
       Navigator.popUntil(context, (route) => route.isFirst);
     }
 

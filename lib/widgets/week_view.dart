@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:weekplanner/constants.dart';
 import '../model/event_data_source.dart';
-import '../provider/event_provider.dart';
+import '../provider/appointment_provider.dart';
 import '../screens/event_viewing_page.dart';
 
 class WeekView extends StatelessWidget {
@@ -34,8 +34,9 @@ class WeekView extends StatelessWidget {
       BuildContext context,
       CalendarAppointmentDetails details,
       ) {
+    final icons = Provider.of<AppointmentProvider>(context).icons;
     final event = details.appointments.first;
-    //IconData iconData = event.icon;
+
     return Container(
       width: details.bounds.width,
       height: details.bounds.height,
@@ -44,7 +45,7 @@ class WeekView extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Center(
-        child: Icon(Icons.square_rounded, color: Colors.white),
+        child: Icon(icons[event.subject], color: Colors.white),
       ),
     );
 

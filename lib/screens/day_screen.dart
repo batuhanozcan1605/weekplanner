@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:weekplanner/constants.dart';
 import 'package:weekplanner/widgets/schedule_view.dart';
 import 'package:weekplanner/widgets/week_view.dart';
-import '../provider/event_provider.dart';
+import '../provider/appointment_provider.dart';
 import '../widgets/calender_widget.dart';
 import 'event_editing_page.dart';
 

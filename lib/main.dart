@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:weekplanner/constants.dart';
-import 'package:weekplanner/provider/event_provider.dart';
+import 'package:weekplanner/provider/appointment_provider.dart';
 import 'package:weekplanner/screens/day_screen.dart';
 import 'package:provider/provider.dart';
 

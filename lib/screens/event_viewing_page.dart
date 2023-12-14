@@ -6,7 +6,7 @@ import 'package:weekplanner/model/event.dart';
 import 'package:weekplanner/screens/event_editing_page.dart';
 import 'package:weekplanner/utils.dart';
 
-import '../provider/event_provider.dart';
+import '../provider/appointment_provider.dart';
 
 class EventViewingPage extends StatelessWidget {
   const EventViewingPage({Key? key, required this.appointment}) : super(key: key);

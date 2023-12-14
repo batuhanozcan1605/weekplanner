@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import '../constants.dart';
 import '../model/event_data_source.dart';
-import '../provider/event_provider.dart';
+import '../provider/appointment_provider.dart';
 import '../screens/event_viewing_page.dart';
 
 class ScheduleView extends StatelessWidget {
@@ -34,8 +34,9 @@ class ScheduleView extends StatelessWidget {
       BuildContext context,
       CalendarAppointmentDetails details,
       ) {
+    final icons = Provider.of<AppointmentProvider>(context).icons;
     final event = details.appointments.first;
-    //IconData iconData = event.icon;
+
     return Container(
       width: details.bounds.width,
       height: details.bounds.height,
@@ -50,7 +51,7 @@ class ScheduleView extends StatelessWidget {
               padding: const EdgeInsets.only(left: 18.0),
               child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Icon(Icons.square_rounded, color: Colors.white)),
+                  child: Icon(icons[event.subject], color: Colors.white)),
             ), // Add some spacing between the Icon and Text
             Center(
               child: Text(
