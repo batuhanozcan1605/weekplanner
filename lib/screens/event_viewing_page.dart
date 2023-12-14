@@ -77,14 +77,14 @@ class EventViewingPage extends StatelessWidget {
                 ],
               ),
             ),
-            Row(
+            appointment.recurrenceRule != null ? Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
               Icon(Icons.repeat, color: Constants.themePurple,),
               const SizedBox(width: 8,),
               const Text('Recurring Event'),
             ],
-            ),
+            ) : const Center(),
             Padding(
               padding: const EdgeInsets.all(18.0),
               child: Divider(color: Constants.themePurple,),
