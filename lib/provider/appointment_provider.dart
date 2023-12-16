@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import '../database/DatabaseHelper.dart';
 import '../model/event.dart';
 
 class AppointmentProvider extends ChangeNotifier {
   final List<Appointment> _appointments = [];
   final Map<String, IconData> _icons = {};
+  final db = DatabaseHelper.instance.database;
 
   List<Appointment> get events => _appointments;
   Map<String, IconData> get icons => _icons;
@@ -12,6 +14,8 @@ class AppointmentProvider extends ChangeNotifier {
   void addEvent(Appointment event, IconData iconData) {
     _appointments.add(event);
     _icons[event.subject] = iconData;
+
+
 
     notifyListeners();
   }
