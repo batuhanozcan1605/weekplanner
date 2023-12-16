@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:weekplanner/model/event.dart';
+import 'package:weekplanner/model/Events.dart';
 class Data {
 
 final List<Color> colors = [

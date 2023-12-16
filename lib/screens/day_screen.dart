@@ -4,7 +4,7 @@ import 'package:weekplanner/constants.dart';
 import 'package:weekplanner/widgets/schedule_view.dart';
 import 'package:weekplanner/widgets/week_view.dart';
 import '../provider/appointment_provider.dart';
-import '../widgets/calender_widget.dart';
+import '../widgets/daily_view.dart';
 import 'event_editing_page.dart';
 
 class DayScreen extends StatefulWidget {

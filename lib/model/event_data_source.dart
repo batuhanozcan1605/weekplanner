@@ -1,9 +1,10 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'MyAppointment.dart';
 
 class EventDataSource extends CalendarDataSource{
-  EventDataSource(List<Appointment> appointments) {
+  EventDataSource(List<MyAppointment> appointments) {
     this.appointments = appointments;
   }
 
@@ -21,6 +22,7 @@ class EventDataSource extends CalendarDataSource{
 
   @override
   String getSubject(int index) => getEvent(index).subject;
+
 
   @override
   Color getColor(int index) => getEvent(index).color;

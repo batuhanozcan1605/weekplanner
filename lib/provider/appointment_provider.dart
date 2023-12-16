@@ -1,17 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import '../database/DatabaseHelper.dart';
-import '../model/event.dart';
+import '../model/Events.dart';
+import '../model/MyAppointment.dart';
 
 class AppointmentProvider extends ChangeNotifier {
-  final List<Appointment> _appointments = [];
+  final List<MyAppointment> _appointments = [];
   final Map<String, IconData> _icons = {};
   final db = DatabaseHelper.instance.database;
 
-  List<Appointment> get events => _appointments;
+  List<MyAppointment> get events => _appointments;
   Map<String, IconData> get icons => _icons;
 
-  void addEvent(Appointment event, IconData iconData) {
+  void addEvent(MyAppointment event, IconData iconData) {
     _appointments.add(event);
     _icons[event.subject] = iconData;
 
@@ -20,7 +21,7 @@ class AppointmentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void deleteEvent(Appointment event) {
+  void deleteEvent(MyAppointment event) {
     if (event.recurrenceRule != null) {
       // Handle recurring appointment deletion
       _appointments.removeWhere((existingEvent) =>
@@ -33,7 +34,7 @@ class AppointmentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void editEvent(Appointment newEvent, Appointment oldEvent) {
+  void editEvent(MyAppointment newEvent, MyAppointment oldEvent) {
     if (oldEvent.recurrenceRule != null) {
       // Handle recurring appointment deletion
       _appointments.removeWhere((existingEvent) =>

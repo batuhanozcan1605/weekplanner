@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:weekplanner/model/event_data_source.dart';
 import 'package:weekplanner/provider/appointment_provider.dart';
+import '../model/MyAppointment.dart';
 import '../screens/event_viewing_page.dart';
 
 class CalenderWidget extends StatelessWidget {
@@ -19,8 +20,16 @@ class CalenderWidget extends StatelessWidget {
       onTap: (details) {
         if(details.appointments == null) return;
         final event = details.appointments!.first;
+        final myAppointment = MyAppointment(
+          startTime: event.startTime,
+          endTime: event.endTime,
+          subject: event.subject,
+          color: event.color,
+          recurrenceRule: event.recurrenceRule,
+          notes: event.notes,
+        );
         print('DEBUG ${event.subject}');
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventViewingPage(appointment: event)));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventViewingPage(appointment: myAppointment)));
       },
       headerHeight: 0,
     );
@@ -32,7 +41,7 @@ class CalenderWidget extends StatelessWidget {
       ) {
     final icons = Provider.of<AppointmentProvider>(context).icons;
     final event = details.appointments.first;
-
+    print('Appointment Details: $event');
     return Container(
       width: details.bounds.width,
       height: details.bounds.height,

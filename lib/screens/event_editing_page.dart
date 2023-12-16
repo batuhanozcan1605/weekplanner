@@ -9,12 +9,13 @@ import 'package:weekplanner/utils.dart';
 import 'package:weekplanner/widgets/choose_event_widget.dart';
 import 'package:weekplanner/widgets/color_listview_widget.dart';
 
-import '../model/event.dart';
+import '../model/Events.dart';
+import '../model/MyAppointment.dart';
 
 class EventEditingPage extends StatefulWidget {
   const EventEditingPage({Key? key, this.appointment, this.eventTemplate}) : super(key: key);
 
-  final Appointment? appointment;
+  final MyAppointment? appointment;
   final Events? eventTemplate;
 
 
@@ -33,6 +34,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
   late bool isRecurrenceEnabled;
   IconData icon = Icons.square_rounded;
   List<bool> selectedDays = [false, false, false, false, false, false, false];
+
 
   @override
   void initState() {
@@ -63,6 +65,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
       toDate = event.endTime;
       isRecurrenceEnabled = widget.appointment!.recurrenceRule == null ? false : true;
       backgroundColor = widget.appointment!.color;
+
     }
   }
 
@@ -309,7 +312,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
   Future saveForm() async {
 
-    final event = Appointment(
+    final event = MyAppointment(
       subject: titleController.text,
       notes: detailController.text,
       startTime: fromDate,
@@ -334,7 +337,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
   Future saveWeeklyEvent() async {
     String days = Utils.dayAbbreviation(fromDate);
 
-    final event = Appointment(
+    final event = MyAppointment(
       subject: titleController.text,
       notes: detailController.text,
       startTime: fromDate,

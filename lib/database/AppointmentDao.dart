@@ -1,5 +1,5 @@
 import 'package:sqflite/sqflite.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
+import '../model/MyAppointment.dart';
 
 class AppointmentDao {
   // Reference to the database
@@ -9,7 +9,9 @@ class AppointmentDao {
   AppointmentDao({required this.database});
 
   // Example method: Insert appointment
-
+  Future<void> insertAppointment(MyAppointment appointment) async {
+    await database.insert('appointments', appointment.toMap());
+  }
 
 // Other CRUD methods go here...
 }

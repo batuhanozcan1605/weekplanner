@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:weekplanner/constants.dart';
-import 'package:weekplanner/model/event.dart';
 import 'package:weekplanner/screens/event_editing_page.dart';
 import 'package:weekplanner/utils.dart';
-
+import '../model/MyAppointment.dart';
 import '../provider/appointment_provider.dart';
 
 class EventViewingPage extends StatelessWidget {
   const EventViewingPage({Key? key, required this.appointment}) : super(key: key);
 
-  final Appointment appointment;
+  final MyAppointment appointment;
 
   @override
   Widget build(BuildContext context) {
