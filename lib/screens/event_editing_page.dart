@@ -13,10 +13,11 @@ import '../model/Events.dart';
 import '../model/MyAppointment.dart';
 
 class EventEditingPage extends StatefulWidget {
-  const EventEditingPage({Key? key, this.appointment, this.eventTemplate}) : super(key: key);
+  const EventEditingPage({Key? key, this.appointment, this.eventTemplate, this.iconFromEdit}) : super(key: key);
 
   final MyAppointment? appointment;
   final Events? eventTemplate;
+  final IconData? iconFromEdit;
 
 
   @override
@@ -65,7 +66,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
       toDate = event.endTime;
       isRecurrenceEnabled = widget.appointment!.recurrenceRule == null ? false : true;
       backgroundColor = widget.appointment!.color;
-
+      icon = widget.iconFromEdit!;
     }
   }
 
