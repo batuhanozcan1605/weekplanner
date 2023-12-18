@@ -14,17 +14,16 @@ class AppointmentDao {
 
   Future<List<MyAppointment>> getAllAppointments() async {
     final database = await DatabaseHelper.database();
-    final Database db = await database;
-    final List<Map<String, dynamic>> maps = await db.query('appointments');
+    final List<Map<String, dynamic>> maps = await database.query('appointments');
     return List.generate(maps.length, (i) {
       return MyAppointment(
         id: maps[i]['id'],
         startTime: DateTime.parse(maps[i]['startTime']),
         endTime: DateTime.parse(maps[i]['endTime']),
         subject: maps[i]['subject'],
+        notes: maps[i]['notes'],
         color: Color(maps[i]['color']),
         recurrenceRule: maps[i]['recurrenceRule'],
-        notes: '',
       );
     });
   }

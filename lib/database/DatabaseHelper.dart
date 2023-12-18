@@ -17,7 +17,7 @@ class DatabaseHelper {
             endTime TEXT,
             subject TEXT,
             notes TEXT,
-            color TEXT,
+            color INTEGER,
             recurrenceRule TEXT
         )"""
             );

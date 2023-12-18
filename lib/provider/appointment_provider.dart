@@ -14,6 +14,7 @@ class AppointmentProvider extends ChangeNotifier {
   Map<String, IconData> get icons => _icons;
 
   void initializeWithAppointments(List<MyAppointment> fetchedAppointments) {
+    print("DEBUG inside provider");
     _appointments = fetchedAppointments;
     notifyListeners();
   }

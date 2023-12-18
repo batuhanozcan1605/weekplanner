@@ -29,7 +29,7 @@ class MyAppointment extends Appointment {
       'endTime': endTime.toIso8601String(),
       'subject': subject,
       'notes': notes,
-      'color': color.toString(),
+      'color': color.value,
       'recurrenceRule': recurrenceRule,
     };
   }
@@ -42,7 +42,7 @@ class MyAppointment extends Appointment {
       endTime: DateTime.parse(map['endTime']),
       subject: map['subject'],
       notes: map['notes'],
-      color: Color(int.parse(map['color'])),
+      color: Color(map['color']),
       recurrenceRule: map['recurrenceRule'],
     );
   }

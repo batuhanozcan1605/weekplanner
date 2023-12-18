@@ -64,11 +64,11 @@ class _SplashScreenState extends State<SplashScreen> {
     try {
       print('after TRY');
       await DatabaseHelper.database();
-      print('DatabaseHelper.instance.database');
+      print('after DATABASEHELPER');
       // Fetch data from the database
 
       List<MyAppointment> fetchedAppointments = await AppointmentDao().getAllAppointments();
-
+      print('DEBUG $fetchedAppointments');
       // Initialize your provider with the fetched data
       Provider.of<AppointmentProvider>(context, listen: false).initializeWithAppointments(fetchedAppointments);
       print('after Provider');
