@@ -60,7 +60,7 @@ class ScheduleView extends StatelessWidget {
               padding: const EdgeInsets.only(left: 18.0),
               child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Icon(icons[event.subject], color: Colors.white)),
+                  child: Icon(icons[event.id], color: Colors.white)),
             ), // Add some spacing between the Icon and Text
             Center(
               child: Text(

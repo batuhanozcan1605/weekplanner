@@ -55,7 +55,7 @@ class WeekView extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Center(
-        child: Icon(icons[event.subject], color: Colors.white),
+        child: Icon(icons[event.id], color: Colors.white),
       ),
     );
 

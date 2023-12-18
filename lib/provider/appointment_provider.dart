@@ -7,11 +7,10 @@ import '../model/MyAppointment.dart';
 
 class AppointmentProvider extends ChangeNotifier {
   List<MyAppointment> _appointments = [];
-  final Map<String, IconData> _icons = {};
-
+  Map<int, IconData> _icons = {};
 
   List<MyAppointment> get events => _appointments;
-  Map<String, IconData> get icons => _icons;
+  Map<int, IconData> get icons => _icons;
 
   void initializeWithAppointments(List<MyAppointment> fetchedAppointments) {
     print("DEBUG inside provider");
@@ -19,9 +18,16 @@ class AppointmentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addEvent(MyAppointment appointment, IconData iconData) {
+  void initializeIcons(Map<int, IconData> fetchedIcons) {
+    print("DEBUG inside provider icons");
+    _icons = fetchedIcons;
+    notifyListeners();
+  }
+
+
+  void addEvent(MyAppointment appointment, IconData icon) {
     _appointments.add(appointment);
-    _icons[appointment.subject] = iconData;
+    _icons[appointment.id!]= icon;
     AppointmentDao().insertAppointment(appointment);
 
 

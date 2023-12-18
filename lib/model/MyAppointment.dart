@@ -1,9 +1,11 @@
 import 'dart:ui';
+import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class MyAppointment extends Appointment {
   final String? recurrenceRule;
   final int? id;
+  final IconData? icon;
 
   MyAppointment({
     this.id,
@@ -12,6 +14,7 @@ class MyAppointment extends Appointment {
     required String subject,
     required String notes,
     required Color color,
+    this.icon,
     this.recurrenceRule,
   }) : super(
     startTime: startTime,
@@ -30,6 +33,7 @@ class MyAppointment extends Appointment {
       'subject': subject,
       'notes': notes,
       'color': color.value,
+      'icon': icon!.codePoint,
       'recurrenceRule': recurrenceRule,
     };
   }
@@ -43,6 +47,7 @@ class MyAppointment extends Appointment {
       subject: map['subject'],
       notes: map['notes'],
       color: Color(map['color']),
+      icon: IconData(map['icon'], fontFamily: 'MaterialIcons'),
       recurrenceRule: map['recurrenceRule'],
     );
   }

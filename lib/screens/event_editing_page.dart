@@ -312,17 +312,18 @@ class _EventEditingPageState extends State<EventEditingPage> {
   );
 
   Future saveForm() async {
-
+    final provider = Provider.of<AppointmentProvider>(context, listen: false);
     final event = MyAppointment(
+      id: provider.events.length + 1,
       subject: titleController.text,
       notes: detailController.text,
       startTime: fromDate,
       endTime: toDate,
+      icon: icon,
       color: backgroundColor,
     );
 
     final isEditing = widget.appointment != null;
-    final provider = Provider.of<AppointmentProvider>(context, listen: false);
 
     if(isEditing) {
       provider.editEvent(event, widget.appointment!);
@@ -337,18 +338,19 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
   Future saveWeeklyEvent() async {
     String days = Utils.dayAbbreviation(fromDate);
-
+    final provider = Provider.of<AppointmentProvider>(context, listen: false);
     final event = MyAppointment(
+      id: provider.events.length + 1,
       subject: titleController.text,
       notes: detailController.text,
       startTime: fromDate,
       endTime: toDate,
       color: backgroundColor,
+      icon: icon,
       recurrenceRule: 'FREQ=WEEKLY;BYDAY=$days',
     );
 
     final isEditing = widget.appointment != null;
-    final provider = Provider.of<AppointmentProvider>(context, listen: false);
 
     if(isEditing) {
       provider.editEvent(event, widget.appointment!);

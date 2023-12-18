@@ -68,18 +68,29 @@ class _SplashScreenState extends State<SplashScreen> {
       // Fetch data from the database
 
       List<MyAppointment> fetchedAppointments = await AppointmentDao().getAllAppointments();
+
       print('DEBUG $fetchedAppointments');
       // Initialize your provider with the fetched data
       Provider.of<AppointmentProvider>(context, listen: false).initializeWithAppointments(fetchedAppointments);
+      Provider.of<AppointmentProvider>(context, listen: false).initializeIcons(fetchedIcons(fetchedAppointments));
       print('after Provider');
-      // Navigate to the next screen (e.g., home screen)
-      //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const DayScreen()));
+
+
     } catch (error) {
       // Handle errors appropriately
       print('Error loading data: $error');
       // Navigate to an error screen or retry loading
     }
 
+  }
+
+  Map<int, IconData> fetchedIcons(List<MyAppointment> fetchedAppointments) {
+    Map<int, IconData> map = {};
+    for(var i = 0; i < fetchedAppointments.length; i++) {
+        map[fetchedAppointments[i].id!] = fetchedAppointments[i].icon!;
+        print(i);
+    }
+    return map;
   }
 
   @override

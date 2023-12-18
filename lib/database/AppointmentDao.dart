@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:weekplanner/database/DatabaseHelper.dart';
 import '../model/MyAppointment.dart';
@@ -23,8 +24,10 @@ class AppointmentDao {
         subject: maps[i]['subject'],
         notes: maps[i]['notes'],
         color: Color(maps[i]['color']),
+        icon: IconData(maps[i]['icon'], fontFamily: 'MaterialIcons'),
         recurrenceRule: maps[i]['recurrenceRule'],
       );
     });
   }
+
 }

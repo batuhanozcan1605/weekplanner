@@ -8,9 +8,9 @@ class EventDataSource extends CalendarDataSource{
     this.appointments = appointments;
   }
 
-  Appointment getEvent(int index) => appointments![index] as Appointment;
+  MyAppointment getEvent(int index) => appointments![index] as MyAppointment;
 
- //IconData getIcon(int index) => getEvent(index).icon;
+ //IconData? getIcon(int index) => getEvent(index).icon;
 
   @override
   DateTime getStartTime(int index) => getEvent(index).startTime;
