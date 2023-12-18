@@ -25,6 +25,7 @@ class ScheduleView extends StatelessWidget {
         if(details.appointments == null) return;
         final event = details.appointments!.first;
         final myAppointment = MyAppointment(
+          id: event.id,
           startTime: event.startTime,
           endTime: event.endTime,
           subject: event.subject,

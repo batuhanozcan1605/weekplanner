@@ -14,13 +14,14 @@ class EventViewingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final icons = Provider.of<AppointmentProvider>(context).icons;
+    print('ICON DEBUG ${icons[appointment.id]}');
     return Scaffold(
       appBar: AppBar(
         actions: [
           IconButton(
             onPressed: () {
               Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => EventEditingPage(appointment: appointment, iconFromEdit: icons[appointment.subject])));
+                  MaterialPageRoute(builder: (context) => EventEditingPage(appointment: appointment, iconFromEdit: icons[appointment.id])));
             },
             icon: const Icon(Icons.edit), color: Constants.softColor,),
           IconButton(
@@ -95,7 +96,7 @@ class EventViewingPage extends StatelessWidget {
             ),),
             Padding(
               padding: const EdgeInsets.only(top: 18.0),
-              child: Text(appointment.notes!),
+              child: appointment.notes == null ? const Text("") : Text(appointment.notes!),
             ),
           ],
         ),
