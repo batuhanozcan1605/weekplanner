@@ -12,6 +12,12 @@ class AppointmentProvider extends ChangeNotifier {
   List<MyAppointment> get events => _appointments;
   Map<int, IconData> get icons => _icons;
 
+  int getHighestId() {
+    var highestId = _appointments.isNotEmpty
+        ? _appointments.map((obj) => obj.id ?? 0).reduce((max, id) => id > max ? id : max)
+        : 0;
+    return highestId;
+  }
   void initializeWithAppointments(List<MyAppointment> fetchedAppointments) {
     print("DEBUG inside provider");
     _appointments = fetchedAppointments;

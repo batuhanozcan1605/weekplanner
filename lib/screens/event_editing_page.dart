@@ -314,7 +314,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
   Future saveForm() async {
     final provider = Provider.of<AppointmentProvider>(context, listen: false);
     final event = MyAppointment(
-      id: provider.events.length + 1,
+      id: provider.getHighestId() + 1,
       subject: titleController.text,
       notes: detailController.text,
       startTime: fromDate,
@@ -340,7 +340,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
     String days = Utils.dayAbbreviation(fromDate);
     final provider = Provider.of<AppointmentProvider>(context, listen: false);
     final event = MyAppointment(
-      id: provider.events.length + 1,
+      id: provider.getHighestId() + 1,
       subject: titleController.text,
       notes: detailController.text,
       startTime: fromDate,
