@@ -55,6 +55,7 @@ class AppointmentProvider extends ChangeNotifier {
   }
 
   void editEvent(MyAppointment newEvent, MyAppointment oldEvent) {
+    AppointmentDao().updateAppointment(newEvent);
     if (oldEvent.recurrenceRule != null) {
       // Handle recurring appointment deletion
       _appointments.removeWhere((existingEvent) =>
@@ -63,9 +64,9 @@ class AppointmentProvider extends ChangeNotifier {
       _appointments.add(newEvent);
 
     } else {
+      AppointmentDao().updateAppointment(newEvent);
     final index = _appointments.indexOf(oldEvent);
     _appointments[index] = newEvent;
-
 
     }
     notifyListeners();

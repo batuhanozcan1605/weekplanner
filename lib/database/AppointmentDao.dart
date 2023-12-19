@@ -22,6 +22,16 @@ class AppointmentDao {
       );
     }
 
+    Future<void> updateAppointment(MyAppointment appointment) async {
+      final database = await DatabaseHelper.database();
+      await database.update(
+        'appointments',
+        appointment.toMap(),
+        where: 'id = ?',
+        whereArgs: [appointment.id],
+      );
+    }
+
   Future<List<MyAppointment>> getAllAppointments() async {
     final database = await DatabaseHelper.database();
     final List<Map<String, dynamic>> maps = await database.query('appointments');
