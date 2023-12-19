@@ -8,10 +8,19 @@ class AppointmentDao {
 
 
   // Example method: Insert appointment
-  Future<void> insertAppointment(MyAppointment appointment) async {
-    final database = await DatabaseHelper.database();
-    await database.insert('appointments', appointment.toMap());
-  }
+    Future<void> insertAppointment(MyAppointment appointment) async {
+      final database = await DatabaseHelper.database();
+      await database.insert('appointments', appointment.toMap());
+    }
+
+    Future<void> deleteAppointment(int id) async {
+      final database = await DatabaseHelper.database();
+      await database.delete(
+        'appointments',
+        where: 'id = ?',
+        whereArgs: [id],
+      );
+    }
 
   Future<List<MyAppointment>> getAllAppointments() async {
     final database = await DatabaseHelper.database();

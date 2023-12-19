@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weekplanner/constants.dart';
+import 'package:weekplanner/database/AppointmentDao.dart';
 import 'package:weekplanner/screens/event_editing_page.dart';
 import 'package:weekplanner/utils.dart';
 import '../model/MyAppointment.dart';
@@ -14,7 +15,7 @@ class EventViewingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final icons = Provider.of<AppointmentProvider>(context).icons;
-    print('ICON DEBUG ${icons[appointment.id]}');
+
     return Scaffold(
       appBar: AppBar(
         actions: [

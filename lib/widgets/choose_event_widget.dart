@@ -18,7 +18,6 @@ class ChooseEvent extends StatelessWidget {
         backgroundColor: Colors.black38,
       ),
       body: Container(
-
         padding: EdgeInsets.all(16),
         child: GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

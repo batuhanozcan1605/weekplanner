@@ -41,6 +41,7 @@ class AppointmentProvider extends ChangeNotifier {
   }
 
   void deleteEvent(MyAppointment appointment) {
+    AppointmentDao().deleteAppointment(appointment.id!);
     if (appointment.recurrenceRule != null) {
       // Handle recurring appointment deletion
       _appointments.removeWhere((existingEvent) =>
