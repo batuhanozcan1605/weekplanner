@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:duration_picker/duration_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:interval_time_picker/interval_time_picker.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +9,6 @@ import 'package:weekplanner/provider/appointment_provider.dart';
 import 'package:weekplanner/utils.dart';
 import 'package:weekplanner/widgets/choose_event_widget.dart';
 import 'package:weekplanner/widgets/color_listview_widget.dart';
-
 import '../model/Events.dart';
 import '../model/MyAppointment.dart';
 
@@ -35,6 +35,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
   late bool isRecurrenceEnabled;
   IconData icon = Icons.square_rounded;
   List<bool> selectedDays = [false, false, false, false, false, false, false];
+  Duration? selectedDurationHour = Duration(hours: 1);
+  int selectedDurationMinute = 0;
 
 
   @override
@@ -313,6 +315,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
   Future saveForm() async {
     final provider = Provider.of<AppointmentProvider>(context, listen: false);
+    toDate = fromDate.add(Duration(hours: selectedDurationHour!.inHours, minutes: selectedDurationMinute));
     final event = MyAppointment(
       id: provider.getHighestId() + 1,
       subject: titleController.text,
@@ -348,6 +351,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
   Future saveWeeklyEvent() async {
     String days = Utils.dayAbbreviation(fromDate);
     final provider = Provider.of<AppointmentProvider>(context, listen: false);
+    toDate = fromDate.add(Duration(hours: selectedDurationHour!.inHours, minutes: selectedDurationMinute));
     final event = MyAppointment(
       id: provider.getHighestId() + 1,
       subject: titleController.text,
@@ -405,9 +409,98 @@ class _EventEditingPageState extends State<EventEditingPage> {
   Widget buildDateTimePicker() => Column(
         children: [
           buildFrom(),
-          buildTo(),
+          buildDuration()
+          //buildTo(),
         ],
       );
+
+  Widget buildDuration() => Padding(padding: const EdgeInsets.only(left: 14.0),
+    child: Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14.0),
+          child: Icon(Icons.timelapse_rounded, color: Constants.themePurple,),
+        ),
+        Text('Duration', style: TextStyle(color: Constants.themePurple, fontWeight: FontWeight.bold, fontSize: 16),),
+        const SizedBox(width: 25,),
+        Expanded(
+          child: durationDropdown(),
+        ),
+      ],
+    ),
+  );
+
+  /////////////////////////////////////////////////////////////////
+
+  Widget durationDropdown() {
+    return Row(
+      children: [
+        TextButton(
+            onPressed: () async {
+              Duration? durationHour = await showDurationPicker(
+                  context: context,
+                  initialTime: Duration(hours: 1),
+                  baseUnit: BaseUnit.hour
+              );
+              if(durationHour == null) return;
+              setState(() {
+                selectedDurationHour = durationHour;
+              });
+            },
+            child: Text('${selectedDurationHour!.inHours} hours',
+              style: TextStyle(color: Constants.softColor, fontSize: 14),)),
+        //SizedBox(width: 8),
+        TextButton(
+            onPressed: () async {
+              await showMinutePickerDialog(context);
+            },
+            child: Text('${selectedDurationMinute.toString()} minutes',
+                style: TextStyle(color: Constants.softColor, fontSize: 14))),
+      ],
+    );
+  }
+
+  Future<void> showMinutePickerDialog(BuildContext context) async {
+    int? result = await showDialog<int>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.black,
+          title: Center(child: Text('Pick Minutes')),
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              GestureDetector(
+                onTap: () => Navigator.pop(context, 0),
+                child: Container(
+                  height: 100,
+                  width: 100,
+                  child: Center(child: Text('0',
+                    style: TextStyle(color: Constants.softColor, fontSize: 30, fontFamily: 'Segoe UI'),)),
+                ),
+              ),
+              const SizedBox(height: 20),
+              GestureDetector(
+                onTap: () => Navigator.pop(context, 30),
+                child: Container(
+                  child: Center(child: Text('30',
+                    style: TextStyle(color: Constants.softColor, fontSize: 30, fontFamily: 'Segoe UI'),)),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+    if (result != null) {
+      setState(() {
+        selectedDurationMinute = result;
+      });
+    }
+  }
+
 
   Widget buildFrom() => Padding(
     padding: const EdgeInsets.only(left: 14.0),
