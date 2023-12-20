@@ -448,14 +448,14 @@ class _EventEditingPageState extends State<EventEditingPage> {
               });
             },
             child: Text('${selectedDurationHour!.inHours} hours',
-              style: TextStyle(color: Constants.softColor, fontSize: 14),)),
+              style: TextStyle(color: Constants.softColor, fontSize: 16),)),
         //SizedBox(width: 8),
         TextButton(
             onPressed: () async {
               await showMinutePickerDialog(context);
             },
             child: Text('${selectedDurationMinute.toString()} minutes',
-                style: TextStyle(color: Constants.softColor, fontSize: 14))),
+                style: TextStyle(color: Constants.softColor, fontSize: 16))),
       ],
     );
   }
