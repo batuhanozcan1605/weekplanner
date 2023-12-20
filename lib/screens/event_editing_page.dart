@@ -322,18 +322,19 @@ class _EventEditingPageState extends State<EventEditingPage> {
       icon: icon,
       color: backgroundColor,
     );
-    final editedEvent = MyAppointment(
-      id: widget.appointment!.id,
-      subject: titleController.text,
-      notes: detailController.text,
-      startTime: fromDate,
-      endTime: toDate,
-      icon: icon,
-      color: backgroundColor,
-    );
+
     final isEditing = widget.appointment != null;
 
     if(isEditing) {
+      final editedEvent = MyAppointment(
+        id: widget.appointment!.id,
+        subject: titleController.text,
+        notes: detailController.text,
+        startTime: fromDate,
+        endTime: toDate,
+        icon: icon,
+        color: backgroundColor,
+      );
       provider.editEvent(editedEvent, widget.appointment!);
 
       Navigator.popUntil(context, (route) => route.isFirst);
@@ -357,18 +358,19 @@ class _EventEditingPageState extends State<EventEditingPage> {
       icon: icon,
       recurrenceRule: 'FREQ=WEEKLY;BYDAY=$days',
     );
-    final editedEvent = MyAppointment(
-      id: widget.appointment!.id,
-      subject: titleController.text,
-      notes: detailController.text,
-      startTime: fromDate,
-      endTime: toDate,
-      icon: icon,
-      color: backgroundColor,
-    );
+
     final isEditing = widget.appointment != null;
 
     if(isEditing) {
+      final editedEvent = MyAppointment(
+        id: widget.appointment!.id,
+        subject: titleController.text,
+        notes: detailController.text,
+        startTime: fromDate,
+        endTime: toDate,
+        icon: icon,
+        color: backgroundColor,
+      );
       provider.editEvent(editedEvent, widget.appointment!);
 
       Navigator.popUntil(context, (route) => route.isFirst);
