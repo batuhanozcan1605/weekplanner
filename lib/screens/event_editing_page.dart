@@ -171,7 +171,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
               child: Container(
                 height: 115,
                 decoration: BoxDecoration(
-                  color: Constants.lightGrey,
+                  color: Color(0XFF383838),
                   borderRadius: BorderRadius.circular(11.0),
                 ),
                 child: Column(
@@ -231,7 +231,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
               child: Container(
                 height: 390,
                 decoration: BoxDecoration(
-                  color: const Color(0xff74736f),
+                  color: Color(0xFF383838),
                   borderRadius: BorderRadius.circular(11.0),
                 ),
                 child: Column(
@@ -414,7 +414,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
         ],
       );
 
-  Widget buildDuration() => Padding(padding: const EdgeInsets.only(left: 14.0),
+  Widget buildDuration() => Padding(padding: const EdgeInsets.symmetric(horizontal: 4.0),
     child: Row(
       children: [
         Padding(
@@ -422,7 +422,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
           child: Icon(Icons.timelapse_rounded, color: Constants.themePurple,),
         ),
         Text('Duration', style: TextStyle(color: Constants.themePurple, fontWeight: FontWeight.bold, fontSize: 16),),
-        const SizedBox(width: 25,),
+        const SizedBox(width: 15,),
         Expanded(
           child: durationDropdown(),
         ),
@@ -503,7 +503,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
 
   Widget buildFrom() => Padding(
-    padding: const EdgeInsets.only(left: 14.0),
+    padding: const EdgeInsets.symmetric(horizontal: 4.0),
     child: Row(
           children: [
             Expanded(
