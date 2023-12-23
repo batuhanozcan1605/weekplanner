@@ -37,7 +37,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
   List<bool> selectedDays = [false, false, false, false, false, false, false];
   List<DateTime> currentWeekDays = [];
   List<DateTime> selectedDateObjects = [];
-  Duration? selectedDurationHour = Duration(hours: 1);
+  Duration? selectedDurationHour = Duration(hours: 2);
   int selectedDurationMinute = 0;
 
 
@@ -313,6 +313,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
         onChanged: (value) {
           setState(() {
             isChecked = value!;
+            isChecked ? selectedDays.fillRange(0, selectedDays.length, true) : selectedDays.fillRange(0, selectedDays.length, false);
+            isChecked ? selectedDateObjects = currentWeekDays : selectedDateObjects = [];
           });
         },
       ),
