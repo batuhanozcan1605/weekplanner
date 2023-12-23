@@ -29,7 +29,7 @@ class CalenderWidget extends StatelessWidget {
           recurrenceRule: event.recurrenceRule,
           notes: event.notes,
         );
-        print('DEBUG ${event.subject}');
+
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventViewingPage(appointment: myAppointment)));
       },
       headerHeight: 0,
@@ -42,7 +42,7 @@ class CalenderWidget extends StatelessWidget {
       ) {
     final icons = Provider.of<AppointmentProvider>(context).icons;
     final event = details.appointments.first;
-    print('Appointment Details: $event');
+
     return Container(
       width: details.bounds.width,
       height: details.bounds.height,

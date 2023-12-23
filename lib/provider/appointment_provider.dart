@@ -72,5 +72,14 @@ class AppointmentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void addSelectedDaysEvents(List<MyAppointment> appointments, icon){
+    for(int i=0; i < appointments.length; i++) {
+    _appointments.add(appointments[i]);
+    _icons[appointments[i].id!]= icon;
+
+    }
+    notifyListeners();
+  }
+
 
 }

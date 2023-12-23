@@ -35,6 +35,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
   late bool isRecurrenceEnabled;
   IconData icon = Icons.square_rounded;
   List<bool> selectedDays = [false, false, false, false, false, false, false];
+  List<DateTime> currentWeekDays = [];
+  List<DateTime> selectedDateObjects = [];
   Duration? selectedDurationHour = Duration(hours: 1);
   int selectedDurationMinute = 0;
 
@@ -53,6 +55,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
       isRecurrenceEnabled = false;
       backgroundColor = widget.eventTemplate!.color;
       icon = widget.eventTemplate!.icon;
+      currentWeekDays = _getWeekDays(DateTime.now());
     }
 
     if (widget.appointment == null) {
@@ -60,6 +63,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
       DateTime fromDateWithExactMinute = DateTime.now();
       fromDate = Utils.roundOffMinute(fromDateWithExactMinute);
       toDate = fromDate.add(Duration(hours: 2));
+      currentWeekDays = _getWeekDays(DateTime.now());
     } else {
       final event = widget.appointment!;
 
@@ -69,6 +73,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
       isRecurrenceEnabled = widget.appointment!.recurrenceRule == null ? false : true;
       backgroundColor = widget.appointment!.color;
       icon = widget.iconFromEdit!;
+      currentWeekDays = _getWeekDays(DateTime.now());
     }
   }
 
@@ -251,6 +256,21 @@ class _EventEditingPageState extends State<EventEditingPage> {
                     ),
                     buildDateTimePicker(),
                     Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: ListTile(
+                        title: Text('Repeat Each Week'),
+                        trailing: Switch(
+                          value: isRecurrenceEnabled,
+                          onChanged: (value) {
+                            setState(() {
+                              print(value);
+                              isRecurrenceEnabled = value;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                    Padding(
                       padding: const EdgeInsets.all(14.0),
                       child: Divider(color: Constants.themePurple,),
                     ),
@@ -272,21 +292,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
                       child: dayPicker(),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: ListTile(
-                        title: Text('Repeat Each Week'),
-                        trailing: Switch(
-                          value: isRecurrenceEnabled,
-                          onChanged: (value) {
-                            setState(() {
-                              print(value);
-                              isRecurrenceEnabled = value;
-                            });
-                          },
-                        ),
-                      ),
-                    ),
+
                   ],
                 ),
               )
@@ -313,8 +319,39 @@ class _EventEditingPageState extends State<EventEditingPage> {
     ],
   );
 
+  List<MyAppointment> selectedDaysEvents() {
+    List<MyAppointment> createdAppointments = [];
+    print("DEBUG selecetedDaysEvent DATE OBJECTS $selectedDateObjects");
+    final provider = Provider.of<AppointmentProvider>(context, listen: false);
+    int highestId = provider.getHighestId() + 1;
+    for(int i = 0; i < selectedDateObjects.length; i++) {
+      DateTime newFromDate = DateTime(fromDate.year, fromDate.month, selectedDateObjects[i].day, fromDate.hour, fromDate.minute);
+        toDate = newFromDate.add(Duration(hours: selectedDurationHour!.inHours, minutes: selectedDurationMinute));
+      final event = MyAppointment(
+        id: highestId + i,
+        subject: titleController.text,
+        notes: detailController.text,
+        startTime: newFromDate,
+        endTime: toDate,
+        icon: icon,
+        color: backgroundColor,
+      );
+
+      createdAppointments.add(event);
+    }
+    print("DEBUG selecetedDaysEvent EVENTS $createdAppointments");
+    return createdAppointments;
+  }
+
   Future saveForm() async {
     final provider = Provider.of<AppointmentProvider>(context, listen: false);
+
+    if(selectedDateObjects.isNotEmpty) {
+      provider.addSelectedDaysEvents(selectedDaysEvents(), icon);
+      Navigator.popUntil(context, (route) => route.isFirst);
+      return;
+    }
+
     toDate = fromDate.add(Duration(hours: selectedDurationHour!.inHours, minutes: selectedDurationMinute));
     final event = MyAppointment(
       id: provider.getHighestId() + 1,
@@ -409,7 +446,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
   Widget buildDateTimePicker() => Column(
         children: [
           buildFrom(),
-          buildDuration()
+          buildDuration(),
           //buildTo(),
         ],
       );
@@ -630,6 +667,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
             onTap: () {
               setState(() {
                 selectedDays[index] = !selectedDays[index];
+                selectedDays[index] ? selectedDateObjects.add(currentWeekDays[index]) : selectedDateObjects.remove(currentWeekDays[index]);
               });
             },
             child: Padding(
@@ -662,5 +700,14 @@ class _EventEditingPageState extends State<EventEditingPage> {
     return daysOfWeek[index];
   }
 
+  List<DateTime> _getWeekDays(DateTime currentDate) {
+// Find the first day of the current week (assuming Monday is the start of the week)
+    DateTime firstDayOfWeek = currentDate.subtract(
+        Duration(days: currentDate.weekday-1));
+    List<DateTime> weekDays = List.generate(
+        7, (index) => firstDayOfWeek.add(Duration(days: index)));
+
+    return weekDays;
+  }
 }
 
