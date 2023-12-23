@@ -13,6 +13,8 @@ class AppointmentDao {
       await database.insert('appointments', appointment.toMap());
     }
 
+
+
     Future<void> deleteAppointment(int id) async {
       final database = await DatabaseHelper.database();
       await database.delete(

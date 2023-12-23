@@ -74,9 +74,10 @@ class AppointmentProvider extends ChangeNotifier {
 
   void addSelectedDaysEvents(List<MyAppointment> appointments, icon){
     for(int i=0; i < appointments.length; i++) {
+      print('DEBUG provider içi appointment: ${appointments[i]}');
+      AppointmentDao().insertAppointment(appointments[i]);
     _appointments.add(appointments[i]);
     _icons[appointments[i].id!]= icon;
-
     }
     notifyListeners();
   }

@@ -321,25 +321,27 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
   List<MyAppointment> selectedDaysEvents() {
     List<MyAppointment> createdAppointments = [];
-    print("DEBUG selecetedDaysEvent DATE OBJECTS $selectedDateObjects");
+
     final provider = Provider.of<AppointmentProvider>(context, listen: false);
     int highestId = provider.getHighestId() + 1;
     for(int i = 0; i < selectedDateObjects.length; i++) {
       DateTime newFromDate = DateTime(fromDate.year, fromDate.month, selectedDateObjects[i].day, fromDate.hour, fromDate.minute);
         toDate = newFromDate.add(Duration(hours: selectedDurationHour!.inHours, minutes: selectedDurationMinute));
-      final event = MyAppointment(
-        id: highestId + i,
-        subject: titleController.text,
-        notes: detailController.text,
-        startTime: newFromDate,
-        endTime: toDate,
-        icon: icon,
-        color: backgroundColor,
-      );
 
-      createdAppointments.add(event);
-    }
-    print("DEBUG selecetedDaysEvent EVENTS $createdAppointments");
+        final event = MyAppointment(
+          id: highestId + i,
+          subject: titleController.text,
+          notes: detailController.text,
+          startTime: newFromDate,
+          endTime: toDate,
+          icon: icon,
+          color: backgroundColor,
+        );
+
+        createdAppointments.add(event);
+      }
+
+
     return createdAppointments;
   }
 
@@ -385,9 +387,15 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
   }
 
+
+
   Future saveWeeklyEvent() async {
-    String days = Utils.dayAbbreviation(fromDate);
     final provider = Provider.of<AppointmentProvider>(context, listen: false);
+
+
+    String days = selectedDateObjects.isNotEmpty ? Utils.dayAbbreviationForMultipleDays(selectedDateObjects) : Utils.dayAbbreviation(fromDate);
+
+
     toDate = fromDate.add(Duration(hours: selectedDurationHour!.inHours, minutes: selectedDurationMinute));
     final event = MyAppointment(
       id: provider.getHighestId() + 1,

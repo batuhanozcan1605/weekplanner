@@ -29,7 +29,7 @@ class Utils {
     int weekday = fromDate.weekday;
     switch(weekday) {
       case 1:
-        return 'MO'; // The switch statement must be told to exit, or it will execute every case.
+        return 'MO';
       case 2:
         return 'TU';
       case 3:
@@ -44,6 +44,15 @@ class Utils {
         return 'SU';
       default: return '';
     }
+  }
+
+  static String dayAbbreviationForMultipleDays(List<DateTime> selectedDateObjects) {
+    String multipleDays = dayAbbreviation(selectedDateObjects.first);
+    for(int i = 1; i < selectedDateObjects.length; i++){
+    String day = dayAbbreviation(selectedDateObjects[i]);
+    multipleDays = '$multipleDays,$day';
+    }
+    return multipleDays;
   }
 
 }
