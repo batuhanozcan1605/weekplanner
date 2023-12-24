@@ -560,7 +560,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
             Expanded(
               flex: 3,
-              child: buildDropdownField(
+              child: selectedDateObjects.isNotEmpty ? const Center(child: Text("-")) : buildDropdownField(
                   text: Utils.toDate(fromDate), onClicked: () => pickFromDateTime(pickDate: true)),
             ),
             Expanded(
