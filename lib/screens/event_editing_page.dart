@@ -32,6 +32,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
   late DateTime toDate;
   Color backgroundColor = Colors.deepPurple;
   bool isChecked = false;
+  late bool isEditing;
   late bool isRecurrenceEnabled;
   IconData icon = Icons.square_rounded;
   List<bool> selectedDays = [false, false, false, false, false, false, false];
@@ -66,7 +67,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
       currentWeekDays = _getWeekDays(DateTime.now());
     } else {
       final event = widget.appointment!;
-
+      isEditing = true;
       titleController.text = event.subject;
       fromDate = event.startTime;
       toDate = event.endTime;
@@ -270,11 +271,11 @@ class _EventEditingPageState extends State<EventEditingPage> {
                         ),
                       ),
                     ),
-                    Padding(
+                    isEditing ? const Center() : Padding(
                       padding: const EdgeInsets.all(14.0),
                       child: Divider(color: Constants.themePurple,),
                     ),
-                    Padding(
+                    isEditing ? const Center() : Padding(
                       padding: const EdgeInsets.only(left: 13.0, right: 13.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -284,11 +285,11 @@ class _EventEditingPageState extends State<EventEditingPage> {
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Segoe UI'),),
-                          myCheckBox(),
+                        myCheckBox(),
                         ],
                       ),
                     ),
-                    Padding(
+                    isEditing ? const Center()  :  Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
                       child: dayPicker(),
                     ),
@@ -367,8 +368,6 @@ class _EventEditingPageState extends State<EventEditingPage> {
       icon: icon,
       color: backgroundColor,
     );
-
-    final isEditing = widget.appointment != null;
 
     if(isEditing) {
       final editedEvent = MyAppointment(
