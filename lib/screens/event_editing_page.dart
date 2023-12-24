@@ -314,7 +314,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
           setState(() {
             isChecked = value!;
             isChecked ? selectedDays.fillRange(0, selectedDays.length, true) : selectedDays.fillRange(0, selectedDays.length, false);
-            isChecked ? selectedDateObjects = currentWeekDays : selectedDateObjects = [];
+            isChecked ? selectedDateObjects = List.from(currentWeekDays) : selectedDateObjects = [];
+
           });
         },
       ),
@@ -678,6 +679,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
               setState(() {
                 selectedDays[index] = !selectedDays[index];
                 selectedDays[index] ? selectedDateObjects.add(currentWeekDays[index]) : selectedDateObjects.remove(currentWeekDays[index]);
+                selectedDateObjects.length == 7 ? isChecked = true  : isChecked = false;
               });
             },
             child: Padding(
