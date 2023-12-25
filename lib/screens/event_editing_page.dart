@@ -73,8 +73,10 @@ class _EventEditingPageState extends State<EventEditingPage> {
       titleController.text = event.subject;
       fromDate = event.startTime;
       toDate = event.endTime;
-      Duration duration = Duration(hours: 24-(event.startTime.hour - event.endTime.hour));
-      selectedDurationHour = duration;
+      Duration durationHour = Duration(hours: 24-(event.startTime.hour - event.endTime.hour));
+      selectedDurationHour = durationHour;
+      int durationMinute = (event.startTime.minute - event.endTime.minute).abs();
+      selectedDurationMinute = durationMinute;
       isRecurrenceEnabled = widget.appointment!.recurrenceRule == null ? false : true;
       backgroundColor = widget.appointment!.color;
       icon = widget.iconFromEdit!;
