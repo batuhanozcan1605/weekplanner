@@ -45,7 +45,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
   @override
   void initState() {
     super.initState();
-
+    widget.appointment != null ? isEditing = true : isEditing = false;
     if(widget.eventTemplate != null) {
       final eventTemplate = widget.eventTemplate!;
 
@@ -67,7 +67,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
       currentWeekDays = _getWeekDays(DateTime.now());
     } else {
       final event = widget.appointment!;
-      isEditing = true;
+
       titleController.text = event.subject;
       fromDate = event.startTime;
       toDate = event.endTime;
