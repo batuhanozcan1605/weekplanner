@@ -14,6 +14,7 @@ class CalenderWidget extends StatefulWidget {
 
 class _CalenderWidgetState extends State<CalenderWidget> {
   late CalendarController _controller;
+  DateTime selectedDay = DateTime.now();
 
   @override
   void initState() {
@@ -71,34 +72,45 @@ class _CalenderWidgetState extends State<CalenderWidget> {
         child: ListView(
           scrollDirection: Axis.horizontal,
           children: List.generate(14, (index) {
+
             DateTime currentDate = DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1));
             DateTime day = currentDate.add(Duration(days: index));
             return GestureDetector(
               onTap: () {
                 _controller.displayDate = day;
+                setState(() {
+                  selectedDay = day;
+                });
               },
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 7),
                 child: Container(
-                  width: 40,
-                  decoration: day.day == DateTime.now().day ? BoxDecoration(
+                  width: 42,
+                  decoration: selectedDay.day == day.day ? BoxDecoration(
                       color: Colors.black,
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
                           color: Constants.themePurple,
                           width: 1
                       )
-                  ) : BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
+                  ) :  BoxDecoration(
                       color: Colors.black,
-                      width: 1
-                    )
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                          color: Colors.black,
+                          width: 1
+                      )
                   ),
                   alignment: Alignment.center,
                    // Customize the color as needed
-                  child: Text(
+                  child: day.day == DateTime.now().day ? Text(
+                    'Today',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Constants.themePurple,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ) : Text(
                      '${day.day}',
                     style: TextStyle(
                       color: Constants.themePurple,
