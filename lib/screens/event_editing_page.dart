@@ -40,24 +40,26 @@ class _EventEditingPageState extends State<EventEditingPage> {
   List<DateTime> selectedDateObjects = [];
   Duration? selectedDurationHour = Duration(hours: 2);
   int selectedDurationMinute = 0;
-
+  Events? selectedEvent;
 
   @override
   void initState() {
     super.initState();
     widget.appointment != null ? isEditing = true : isEditing = false;
-    if(widget.eventTemplate != null) {
-      final eventTemplate = widget.eventTemplate!;
 
-      titleController.text = eventTemplate.subject;
+    // in the version of selectedEvent is came from Navigation.pushReplacement instead of pop
+    /* if(selectedEvent != null) {
+
+
+      titleController.text = selectedEvent!.subject;
       DateTime fromDateWithExactMinute = DateTime.now();
       fromDate = Utils.roundOffMinute(fromDateWithExactMinute);
       toDate = fromDate.add(Duration(hours: 2));
       isRecurrenceEnabled = false;
-      backgroundColor = widget.eventTemplate!.color;
-      icon = widget.eventTemplate!.icon;
+      backgroundColor =  selectedEvent!.color;
+      icon =  selectedEvent!.icon;
       currentWeekDays = _getWeekDays(DateTime.now());
-    }
+    } */
 
     if (widget.appointment == null) {
       isRecurrenceEnabled = false;
@@ -120,7 +122,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
             Container(
               height: 115,
               decoration: BoxDecoration(
-                color: backgroundColor.withOpacity(0.7),
+                color: selectedEvent == null ? backgroundColor.withOpacity(0.7) : selectedEvent!.color,
                 borderRadius: BorderRadius.circular(11.0),
               ),
               child: Row(
@@ -135,7 +137,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(right: 8.0),
-                                  child: Icon(icon, color: Constants.softColor,),
+                                  child: Icon(selectedEvent == null ? icon : selectedEvent!.icon, color: Constants.softColor,),
                                 ),
                                 Expanded(child: buildTitle()),
                               ]
@@ -155,8 +157,13 @@ class _EventEditingPageState extends State<EventEditingPage> {
                       child: Column(
                         children: [
                           IconButton(
-                              onPressed: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ChooseEvent()));
+                              onPressed: () async  {
+                                  final chosenEvent = await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ChooseEvent()));
+                                  print(chosenEvent.subject);
+                                 setState(() {
+                                   selectedEvent = chosenEvent;
+                                   titleController.text = selectedEvent!.subject;
+                                 });
                               },
                               icon: Icon( Icons.add_circle, color: Constants.softColor,),
                             iconSize: 30,
