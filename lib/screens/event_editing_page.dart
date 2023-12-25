@@ -126,7 +126,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
             Container(
               height: 115,
               decoration: BoxDecoration(
-                color: selectedEvent == null ? backgroundColor.withOpacity(0.7) : selectedEvent!.color,
+                color: backgroundColor.withOpacity(0.7),
                 borderRadius: BorderRadius.circular(11.0),
               ),
               child: Row(
@@ -167,6 +167,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
                                  setState(() {
                                    selectedEvent = chosenEvent;
                                    titleController.text = selectedEvent!.subject;
+                                   backgroundColor = selectedEvent!.color;
+                                   icon = selectedEvent!.icon;
                                  });
                               },
                               icon: Icon( Icons.add_circle, color: Constants.softColor,),
@@ -391,11 +393,12 @@ class _EventEditingPageState extends State<EventEditingPage> {
         color: backgroundColor,
       );
       provider.editEvent(editedEvent, widget.appointment!);
-
-      Navigator.popUntil(context, (route) => route.isFirst);
+      Navigator.pop(context);
+      //Navigator.popUntil(context, (route) => route.isFirst);
     } else {
       provider.addEvent(event, icon);
-      Navigator.popUntil(context, (route) => route.isFirst);
+      Navigator.pop(context);
+      //Navigator.popUntil(context, (route) => route.isFirst);
     }
 
   }
