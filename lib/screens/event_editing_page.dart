@@ -25,9 +25,10 @@ class EventEditingPage extends StatefulWidget {
 }
 
 class _EventEditingPageState extends State<EventEditingPage> {
-  //final _formKey = GlobalKey<FormState>();
+
   final titleController = TextEditingController();
   final detailController = TextEditingController();
+
   late DateTime fromDate;
   late DateTime toDate;
   Color backgroundColor = Colors.deepPurple;
@@ -73,7 +74,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
       titleController.text = event.subject;
       fromDate = event.startTime;
       toDate = event.endTime;
-      Duration durationHour = Duration(hours: 24-(event.startTime.hour - event.endTime.hour));
+      Duration durationHour = Duration(hours: event.endTime.hour - event.startTime.hour);
       selectedDurationHour = durationHour;
       int durationMinute = (event.startTime.minute - event.endTime.minute).abs();
       selectedDurationMinute = durationMinute;
@@ -95,9 +96,10 @@ class _EventEditingPageState extends State<EventEditingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(
-          color: Constants.softColor,
-        ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+            }, icon: Icon(Icons.cancel),),
         actions: [
           IconButton(
               onPressed: (){
@@ -449,10 +451,13 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
 
   Widget buildTitle() => TextFormField(
+    autofocus: true,
+    showCursor: true,
         style: TextStyle(
             color: Constants.softColor, fontSize: 20, fontFamily: 'Segoe UI'),
         decoration:
-            InputDecoration(border: InputBorder.none, hintText: 'Title', hintStyle: TextStyle(color: Constants.softColor)),
+            InputDecoration(
+            border: InputBorder.none, hintText: 'Title', hintStyle: TextStyle(color: Constants.softColor)),
         onFieldSubmitted: (_) {},
         //validator: (title) => title != null && title.isEmpty ? 'Title can not be empty' : null,
         controller: titleController,
@@ -476,18 +481,31 @@ class _EventEditingPageState extends State<EventEditingPage> {
       );
 
   Widget buildDuration() => Padding(padding: const EdgeInsets.symmetric(horizontal: 4.0),
-    child: Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 14.0),
-          child: Icon(Icons.timelapse_rounded, color: Constants.themePurple,),
-        ),
-        Text('Duration', style: TextStyle(color: Constants.themePurple, fontWeight: FontWeight.bold, fontSize: 16),),
-        const SizedBox(width: 15,),
-        Expanded(
-          child: durationDropdown(),
-        ),
-      ],
+    child: GestureDetector(
+      onTap: ()async {
+        Duration? durationHour = await showDurationPicker(
+            context: context,
+            initialTime: Duration(hours: 2),
+            baseUnit: BaseUnit.hour
+        );
+        if(durationHour == null) return;
+        setState(() {
+          selectedDurationHour = durationHour;
+        });
+      },
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14.0),
+            child: Icon(Icons.timelapse_rounded, color: Constants.themePurple,),
+          ),
+          Text('Duration', style: TextStyle(color: Constants.themePurple, fontWeight: FontWeight.bold, fontSize: 16),),
+          const SizedBox(width: 15,),
+          Expanded(
+            child: durationDropdown(),
+          ),
+        ],
+      ),
     ),
   );
 
@@ -500,7 +518,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
             onPressed: () async {
               Duration? durationHour = await showDurationPicker(
                   context: context,
-                  initialTime: Duration(hours: 1),
+                  initialTime: Duration(hours: 2),
                   baseUnit: BaseUnit.hour
               );
               if(durationHour == null) return;
@@ -569,7 +587,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
           children: [
             Expanded(
               flex: 1,
-              child: Icon(Icons.arrow_forward, color: Constants.themePurple,),
+              child: IconButton(icon: Icon(Icons.arrow_forward, color: Constants.themePurple,),
+                onPressed: () { pickFromDateTime(pickDate: true); },),
             ),
 
             Expanded(
