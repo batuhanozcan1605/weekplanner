@@ -7,12 +7,14 @@ import 'package:weekplanner/provider/appointment_provider.dart';
 import '../model/MyAppointment.dart';
 import '../screens/event_viewing_page.dart';
 
-class CalenderWidget extends StatefulWidget {
+class DailyView extends StatefulWidget {
+  const DailyView({super.key});
+
   @override
-  State<CalenderWidget> createState() => _CalenderWidgetState();
+  State<DailyView> createState() => _DailyViewState();
 }
 
-class _CalenderWidgetState extends State<CalenderWidget> {
+class _DailyViewState extends State<DailyView> {
   late CalendarController _controller;
   DateTime selectedDay = DateTime.now();
 
@@ -36,6 +38,15 @@ class _CalenderWidgetState extends State<CalenderWidget> {
           flex: 12,
           child: SfCalendar(
             view: CalendarView.day,
+            onViewChanged: (ViewChangedDetails details) {
+              // Update selectedDay when the view changes
+              Future.delayed(Duration.zero, () {
+                // Update selectedDay when the view changes
+                setState(() {
+                  selectedDay = details.visibleDates[0];
+                });
+              });
+            },
             controller: _controller,
             //showNavigationArrow: true,
             dataSource: EventDataSource(events),
@@ -43,19 +54,22 @@ class _CalenderWidgetState extends State<CalenderWidget> {
             //cellBorderColor: Colors.transparent,
             appointmentBuilder: appointmentBuilder,
             onTap: (details) {
-              if(details.appointments == null) return;
-              final event = details.appointments!.first;
-              final myAppointment = MyAppointment(
-                id: event.id,
-                startTime: event.startTime,
-                endTime: event.endTime,
-                subject: event.subject,
-                color: event.color,
-                recurrenceRule: event.recurrenceRule,
-                notes: event.notes,
-              );
-
+              if(details.appointments != null) {
+                final event = details.appointments!.first;
+                final myAppointment = MyAppointment(
+                  id: event.id,
+                  startTime: event.startTime,
+                  endTime: event.endTime,
+                  subject: event.subject,
+                  color: event.color,
+                  recurrenceRule: event.recurrenceRule,
+                  notes: event.notes,
+                );
               Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventViewingPage(appointment: myAppointment)));
+              } else if(details.targetElement == CalendarElement.calendarCell) {
+                DateTime tappedDate = details.date!;
+                print('Tapped on cell: $tappedDate');
+              }
             },
             headerHeight: 0,
           ),
