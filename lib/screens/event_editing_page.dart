@@ -25,13 +25,15 @@ class EventEditingPage extends StatefulWidget {
 }
 
 class _EventEditingPageState extends State<EventEditingPage> {
-  //final _formKey = GlobalKey<FormState>();
+
   final titleController = TextEditingController();
   final detailController = TextEditingController();
+
   late DateTime fromDate;
   late DateTime toDate;
   Color backgroundColor = Colors.deepPurple;
   bool isChecked = false;
+  late bool isEditing;
   late bool isRecurrenceEnabled;
   IconData icon = Icons.square_rounded;
   List<bool> selectedDays = [false, false, false, false, false, false, false];
@@ -39,24 +41,26 @@ class _EventEditingPageState extends State<EventEditingPage> {
   List<DateTime> selectedDateObjects = [];
   Duration? selectedDurationHour = Duration(hours: 2);
   int selectedDurationMinute = 0;
-
+  Events? selectedEvent;
 
   @override
   void initState() {
     super.initState();
+    widget.appointment != null ? isEditing = true : isEditing = false;
 
-    if(widget.eventTemplate != null) {
-      final eventTemplate = widget.eventTemplate!;
+    // in the version of selectedEvent is came from Navigation.pushReplacement instead of pop
+    /* if(selectedEvent != null) {
 
-      titleController.text = eventTemplate.subject;
+
+      titleController.text = selectedEvent!.subject;
       DateTime fromDateWithExactMinute = DateTime.now();
       fromDate = Utils.roundOffMinute(fromDateWithExactMinute);
       toDate = fromDate.add(Duration(hours: 2));
       isRecurrenceEnabled = false;
-      backgroundColor = widget.eventTemplate!.color;
-      icon = widget.eventTemplate!.icon;
+      backgroundColor =  selectedEvent!.color;
+      icon =  selectedEvent!.icon;
       currentWeekDays = _getWeekDays(DateTime.now());
-    }
+    } */
 
     if (widget.appointment == null) {
       isRecurrenceEnabled = false;
@@ -70,6 +74,10 @@ class _EventEditingPageState extends State<EventEditingPage> {
       titleController.text = event.subject;
       fromDate = event.startTime;
       toDate = event.endTime;
+      Duration durationHour = Duration(hours: event.endTime.hour - event.startTime.hour);
+      selectedDurationHour = durationHour;
+      int durationMinute = (event.startTime.minute - event.endTime.minute).abs();
+      selectedDurationMinute = durationMinute;
       isRecurrenceEnabled = widget.appointment!.recurrenceRule == null ? false : true;
       backgroundColor = widget.appointment!.color;
       icon = widget.iconFromEdit!;
@@ -88,9 +96,10 @@ class _EventEditingPageState extends State<EventEditingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(
-          color: Constants.softColor,
-        ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+            }, icon: Icon(Icons.cancel),),
         actions: [
           IconButton(
               onPressed: (){
@@ -134,7 +143,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(right: 8.0),
-                                  child: Icon(icon, color: Constants.softColor,),
+                                  child: Icon(selectedEvent == null ? icon : selectedEvent!.icon, color: Constants.softColor,),
                                 ),
                                 Expanded(child: buildTitle()),
                               ]
@@ -154,8 +163,15 @@ class _EventEditingPageState extends State<EventEditingPage> {
                       child: Column(
                         children: [
                           IconButton(
-                              onPressed: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ChooseEvent()));
+                              onPressed: () async  {
+                                  final chosenEvent = await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ChooseEvent()));
+                                  print(chosenEvent.subject);
+                                 setState(() {
+                                   selectedEvent = chosenEvent;
+                                   titleController.text = selectedEvent!.subject;
+                                   backgroundColor = selectedEvent!.color;
+                                   icon = selectedEvent!.icon;
+                                 });
                               },
                               icon: Icon( Icons.add_circle, color: Constants.softColor,),
                             iconSize: 30,
@@ -270,11 +286,11 @@ class _EventEditingPageState extends State<EventEditingPage> {
                         ),
                       ),
                     ),
-                    Padding(
+                    isEditing ? const Center() : Padding(
                       padding: const EdgeInsets.all(14.0),
                       child: Divider(color: Constants.themePurple,),
                     ),
-                    Padding(
+                    isEditing ? const Center() : Padding(
                       padding: const EdgeInsets.only(left: 13.0, right: 13.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -284,11 +300,11 @@ class _EventEditingPageState extends State<EventEditingPage> {
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Segoe UI'),),
-                          myCheckBox(),
+                        myCheckBox(),
                         ],
                       ),
                     ),
-                    Padding(
+                    isEditing ? const Center()  :  Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
                       child: dayPicker(),
                     ),
@@ -314,7 +330,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
           setState(() {
             isChecked = value!;
             isChecked ? selectedDays.fillRange(0, selectedDays.length, true) : selectedDays.fillRange(0, selectedDays.length, false);
-            isChecked ? selectedDateObjects = currentWeekDays : selectedDateObjects = [];
+            isChecked ? selectedDateObjects = List.from(currentWeekDays) : selectedDateObjects = [];
+
           });
         },
       ),
@@ -367,8 +384,6 @@ class _EventEditingPageState extends State<EventEditingPage> {
       color: backgroundColor,
     );
 
-    final isEditing = widget.appointment != null;
-
     if(isEditing) {
       final editedEvent = MyAppointment(
         id: widget.appointment!.id,
@@ -380,11 +395,12 @@ class _EventEditingPageState extends State<EventEditingPage> {
         color: backgroundColor,
       );
       provider.editEvent(editedEvent, widget.appointment!);
-
-      Navigator.popUntil(context, (route) => route.isFirst);
+      Navigator.pop(context);
+      //Navigator.popUntil(context, (route) => route.isFirst);
     } else {
       provider.addEvent(event, icon);
-      Navigator.popUntil(context, (route) => route.isFirst);
+      Navigator.pop(context);
+      //Navigator.popUntil(context, (route) => route.isFirst);
     }
 
   }
@@ -435,10 +451,13 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
 
   Widget buildTitle() => TextFormField(
+    autofocus: true,
+    showCursor: true,
         style: TextStyle(
             color: Constants.softColor, fontSize: 20, fontFamily: 'Segoe UI'),
         decoration:
-            InputDecoration(border: InputBorder.none, hintText: 'Title', hintStyle: TextStyle(color: Constants.softColor)),
+            InputDecoration(
+            border: InputBorder.none, hintText: 'Title', hintStyle: TextStyle(color: Constants.softColor)),
         onFieldSubmitted: (_) {},
         //validator: (title) => title != null && title.isEmpty ? 'Title can not be empty' : null,
         controller: titleController,
@@ -462,18 +481,31 @@ class _EventEditingPageState extends State<EventEditingPage> {
       );
 
   Widget buildDuration() => Padding(padding: const EdgeInsets.symmetric(horizontal: 4.0),
-    child: Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 14.0),
-          child: Icon(Icons.timelapse_rounded, color: Constants.themePurple,),
-        ),
-        Text('Duration', style: TextStyle(color: Constants.themePurple, fontWeight: FontWeight.bold, fontSize: 16),),
-        const SizedBox(width: 15,),
-        Expanded(
-          child: durationDropdown(),
-        ),
-      ],
+    child: GestureDetector(
+      onTap: ()async {
+        Duration? durationHour = await showDurationPicker(
+            context: context,
+            initialTime: Duration(hours: 2),
+            baseUnit: BaseUnit.hour
+        );
+        if(durationHour == null) return;
+        setState(() {
+          selectedDurationHour = durationHour;
+        });
+      },
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14.0),
+            child: Icon(Icons.timelapse_rounded, color: Constants.themePurple,),
+          ),
+          Text('Duration', style: TextStyle(color: Constants.themePurple, fontWeight: FontWeight.bold, fontSize: 16),),
+          const SizedBox(width: 15,),
+          Expanded(
+            child: durationDropdown(),
+          ),
+        ],
+      ),
     ),
   );
 
@@ -486,7 +518,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
             onPressed: () async {
               Duration? durationHour = await showDurationPicker(
                   context: context,
-                  initialTime: Duration(hours: 1),
+                  initialTime: Duration(hours: 2),
                   baseUnit: BaseUnit.hour
               );
               if(durationHour == null) return;
@@ -555,12 +587,13 @@ class _EventEditingPageState extends State<EventEditingPage> {
           children: [
             Expanded(
               flex: 1,
-              child: Icon(Icons.arrow_forward, color: Constants.themePurple,),
+              child: IconButton(icon: Icon(Icons.arrow_forward, color: Constants.themePurple,),
+                onPressed: () { pickFromDateTime(pickDate: true); },),
             ),
 
             Expanded(
               flex: 3,
-              child: buildDropdownField(
+              child: selectedDateObjects.isNotEmpty ? const Center(child: Text("-")) : buildDropdownField(
                   text: Utils.toDate(fromDate), onClicked: () => pickFromDateTime(pickDate: true)),
             ),
             Expanded(
@@ -678,6 +711,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
               setState(() {
                 selectedDays[index] = !selectedDays[index];
                 selectedDays[index] ? selectedDateObjects.add(currentWeekDays[index]) : selectedDateObjects.remove(currentWeekDays[index]);
+                selectedDateObjects.length == 7 ? isChecked = true  : isChecked = false;
               });
             },
             child: Padding(

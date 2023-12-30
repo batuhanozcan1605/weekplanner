@@ -75,7 +75,7 @@ class _DayScreenState extends State<DayScreen> {
                       switchInCurve: Curves.easeIn,
                       switchOutCurve: Curves.easeOut,
                       duration: Duration(milliseconds: 500),
-                      child: scheduleView == false ? CalenderWidget() : const ScheduleView()),
+                      child: scheduleView == false ? DailyView() : const ScheduleView()),
                   switchInCurve: Curves.easeIn,
                   switchOutCurve: Curves.easeOut,
                   duration: Duration(milliseconds: 500),)

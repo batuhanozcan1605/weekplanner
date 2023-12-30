@@ -30,10 +30,11 @@ class ChooseEvent extends StatelessWidget {
             final event = eventTemplate[index];
             return GestureDetector(
               onTap: () {
-                Navigator.pushReplacement(context, MaterialPageRoute(
+                Navigator.pop(context, event);
+                /*Navigator.pushReplacement(context, MaterialPageRoute(
                     builder: (BuildContext context) => EventEditingPage(eventTemplate: event,),
                 )
-                );
+                ); */
               },
                 child: Constants().eventCard(event.subject, event.icon, event.color));
           },
