@@ -74,7 +74,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
       titleController.text = event.subject;
       fromDate = event.startTime;
       toDate = event.endTime;
-      Duration durationHour = Duration(hours: event.endTime.hour - event.startTime.hour);
+      Duration durationHour = event.endTime.hour - event.startTime.hour < 0 ? Duration(hours: 24 + (event.endTime.hour - event.startTime.hour)) : Duration(hours: event.endTime.hour - event.startTime.hour);
       selectedDurationHour = durationHour;
       int durationMinute = (event.startTime.minute - event.endTime.minute).abs();
       selectedDurationMinute = durationMinute;
@@ -451,8 +451,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
 
   Widget buildTitle() => TextFormField(
-    autofocus: true,
-    showCursor: true,
+    autofocus: widget.appointment != null ? false : true,
         style: TextStyle(
             color: Constants.softColor, fontSize: 20, fontFamily: 'Segoe UI'),
         decoration:
