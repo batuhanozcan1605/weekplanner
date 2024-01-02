@@ -14,8 +14,9 @@ class Utils {
   }
 
   static DateTime roundOffMinute(DateTime dateTime) {
-    int roundedMinute = dateTime.minute < 30 ? 30 : 0;
-    final newDateTime = dateTime.subtract(Duration(minutes: dateTime.minute % 30)).add(Duration(minutes: roundedMinute));
+    int roundedMinute = dateTime.minute < 30 && dateTime.minute > 0 ? 30 : 0;
+    final newDateTime = dateTime.minute < 30 ? dateTime.subtract(Duration(minutes: dateTime.minute % 30)).add(Duration(minutes: roundedMinute)) :
+    dateTime.subtract(Duration(minutes: dateTime.minute % 30)).add(Duration(minutes: roundedMinute)).add(Duration(hours: 1));
     return DateTime(
       newDateTime.year,
       newDateTime.month,

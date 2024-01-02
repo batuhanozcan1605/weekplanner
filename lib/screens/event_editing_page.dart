@@ -13,11 +13,12 @@ import '../model/Events.dart';
 import '../model/MyAppointment.dart';
 
 class EventEditingPage extends StatefulWidget {
-  const EventEditingPage({Key? key, this.appointment, this.eventTemplate, this.iconFromEdit}) : super(key: key);
+  const EventEditingPage({Key? key, this.appointment, this.eventTemplate, this.iconFromEdit, this.cellDate}) : super(key: key);
 
   final MyAppointment? appointment;
   final Events? eventTemplate;
   final IconData? iconFromEdit;
+  final DateTime? cellDate;
 
 
   @override
@@ -64,7 +65,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
     if (widget.appointment == null) {
       isRecurrenceEnabled = false;
-      DateTime fromDateWithExactMinute = DateTime.now();
+      DateTime fromDateWithExactMinute = widget.cellDate!;
       fromDate = Utils.roundOffMinute(fromDateWithExactMinute);
       toDate = fromDate.add(Duration(hours: 2));
       currentWeekDays = _getWeekDays(DateTime.now());

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:weekplanner/constants.dart';
 import 'package:weekplanner/model/event_data_source.dart';
@@ -21,7 +22,13 @@ class _DailyViewState extends State<DailyView> {
   @override
   void initState() {
     _controller = CalendarController();
+    setDefaultCellDate();
     super.initState();
+  }
+
+  Future<void> setDefaultCellDate() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('selectedDateTime', DateTime.now().toIso8601String());
   }
 
   @override
@@ -53,7 +60,7 @@ class _DailyViewState extends State<DailyView> {
             initialSelectedDate: DateTime.now(),
             //cellBorderColor: Colors.transparent,
             appointmentBuilder: appointmentBuilder,
-            onTap: (details) {
+            onTap: (details) async {
               if(details.appointments != null) {
                 final event = details.appointments!.first;
                 final myAppointment = MyAppointment(
@@ -65,10 +72,14 @@ class _DailyViewState extends State<DailyView> {
                   recurrenceRule: event.recurrenceRule,
                   notes: event.notes,
                 );
+
               Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventViewingPage(appointment: myAppointment)));
               } else if(details.targetElement == CalendarElement.calendarCell) {
                 DateTime tappedDate = details.date!;
                 print('Tapped on cell: $tappedDate');
+                //save cell info
+                final SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.setString('selectedDateTime', tappedDate.toIso8601String());
               }
             },
             headerHeight: 0,
