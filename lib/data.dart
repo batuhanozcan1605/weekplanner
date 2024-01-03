@@ -29,7 +29,7 @@ final List<Events> eventTemplates = [
 
   Events(subject: 'Chores', icon: Icons.cleaning_services_rounded, color: Color(0xB3673AB7)),
   Events(subject: 'Shopping', icon: Icons.shopping_cart_rounded, color: Color(0xB3FFC107)),
-  Events(subject: 'Leisure Time', icon: Icons.games_rounded, color: Color(0xB3E53935),),
+  Events(subject: 'Free Time', icon: Icons.games_rounded, color: Color(0xB3E53935),),
   Events(subject: 'Walk/Exercise', icon: Icons.directions_walk_rounded, color: Color(0xB342A1E9),),
 
   Events(subject: 'Pet Care', icon: Icons.pets_rounded, color: Color(0xB3673AB7)),

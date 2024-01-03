@@ -19,13 +19,13 @@ class AppointmentProvider extends ChangeNotifier {
     return highestId;
   }
   void initializeWithAppointments(List<MyAppointment> fetchedAppointments) {
-    print("DEBUG inside provider");
+
     _appointments = fetchedAppointments;
     notifyListeners();
   }
 
   void initializeIcons(Map<int, IconData> fetchedIcons) {
-    print("DEBUG inside provider icons");
+
     _icons = fetchedIcons;
     notifyListeners();
   }
@@ -74,7 +74,7 @@ class AppointmentProvider extends ChangeNotifier {
 
   void addSelectedDaysEvents(List<MyAppointment> appointments, icon){
     for(int i=0; i < appointments.length; i++) {
-      print('DEBUG provider içi appointment: ${appointments[i]}');
+      //print('DEBUG provider içi appointment: ${appointments[i]}');
       AppointmentDao().insertAppointment(appointments[i]);
     _appointments.add(appointments[i]);
     _icons[appointments[i].id!]= icon;
@@ -82,5 +82,16 @@ class AppointmentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  List<Events> get4LatestEvents() {
+    List<Events> latestEvents = [];
+    for(int i=_appointments.length; i > _appointments.length-4 && i > 0; i--) {
+      print('provider içi latest $i');
+      final appointment = _appointments[i-1];
+      print('provider içi latest $appointment');
+      final event = Events(subject: appointment.subject, icon: appointment.icon, color: appointment.color);
+      latestEvents.add(event);
+    }
+    return latestEvents;
+  }
 
 }

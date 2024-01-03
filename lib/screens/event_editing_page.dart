@@ -172,7 +172,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                                    selectedEvent = chosenEvent;
                                    titleController.text = selectedEvent!.subject;
                                    backgroundColor = selectedEvent!.color;
-                                   icon = selectedEvent!.icon;
+                                   icon = selectedEvent!.icon as IconData;
                                  });
                               },
                               icon: Icon( Icons.add_circle, color: Constants.softColor,),

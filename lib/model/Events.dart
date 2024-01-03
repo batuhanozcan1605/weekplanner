@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class Events {
   final String subject;
-  final IconData icon;
+  final IconData? icon;
   final Color color;
 
 
