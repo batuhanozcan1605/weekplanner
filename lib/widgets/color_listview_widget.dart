@@ -15,9 +15,10 @@ class _ColorListViewState extends State<ColorListView> {
   final List<Color> colors = [
     Color(0xFF673AB7),
     Color(0xFFFFC107),
-    Color(0xFF4CAF50),
-    Color(0xFF42A1E9),
     Color(0xFFE53935),
+    Color(0xFF42A1E9),
+    Color(0xFF4CAF50),
+    Colors.pink
   ];
 
   @override

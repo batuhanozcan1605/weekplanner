@@ -104,6 +104,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
         actions: [
           IconButton(
               onPressed: (){
+                print('RecurrenceRule: $isRecurrenceEnabled');
                 if(isRecurrenceEnabled) {
                   saveWeeklyEvent();
                 }else{
@@ -438,6 +439,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
         endTime: toDate,
         icon: icon,
         color: backgroundColor,
+        recurrenceRule: widget.appointment!.recurrenceRule,
       );
       provider.editEvent(editedEvent, widget.appointment!);
 
