@@ -106,7 +106,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
               onPressed: (){
                 print('RecurrenceRule: $isRecurrenceEnabled');
                 if(isRecurrenceEnabled) {
-                  saveWeeklyEvent();
+                  saveRecurringEvent();
                 }else{
                   saveForm();
                 }
@@ -409,7 +409,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
 
 
-  Future saveWeeklyEvent() async {
+  Future saveRecurringEvent() async {
     final provider = Provider.of<AppointmentProvider>(context, listen: false);
 
 
@@ -429,8 +429,9 @@ class _EventEditingPageState extends State<EventEditingPage> {
     );
 
     final isEditing = widget.appointment != null;
-
+    print(isEditing);
     if(isEditing) {
+      final wasRecurred = widget.appointment!.recurrenceRule != null;
       final editedEvent = MyAppointment(
         id: widget.appointment!.id,
         subject: titleController.text,
@@ -439,7 +440,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
         endTime: toDate,
         icon: icon,
         color: backgroundColor,
-        recurrenceRule: widget.appointment!.recurrenceRule,
+        recurrenceRule: wasRecurred ? widget.appointment!.recurrenceRule : 'FREQ=WEEKLY;BYDAY=$days',
       );
       provider.editEvent(editedEvent, widget.appointment!);
 
