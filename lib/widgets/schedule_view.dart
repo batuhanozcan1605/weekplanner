@@ -121,10 +121,12 @@ class _ScheduleViewState extends State<ScheduleView> with SingleTickerProviderSt
                           onPressed: () {
                             setState(() {
                               tappedEventId = event.id;
-                              print('debug tappedEvent $tappedEventId');
                             });
+                            controller.reset();
                             provider.editCompletedEvent(event);
                             event.isCompleted == 1 ? controller.forward() : controller.reverse();
+
+
                           },
                         ),
                       );
