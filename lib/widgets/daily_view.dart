@@ -172,6 +172,7 @@ class _DailyViewState extends State<DailyView> {
     final icons = Provider.of<AppointmentProvider>(context).icons;
     final event = details.appointments.first;
     final halfHour = details.bounds.height < 20 ? true : false;
+    final sameTimeEvents = details.bounds.width < 179 ? true : false;
     print('${details.bounds.width}');
     print('${details.bounds.height}');
     return Container(
@@ -197,7 +198,7 @@ class _DailyViewState extends State<DailyView> {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: halfHour ? 15 : 20,
+                  fontSize: halfHour || sameTimeEvents ? 16 : 20,
                   fontFamily: 'Segoe UI',
                 ),
               ),
