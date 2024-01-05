@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:weekplanner/constants.dart';
 import 'package:weekplanner/database/DatabaseHelper.dart';
 import 'package:weekplanner/provider/appointment_provider.dart';
-import 'package:weekplanner/screens/day_screen.dart';
+import 'package:weekplanner/screens/main_screen.dart';
 import 'package:provider/provider.dart';
 import 'database/AppointmentDao.dart';
 import 'model/MyAppointment.dart';
@@ -67,23 +65,22 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> loadData() async {
 
     try {
-      print('after TRY');
+
       await DatabaseHelper.database();
-      print('after DATABASEHELPER');
+
       // Fetch data from the database
 
       List<MyAppointment> fetchedAppointments = await AppointmentDao().getAllAppointments();
 
-      print('DEBUG $fetchedAppointments');
+
       // Initialize your provider with the fetched data
       Provider.of<AppointmentProvider>(context, listen: false).initializeWithAppointments(fetchedAppointments);
       Provider.of<AppointmentProvider>(context, listen: false).initializeIcons(fetchedIcons(fetchedAppointments));
-      print('after Provider');
 
 
     } catch (error) {
       // Handle errors appropriately
-      print('Error loading data: $error');
+
       // Navigate to an error screen or retry loading
     }
 
@@ -105,7 +102,7 @@ class _SplashScreenState extends State<SplashScreen> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           // Data loading is complete, return your UI here
-          return DayScreen();
+          return MainScreen();
         } else {
           // Data is still loading, return a loading indicator
           return Scaffold(

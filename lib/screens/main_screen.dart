@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weekplanner/constants.dart';
 import 'package:weekplanner/widgets/schedule_view.dart';
 import 'package:weekplanner/widgets/week_view.dart';
@@ -7,14 +8,14 @@ import '../provider/appointment_provider.dart';
 import '../widgets/daily_view.dart';
 import 'event_editing_page.dart';
 
-class DayScreen extends StatefulWidget {
-  const DayScreen({Key? key}) : super(key: key);
+class MainScreen extends StatefulWidget {
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
-  State<DayScreen> createState() => _DayScreenState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-class _DayScreenState extends State<DayScreen> {
+class _MainScreenState extends State<MainScreen> {
   bool scheduleView = false;
   bool weekView = false;
   bool dayView = true;
@@ -85,9 +86,17 @@ class _DayScreenState extends State<DayScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Constants.themePurple,
-        onPressed: () => Navigator.of(context).push(
-          MaterialPageRoute(builder: (BuildContext context) => EventEditingPage()),
-        ),
+        onPressed: () async {
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
+          final String? selectedDateTimeString = prefs.getString('selectedDateTime');
+          if(selectedDateTimeString != null) {
+            final DateTime cellDate = DateTime.parse(selectedDateTimeString);
+            print("CELL DATE $cellDate");
+          Navigator.of(context).push(
+          MaterialPageRoute(builder: (BuildContext context) => EventEditingPage(cellDate: cellDate,)),
+        );
+          }
+        },
         child: Icon(Icons.add, color: Colors.black),
       ),
     );

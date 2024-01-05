@@ -13,11 +13,12 @@ import '../model/Events.dart';
 import '../model/MyAppointment.dart';
 
 class EventEditingPage extends StatefulWidget {
-  const EventEditingPage({Key? key, this.appointment, this.eventTemplate, this.iconFromEdit}) : super(key: key);
+  const EventEditingPage({Key? key, this.appointment, this.eventTemplate, this.iconFromEdit, this.cellDate}) : super(key: key);
 
   final MyAppointment? appointment;
   final Events? eventTemplate;
   final IconData? iconFromEdit;
+  final DateTime? cellDate;
 
 
   @override
@@ -64,7 +65,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
     if (widget.appointment == null) {
       isRecurrenceEnabled = false;
-      DateTime fromDateWithExactMinute = DateTime.now();
+      DateTime fromDateWithExactMinute = widget.cellDate!;
       fromDate = Utils.roundOffMinute(fromDateWithExactMinute);
       toDate = fromDate.add(Duration(hours: 2));
       currentWeekDays = _getWeekDays(DateTime.now());
@@ -74,7 +75,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
       titleController.text = event.subject;
       fromDate = event.startTime;
       toDate = event.endTime;
-      Duration durationHour = Duration(hours: event.endTime.hour - event.startTime.hour);
+      Duration durationHour = event.endTime.hour - event.startTime.hour < 0 ? Duration(hours: 24 + (event.endTime.hour - event.startTime.hour)) : Duration(hours: event.endTime.hour - event.startTime.hour);
       selectedDurationHour = durationHour;
       int durationMinute = (event.startTime.minute - event.endTime.minute).abs();
       selectedDurationMinute = durationMinute;
@@ -103,6 +104,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
         actions: [
           IconButton(
               onPressed: (){
+                print('RecurrenceRule: $isRecurrenceEnabled');
                 if(isRecurrenceEnabled) {
                   saveWeeklyEvent();
                 }else{
@@ -170,7 +172,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                                    selectedEvent = chosenEvent;
                                    titleController.text = selectedEvent!.subject;
                                    backgroundColor = selectedEvent!.color;
-                                   icon = selectedEvent!.icon;
+                                   icon = selectedEvent!.icon as IconData;
                                  });
                               },
                               icon: Icon( Icons.add_circle, color: Constants.softColor,),
@@ -437,6 +439,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
         endTime: toDate,
         icon: icon,
         color: backgroundColor,
+        recurrenceRule: widget.appointment!.recurrenceRule,
       );
       provider.editEvent(editedEvent, widget.appointment!);
 
@@ -451,8 +454,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
 
   Widget buildTitle() => TextFormField(
-    autofocus: true,
-    showCursor: true,
+    autofocus: widget.appointment != null ? false : true,
         style: TextStyle(
             color: Constants.softColor, fontSize: 20, fontFamily: 'Segoe UI'),
         decoration:
