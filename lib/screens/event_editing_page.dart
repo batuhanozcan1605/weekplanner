@@ -34,11 +34,15 @@ class _EventEditingPageState extends State<EventEditingPage> {
   late DateTime toDate;
   Color backgroundColor = Colors.deepPurple;
   bool isChecked = false;
+  bool isCheckedNextWeek = false;
   late bool isEditing;
   late bool isRecurrenceEnabled;
+  bool daysThisWeek = true;
   IconData icon = Icons.square_rounded;
   List<bool> selectedDays = [false, false, false, false, false, false, false];
+  List<bool> selectedNextWeekDays = [false, false, false, false, false, false, false];
   List<DateTime> currentWeekDays = [];
+  List<DateTime> nextWeekDays = [];
   List<DateTime> selectedDateObjects = [];
   Duration? selectedDurationHour = Duration(hours: 2);
   int selectedDurationMinute = 0;
@@ -69,6 +73,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
       fromDate = Utils.roundOffMinute(fromDateWithExactMinute);
       toDate = fromDate.add(Duration(hours: 2));
       currentWeekDays = _getWeekDays(DateTime.now());
+      nextWeekDays = _getNextWeekDays(DateTime.now());
     } else {
       final event = widget.appointment!;
 
@@ -83,6 +88,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
       backgroundColor = widget.appointment!.color;
       icon = widget.iconFromEdit!;
       currentWeekDays = _getWeekDays(DateTime.now());
+      nextWeekDays = _getNextWeekDays(DateTime.now());
     }
   }
 
@@ -297,11 +303,18 @@ class _EventEditingPageState extends State<EventEditingPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Days - This Week", style: TextStyle(
+                          Text(daysThisWeek ? "Days - This Week" : "Days - Next Week", style: TextStyle(
                               color: Constants.softColor,
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Segoe UI'),),
+                         IconButton(
+                             onPressed: () {
+                               setState(() {
+                                 daysThisWeek = !daysThisWeek;
+                               });
+                             },
+                             icon: daysThisWeek ? Icon(Icons.arrow_forward_ios_rounded) : Icon(Icons.arrow_back_ios_new_rounded)),
                         myCheckBox(),
                         ],
                       ),
@@ -324,15 +337,45 @@ class _EventEditingPageState extends State<EventEditingPage> {
   Widget myCheckBox() => Row(
     children: [
       Text('Everyday'),
-      Checkbox(
+      daysThisWeek ? Checkbox(
         activeColor: Colors.deepPurple,
         checkColor: Constants.softColor,
         value: isChecked,
         onChanged: (value) {
           setState(() {
-            isChecked = value!;
-            isChecked ? selectedDays.fillRange(0, selectedDays.length, true) : selectedDays.fillRange(0, selectedDays.length, false);
-            isChecked ? selectedDateObjects = List.from(currentWeekDays) : selectedDateObjects = [];
+            if(daysThisWeek) {
+              isChecked = value!;
+              isChecked
+                  ? selectedDays.fillRange(0, selectedDays.length, true)
+                  : selectedDays.fillRange(0, selectedDays.length, false);
+              isChecked
+                  ? selectedDateObjects = List.from(currentWeekDays)
+                  : selectedDateObjects = [];
+            }else{
+              isChecked = value!;
+              isChecked
+                  ? selectedNextWeekDays.fillRange(0, selectedNextWeekDays.length, true)
+                  : selectedNextWeekDays.fillRange(0, selectedNextWeekDays.length, false);
+              isChecked
+                  ? selectedDateObjects = List.from(nextWeekDays)
+                  : selectedDateObjects = [];
+            }
+          });
+        },
+      ) : Checkbox(
+        activeColor: Colors.deepPurple,
+        checkColor: Constants.softColor,
+        value: isCheckedNextWeek,
+        onChanged: (value) {
+          setState(() {
+
+            isCheckedNextWeek = value!;
+            isCheckedNextWeek
+                ? selectedNextWeekDays.fillRange(0, selectedNextWeekDays.length, true)
+                : selectedNextWeekDays.fillRange(0, selectedNextWeekDays.length, false);
+            isCheckedNextWeek
+                ? selectedDateObjects = List.from(nextWeekDays)
+                : selectedDateObjects = [];
 
           });
         },
@@ -706,15 +749,21 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
   Widget dayPicker() => SizedBox(
       height: 40,
-      child: ListView(
+      child: daysThisWeek ? ListView(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
         scrollDirection: Axis.horizontal,
         children: List.generate(7, (index) {
           return InkWell(
             onTap: () {
               setState(() {
-                selectedDays[index] = !selectedDays[index];
-                selectedDays[index] ? selectedDateObjects.add(currentWeekDays[index]) : selectedDateObjects.remove(currentWeekDays[index]);
-                selectedDateObjects.length == 7 ? isChecked = true  : isChecked = false;
+                  selectedDays[index] = !selectedDays[index];
+                  selectedDays[index] ? selectedDateObjects.add(
+                      currentWeekDays[index]) : selectedDateObjects.remove(
+                      currentWeekDays[index]);
+                  selectedDateObjects.length == 7
+                      ? isChecked = true
+                      : isChecked = false;
               });
             },
             child: Padding(
@@ -724,6 +773,45 @@ class _EventEditingPageState extends State<EventEditingPage> {
                 width: 40,
                 decoration: BoxDecoration(
                   color: selectedDays[index] ? Colors.deepPurple : Colors.grey,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Center(
+                  child: Text(
+                    _getDayAbbreviation(index),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        }),
+      ): ListView(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        children: List.generate(7, (index) {
+          return InkWell(
+            onTap: () {
+              setState(() {
+                selectedNextWeekDays[index] = !selectedNextWeekDays[index];
+                selectedNextWeekDays[index] ? selectedDateObjects.add(
+                    nextWeekDays[index]) : selectedDateObjects.remove(
+                    nextWeekDays[index]);
+                selectedDateObjects.length == 7
+                    ? isChecked = true
+                    : isChecked = false;
+              });
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: Container(
+                height: 40,
+                width: 40,
+                decoration: BoxDecoration(
+                  color: selectedNextWeekDays[index] ? Colors.deepPurple : Colors.grey,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Center(
@@ -753,6 +841,16 @@ class _EventEditingPageState extends State<EventEditingPage> {
         Duration(days: currentDate.weekday-1));
     List<DateTime> weekDays = List.generate(
         7, (index) => firstDayOfWeek.add(Duration(days: index)));
+
+    return weekDays;
+  }
+
+  List<DateTime> _getNextWeekDays(DateTime currentDate) {
+// Find the first day of the current week (assuming Monday is the start of the week)
+    DateTime firstDayOfNextWeek = currentDate.add(const Duration(days: 7)).subtract(
+        Duration(days: currentDate.weekday-1));
+    List<DateTime> weekDays = List.generate(
+        7, (index) => firstDayOfNextWeek.add(Duration(days: index)));
 
     return weekDays;
   }
