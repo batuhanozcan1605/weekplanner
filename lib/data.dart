@@ -11,6 +11,7 @@ final List<Color> colors = [
   Color(0xB3E53935),
 ];
 
+
 final List<Events> eventTemplates = [
   Events(subject: 'Work', icon: Icons.work, color: Color(0xB3673AB7)),
   Events(subject: 'Breakfast', icon: Icons.free_breakfast_rounded, color: Color(0xB3FFC107)),
@@ -32,11 +33,15 @@ final List<Events> eventTemplates = [
   Events(subject: 'Free Time', icon: Icons.games_rounded, color: Color(0xB3E53935),),
   Events(subject: 'Walk/Exercise', icon: Icons.directions_walk_rounded, color: Color(0xB342A1E9),),
 
+  Events(subject: 'Study', icon: Icons.book_rounded, color: Color(0xB3673AB7)),
+  Events(subject: 'Cook', icon: Icons.soup_kitchen, color: Color(0xB3FFC107)),
+  Events(subject: 'Date', icon: Icons.wine_bar_rounded, color: Color(0xB3E53935)),
+  Events(subject: 'Sports', icon: Icons.sports_baseball, color: Color(0xB342A1E9)),
+
   Events(subject: 'Pet Care', icon: Icons.pets_rounded, color: Color(0xB3673AB7)),
   Events(subject: 'Movie/TV', icon: Icons.theaters_rounded, color: Color(0xB3FFC107)),
   Events(subject: 'Party', icon: Icons.nightlife_rounded, color: Color(0xB3E53935),),
   Events(subject: 'Self-Care', icon: Icons.spa_outlined, color: Color(0xB342A1E9),),
-
 ];
 
 }

@@ -55,6 +55,7 @@ class ChooseEvent extends StatelessWidget {
               padding: const EdgeInsets.all(18.0),
               child: Divider(),
             ),
+
             GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
