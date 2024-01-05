@@ -297,7 +297,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Days", style: TextStyle(
+                          Text("Days - This Week", style: TextStyle(
                               color: Constants.softColor,
                               fontSize: 18,
                               fontWeight: FontWeight.bold,

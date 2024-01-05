@@ -88,7 +88,7 @@ class _DailyViewState extends State<DailyView> {
       ],
     );
   }
-//selectedDay.day == day.day ?
+
   Widget dayListView() {
     return Padding(
       padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 5.0),
@@ -136,7 +136,15 @@ class _DailyViewState extends State<DailyView> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      selectedDay.day == day.day ? CircleAvatar(backgroundColor: Constants.themePurple, radius: 5,) : Center(),
+                      AnimatedContainer(
+                        duration: Duration(milliseconds: 500),
+                        width: selectedDay.day == day.day ? 10:0,
+                        height: selectedDay.day == day.day ? 10:0,
+                        child: CircleAvatar(
+                          backgroundColor: Constants.themePurple,
+                          //radius: 5,
+                        ),
+                      ),
                     ],
                   )
                 ),
