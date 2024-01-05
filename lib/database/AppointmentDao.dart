@@ -6,6 +6,11 @@ import '../model/MyAppointment.dart';
 
 class AppointmentDao {
 
+  Future<void> updateIsCompleted(MyAppointment appointment) async {
+    MyAppointment myAppointment = appointment;
+    myAppointment.isCompleted = myAppointment.isCompleted == 1 ? 0 : 1;
+    updateAppointment(myAppointment);
+  }
 
   // Example method: Insert appointment
     Future<void> insertAppointment(MyAppointment appointment) async {
@@ -47,6 +52,7 @@ class AppointmentDao {
         color: Color(maps[i]['color']),
         icon: IconData(maps[i]['icon'], fontFamily: 'MaterialIcons'),
         recurrenceRule: maps[i]['recurrenceRule'],
+        isCompleted: maps[i]['isCompleted']
       );
     });
   }

@@ -19,7 +19,8 @@ class DatabaseHelper {
             notes TEXT,
             color INTEGER,
             icon INTEGER,
-            recurrenceRule TEXT
+            recurrenceRule TEXT,
+            isCompleted INTEGER DEFAULT 0
         )"""
             );
       },

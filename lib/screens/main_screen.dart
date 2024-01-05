@@ -38,7 +38,7 @@ class _MainScreenState extends State<MainScreen> {
                     children: [
                       Icon(Icons.view_timeline, color: scheduleView == true ? Constants.themePurple : Colors.white),
                       const SizedBox(height: 10,),
-                      Text('SCHEDULE', style: TextStyle(color: scheduleView == true ? Constants.themePurple : Colors.white),),
+                      Text('TO DO', style: TextStyle(color: scheduleView == true ? Constants.themePurple : Colors.white),),
                     ],
                   ),
                 ),

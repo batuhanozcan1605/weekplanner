@@ -6,9 +6,30 @@ import '../model/MyAppointment.dart';
 import '../model/event_data_source.dart';
 import '../provider/appointment_provider.dart';
 import '../screens/event_viewing_page.dart';
+import 'dart:math';
 
-class ScheduleView extends StatelessWidget {
+class ScheduleView extends StatefulWidget {
   const ScheduleView({Key? key}) : super(key: key);
+
+  @override
+  State<ScheduleView> createState() => _ScheduleViewState();
+}
+
+class _ScheduleViewState extends State<ScheduleView> with SingleTickerProviderStateMixin {
+  late AnimationController controller;
+  int tappedEventId = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 600));
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +41,7 @@ class ScheduleView extends StatelessWidget {
       scheduleViewSettings: ScheduleViewSettings(
           hideEmptyScheduleWeek: true,
           monthHeaderSettings: MonthHeaderSettings(backgroundColor: Constants.themePurple,
-              monthTextStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.w500))),
+              monthTextStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.w500))),
       dataSource: EventDataSource(events),
       initialSelectedDate: DateTime.now(),
       //cellBorderColor: Colors.transparent,
@@ -44,18 +65,21 @@ class ScheduleView extends StatelessWidget {
     );
 
   }
+
   Widget appointmentBuilder(
       BuildContext context,
       CalendarAppointmentDetails details,
       ) {
+    final provider = Provider.of<AppointmentProvider>(context, listen: false);
     final icons = Provider.of<AppointmentProvider>(context).icons;
     final event = details.appointments.first;
     print('Appointment Details: $event');
+
     return Container(
       width: details.bounds.width,
       height: details.bounds.height,
       decoration: BoxDecoration(
-        color: event.color.withOpacity(0.7),
+        color: event.isCompleted == 1 ? Colors.grey : event.color.withOpacity(0.7),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Center(
@@ -72,11 +96,40 @@ class ScheduleView extends StatelessWidget {
                 event.subject,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
+                style: TextStyle(
+                  decoration: event.isCompleted == 1 ? TextDecoration.lineThrough : TextDecoration.none,
+                  decorationThickness: 3.0,
                   color: Colors.white,
                   fontSize: 20,
                   fontFamily: 'Segoe UI',
                 ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 9.0),
+              child: Align(
+                  alignment: Alignment.centerRight,
+                  child: AnimatedBuilder(
+                    animation: controller, // Assuming you have an AnimationController
+                    builder: (context, child) {
+                      return Transform.rotate(
+                        angle: tappedEventId == event.id ? controller.value * (event.isCompleted == 1 ? 2*pi : 2*pi) : controller.value * 0, // Rotate based on isCompleted
+                        child: IconButton(
+                          icon: event.isCompleted == 1
+                              ? Icon(Icons.check_circle_rounded, color: Colors.white)
+                              : Icon(Icons.check_circle_outline_rounded, color: Colors.white),
+                          onPressed: () {
+                            setState(() {
+                              tappedEventId = event.id;
+                              print('debug tappedEvent $tappedEventId');
+                            });
+                            provider.editCompletedEvent(event);
+                            event.isCompleted == 1 ? controller.forward() : controller.reverse();
+                          },
+                        ),
+                      );
+                    },
+                  ),
               ),
             ),
           ],

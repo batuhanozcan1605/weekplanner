@@ -72,6 +72,15 @@ class AppointmentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void editCompletedEvent(MyAppointment event) {
+
+      AppointmentDao().updateIsCompleted(event);
+      final index = _appointments.indexOf(event);
+      _appointments[index] = event;
+
+    notifyListeners();
+  }
+
   void addSelectedDaysEvents(List<MyAppointment> appointments, icon){
     for(int i=0; i < appointments.length; i++) {
       //print('DEBUG provider içi appointment: ${appointments[i]}');
