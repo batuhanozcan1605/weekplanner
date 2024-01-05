@@ -20,7 +20,7 @@ class ScheduleView extends StatelessWidget {
       scheduleViewSettings: ScheduleViewSettings(
           hideEmptyScheduleWeek: true,
           monthHeaderSettings: MonthHeaderSettings(backgroundColor: Constants.themePurple,
-              monthTextStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold))),
+              monthTextStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.w500))),
       dataSource: EventDataSource(events),
       initialSelectedDate: DateTime.now(),
       //cellBorderColor: Colors.transparent,

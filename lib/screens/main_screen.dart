@@ -17,8 +17,8 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   bool scheduleView = false;
-  bool weekView = false;
-  bool dayView = true;
+  bool weekView = true;
+  bool dayView = false;
 
   @override
   Widget build(BuildContext context) {
