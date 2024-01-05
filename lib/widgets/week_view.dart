@@ -45,7 +45,7 @@ class WeekView extends StatelessWidget {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventViewingPage(appointment: myAppointment)));
         } else if(details.targetElement == CalendarElement.calendarCell) {
           DateTime tappedDate = details.date!;
-          print('Tapped on cell: $tappedDate');
+
           //save cell info
           final SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('selectedDateTime', tappedDate.toIso8601String());
@@ -61,8 +61,7 @@ class WeekView extends StatelessWidget {
       ) {
     final icons = Provider.of<AppointmentProvider>(context).icons;
     final event = details.appointments.first;
-    print('${details.bounds.width}');
-    print('${details.bounds.height}');
+
     return Container(
       width: details.bounds.width,
       height: details.bounds.height,
