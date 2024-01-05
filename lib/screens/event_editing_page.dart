@@ -143,27 +143,29 @@ class _EventEditingPageState extends State<EventEditingPage> {
                 children: [
                   Expanded(
                     flex: 9,
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 16.0),
-                          child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 8.0),
-                                  child: Icon(selectedEvent == null ? icon : selectedEvent!.icon, color: Constants.softColor,),
-                                ),
-                                Expanded(child: buildTitle()),
-                              ]
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 16.0),
+                            child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 8.0),
+                                    child: Icon(selectedEvent == null ? icon : selectedEvent!.icon, color: Constants.softColor,),
+                                  ),
+                                  Expanded(child: buildTitle()),
+                                ]
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: 16.0,
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 16.0,
+                            ),
+                            child: buildDetailInput(),
                           ),
-                          child: buildDetailInput(),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   Expanded(
@@ -510,6 +512,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
       );
 
   Widget buildDetailInput() => TextFormField(
+    maxLines: 2,
         style: TextStyle(
             color: Constants.softColor, fontSize: 14, fontFamily: 'Segoe UI'),
         decoration:
