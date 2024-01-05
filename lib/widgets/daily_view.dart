@@ -88,7 +88,7 @@ class _DailyViewState extends State<DailyView> {
       ],
     );
   }
-
+//selectedDay.day == day.day ?
   Widget dayListView() {
     return Padding(
       padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 5.0),
@@ -111,37 +111,34 @@ class _DailyViewState extends State<DailyView> {
                 padding: const EdgeInsets.symmetric(horizontal: 7),
                 child: Container(
                   width: 42,
-                  decoration: selectedDay.day == day.day ? BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                          color: Constants.themePurple,
-                          width: 1
-                      )
-                  ) :  BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                          color: Colors.black,
-                          width: 1
-                      )
-                  ),
+                  decoration: BoxDecoration(
+                  color: Colors.black,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+            color: Colors.black,
+            width: 1
+            ),),
                   alignment: Alignment.center,
                    // Customize the color as needed
-                  child: day.day == DateTime.now().day ? Text(
-                    'Today',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Constants.themePurple,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ) : Text(
-                     '${day.day}',
-                    style: TextStyle(
-                      color: Constants.themePurple,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  child: Column(
+                    children: [
+                      day.day == DateTime.now().day ? Text(
+                        'Today',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Constants.themePurple,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ) : Text(
+                        '${day.day}',
+                        style: TextStyle(
+                          color: Constants.themePurple,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      selectedDay.day == day.day ? CircleAvatar(backgroundColor: Constants.themePurple, radius: 5,) : Center(),
+                    ],
+                  )
                 ),
               ),
             );
