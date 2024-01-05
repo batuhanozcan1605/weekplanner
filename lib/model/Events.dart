@@ -12,4 +12,17 @@ class Events {
       required this.icon,
       required this.color,
       });
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is Events &&
+              runtimeType == other.runtimeType &&
+              subject == other.subject &&
+              icon == other.icon &&
+              color == other.color;
+
+  @override
+  int get hashCode => subject.hashCode ^ icon.hashCode ^ color.hashCode;
 }
+

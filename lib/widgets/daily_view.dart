@@ -122,27 +122,36 @@ class _DailyViewState extends State<DailyView> {
                    // Customize the color as needed
                   child: Column(
                     children: [
-                      day.day == DateTime.now().day ? Text(
-                        'Today',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Constants.themePurple,
-                          fontWeight: FontWeight.bold,
+                      day.day == DateTime.now().day ? Flexible(
+                        flex: 1,
+                        child: Text(
+                          'Today',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Constants.themePurple,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ) : Text(
-                        '${day.day}',
-                        style: TextStyle(
-                          color: Constants.themePurple,
-                          fontWeight: FontWeight.bold,
+                      ) : Flexible(
+                        flex: 1,
+                        child: Text(
+                          '${day.day}',
+                          style: TextStyle(
+                            color: Constants.themePurple,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                      AnimatedContainer(
-                        duration: Duration(milliseconds: 500),
-                        width: selectedDay.day == day.day ? 10:0,
-                        height: selectedDay.day == day.day ? 10:0,
-                        child: CircleAvatar(
-                          backgroundColor: Constants.themePurple,
-                          //radius: 5,
+                      Flexible(
+                        flex: 1,
+                        child: AnimatedContainer(
+                          duration: Duration(milliseconds: 500),
+                          width: selectedDay.day == day.day ? 10:0,
+                          height: selectedDay.day == day.day ? 10:0,
+                          child: CircleAvatar(
+                            backgroundColor: Constants.themePurple,
+                            //radius: 5,
+                          ),
                         ),
                       ),
                     ],
