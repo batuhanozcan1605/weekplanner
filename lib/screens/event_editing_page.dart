@@ -284,7 +284,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10.0),
                       child: ListTile(
-                        title: Text('Repeat Each Week'),
+                        title: Text('Repeat Each Week', style: TextStyle(fontWeight: FontWeight.bold, color: Constants.themePurple),),
                         trailing: Switch(
                           value: isRecurrenceEnabled,
                           onChanged: (value) {

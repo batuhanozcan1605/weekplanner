@@ -9,7 +9,7 @@ class DatabaseHelper2 {
     return await openDatabase(
       join(dbPath, 'uniqueId.db'),
       onCreate: (db, version){
-        db.execute("""CREATE TABLE another_table (
+        db.execute("""CREATE TABLE uniqueId (
             id INTEGER PRIMARY KEY,
             uniqueId TEXT
         )"""

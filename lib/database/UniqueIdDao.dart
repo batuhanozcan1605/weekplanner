@@ -7,11 +7,12 @@ class UniqueIdDao {
 
   Future<void> insertData(String uniqueId) async {
     final db = await DatabaseHelper2.database();
+    print('debugg $uniqueId');
     await db.insert(
-      'uniqueId.db',
+      'uniqueId',
       {'uniqueId': uniqueId},
-      conflictAlgorithm: ConflictAlgorithm.replace,
     );
+    print('debugg $uniqueId');
   }
 
   Future<void> deleteAppointment(String uniqueId) async {
@@ -24,8 +25,8 @@ class UniqueIdDao {
   }
 
   Future<List<String>> getAllUniqueIds() async {
-    final database = await DatabaseHelper.database();
-    final List<Map<String, dynamic>> maps = await database.query('appointments');
+    final database = await DatabaseHelper2.database();
+    final List<Map<String, dynamic>> maps = await database.query('uniqueId');
     return List.generate(maps.length, (i) {
       return maps[i]['uniqueId'] as String;
     });
