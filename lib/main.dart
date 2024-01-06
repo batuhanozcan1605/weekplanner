@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:weekplanner/constants.dart';
 import 'package:weekplanner/database/DatabaseHelper.dart';
+import 'package:weekplanner/database/DatabaseHelper2.dart';
+import 'package:weekplanner/database/UniqueIdDao.dart';
+import 'package:weekplanner/model/UniqueId.dart';
 import 'package:weekplanner/provider/appointment_provider.dart';
 import 'package:weekplanner/screens/main_screen.dart';
 import 'package:provider/provider.dart';
@@ -67,17 +70,19 @@ class _SplashScreenState extends State<SplashScreen> {
     try {
 
       await DatabaseHelper.database();
+      await DatabaseHelper2.database();
 
       // Fetch data from the database
 
       List<MyAppointment> fetchedAppointments = await AppointmentDao().getAllAppointments();
+      List<String> fetchedUniqueIds = await UniqueIdDao().getAllUniqueIds();
 
-
+      final provider = Provider.of<AppointmentProvider>(context, listen: false);
       // Initialize your provider with the fetched data
-      Provider.of<AppointmentProvider>(context, listen: false).initializeWithAppointments(fetchedAppointments);
-      Provider.of<AppointmentProvider>(context, listen: false).initializeIcons(fetchedIcons(fetchedAppointments));
-      Provider.of<AppointmentProvider>(context, listen: false).initializeIsCompleted(fetchedIsCompleted(fetchedAppointments));
-
+      provider.initializeWithAppointments(fetchedAppointments);
+      provider.initializeIcons(fetchedIcons(fetchedAppointments));
+      provider.initializeIsCompleted(fetchedIsCompleted(fetchedAppointments));
+      provider.initializeUniqueIds(fetchedUniqueIds);
 
     } catch (error) {
       // Handle errors appropriately

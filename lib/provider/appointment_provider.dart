@@ -1,18 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:weekplanner/database/UniqueIdDao.dart';
 import '../database/AppointmentDao.dart';
 import '../database/DatabaseHelper.dart';
 import '../model/Events.dart';
 import '../model/MyAppointment.dart';
+import '../model/UniqueId.dart';
 
 class AppointmentProvider extends ChangeNotifier {
   List<MyAppointment> _appointments = [];
   Map<int, IconData> _icons = {};
   Map<int, int> _isCompleted = {};
+  List<String> _uniqueIds = [];
 
   List<MyAppointment> get events => _appointments;
   Map<int, IconData> get icons => _icons;
   Map<int, int> get isCompleted => _isCompleted;
+  List<String> get uniqueIds => _uniqueIds;
 
   int getHighestId() {
     var highestId = _appointments.isNotEmpty
@@ -37,11 +41,23 @@ class AppointmentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void initializeUniqueIds(List<String> fetchedUniqueIds) {
+    _uniqueIds = fetchedUniqueIds;
+    notifyListeners();
+  }
+
   void addEvent(MyAppointment appointment, IconData icon) {
     _appointments.add(appointment);
     _icons[appointment.id!]= icon;
     AppointmentDao().insertAppointment(appointment);
 
+
+    notifyListeners();
+  }
+
+  void addUniqueId(String uniqueId) {
+    UniqueIdDao().insertData(uniqueId);
+    _uniqueIds.add(uniqueId);
 
     notifyListeners();
   }
@@ -56,6 +72,13 @@ class AppointmentProvider extends ChangeNotifier {
       // Handle non-recurring appointment deletion
       _appointments.remove(appointment);
     }
+
+    notifyListeners();
+  }
+
+  void deleteUniqueIds(String uniqueId) {
+    UniqueIdDao().deleteAppointment(uniqueId);
+    _uniqueIds.remove(uniqueId);
 
     notifyListeners();
   }
@@ -110,5 +133,6 @@ class AppointmentProvider extends ChangeNotifier {
     latestEvents = latestEventSet.toList();
     return latestEvents;
   }
+
 
 }
