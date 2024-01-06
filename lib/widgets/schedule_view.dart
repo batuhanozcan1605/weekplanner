@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import '../constants.dart';
 import '../model/MyAppointment.dart';
@@ -23,6 +24,7 @@ class _ScheduleViewState extends State<ScheduleView> with SingleTickerProviderSt
   void initState() {
     super.initState();
     controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 600));
+
   }
 
   @override
@@ -75,6 +77,7 @@ class _ScheduleViewState extends State<ScheduleView> with SingleTickerProviderSt
     final isCompleted = Provider.of<AppointmentProvider>(context).isCompleted;
     final icons = Provider.of<AppointmentProvider>(context).icons;
     final event = details.appointments.first;
+
     //print('Appointment Details: $event');
 
     return Container(
@@ -120,30 +123,21 @@ class _ScheduleViewState extends State<ScheduleView> with SingleTickerProviderSt
                           icon: isCompleted[event.id] == 1
                               ? Icon(Icons.check_circle_rounded, color: Colors.white)
                               : Icon(Icons.check_circle_outline_rounded, color: Colors.white),
-                          onPressed: () {
+                          onPressed: () async {
                             //print(event.isCompleted);
                             setState(() {
                               tappedEventId = event.id;
                             });
-                            print(isCompleted[event.id]);
+
                             controller.reset();
                             if(event.recurrenceRule == null) {
                               provider.editCompletedEvent(event);
                               isCompleted[event.id] == 1
                                   ? controller.forward()
                                   : controller.reverse();
-                            }else{
-                              final myAppointment = MyAppointment(
-                                id: event.id,
-                                  startTime: event.startTime,
-                                  endTime: event.endTime,
-                                  subject: event.subject,
-                                  notes: event.notes,
-                                  color: event.color,
-                                  icon: icons[event.id],
-                                  recurrenceRule: event.recurrenceRule,
-                                  isCompleted: isCompleted[event.id]);
-                              provider.editCompletedEvent(myAppointment);
+                            }else {
+                              await updateCompletionStatus('${event.id}-${event.startTime.toIso8601String()}', true);
+
                             }
                           },
                         ),
@@ -159,4 +153,14 @@ class _ScheduleViewState extends State<ScheduleView> with SingleTickerProviderSt
 
 
   }
+}
+
+
+Future<void> updateCompletionStatus(String occurrenceId, bool isCompleted) async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setBool(occurrenceId, isCompleted);
+}
+
+String getOccurrenceId(String eventId, DateTime occurrenceDateTime) {
+  return '$eventId-${occurrenceDateTime.toIso8601String()}';
 }

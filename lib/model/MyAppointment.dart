@@ -9,7 +9,6 @@ class MyAppointment extends Appointment {
   final IconData? icon;
   var isCompleted;
 
-
   MyAppointment({
     this.id,
     required super.startTime,
@@ -51,4 +50,5 @@ class MyAppointment extends Appointment {
       isCompleted: map['isCompleted']
     );
   }
+
 }

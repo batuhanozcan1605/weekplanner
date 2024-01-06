@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weekplanner/constants.dart';
 import 'package:weekplanner/database/DatabaseHelper.dart';
 import 'package:weekplanner/provider/appointment_provider.dart';
@@ -86,6 +87,12 @@ class _SplashScreenState extends State<SplashScreen> {
     }
 
   }
+
+  Future<bool?> getCompletionStatus(String occurrenceId) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(occurrenceId);
+  }
+
 
   Map<int, IconData> fetchedIcons(List<MyAppointment> fetchedAppointments) {
     Map<int, IconData> map = {};
