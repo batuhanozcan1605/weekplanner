@@ -19,7 +19,7 @@ class MyAppointment extends Appointment {
     required super.color,
     this.icon,
     this.recurrenceRule,
-    this.isCompleted
+    required this.isCompleted
   });
 
   // Convert to Map for database operations

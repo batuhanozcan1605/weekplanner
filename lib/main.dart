@@ -76,11 +76,12 @@ class _SplashScreenState extends State<SplashScreen> {
       // Initialize your provider with the fetched data
       Provider.of<AppointmentProvider>(context, listen: false).initializeWithAppointments(fetchedAppointments);
       Provider.of<AppointmentProvider>(context, listen: false).initializeIcons(fetchedIcons(fetchedAppointments));
+      Provider.of<AppointmentProvider>(context, listen: false).initializeIsCompleted(fetchedIsCompleted(fetchedAppointments));
 
 
     } catch (error) {
       // Handle errors appropriately
-
+      print("ERROR: $error");
       // Navigate to an error screen or retry loading
     }
 
@@ -90,10 +91,18 @@ class _SplashScreenState extends State<SplashScreen> {
     Map<int, IconData> map = {};
     for(var i = 0; i < fetchedAppointments.length; i++) {
         map[fetchedAppointments[i].id!] = fetchedAppointments[i].icon!;
-        print(i);
     }
     return map;
   }
+
+  Map<int, int> fetchedIsCompleted(List<MyAppointment> fetchedAppointments) {
+    Map<int, int> map = {};
+    for(var i = 0; i < fetchedAppointments.length; i++) {
+      map[fetchedAppointments[i].id!] = fetchedAppointments[i].isCompleted!;
+    }
+    return map;
+  }
+
 
   @override
   Widget build(BuildContext context) {

@@ -71,6 +71,7 @@ class _DailyViewState extends State<DailyView> {
                   color: event.color,
                   recurrenceRule: event.recurrenceRule,
                   notes: event.notes,
+                  isCompleted: event.isCompleted,
                 );
 
               Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventViewingPage(appointment: myAppointment)));

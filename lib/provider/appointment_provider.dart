@@ -8,9 +8,11 @@ import '../model/MyAppointment.dart';
 class AppointmentProvider extends ChangeNotifier {
   List<MyAppointment> _appointments = [];
   Map<int, IconData> _icons = {};
+  Map<int, int> _isCompleted = {};
 
   List<MyAppointment> get events => _appointments;
   Map<int, IconData> get icons => _icons;
+  Map<int, int> get isCompleted => _isCompleted;
 
   int getHighestId() {
     var highestId = _appointments.isNotEmpty
@@ -30,6 +32,10 @@ class AppointmentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void initializeIsCompleted(Map<int, int> fetchedIsCompleted) {
+    _isCompleted = fetchedIsCompleted;
+    notifyListeners();
+  }
 
   void addEvent(MyAppointment appointment, IconData icon) {
     _appointments.add(appointment);
@@ -75,8 +81,7 @@ class AppointmentProvider extends ChangeNotifier {
   void editCompletedEvent(MyAppointment event) {
 
       AppointmentDao().updateIsCompleted(event);
-      final index = _appointments.indexOf(event);
-      _appointments[index] = event;
+      _isCompleted[event.id!] = event.isCompleted;
 
     notifyListeners();
   }

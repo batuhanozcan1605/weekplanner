@@ -57,6 +57,7 @@ class _ScheduleViewState extends State<ScheduleView> with SingleTickerProviderSt
           color: event.color,
           recurrenceRule: event.recurrenceRule,
           notes: event.notes,
+          isCompleted: event.isCompleted,
         );
         print('DEBUG ${event.subject}');
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventViewingPage(appointment: myAppointment)));
@@ -71,15 +72,16 @@ class _ScheduleViewState extends State<ScheduleView> with SingleTickerProviderSt
       CalendarAppointmentDetails details,
       ) {
     final provider = Provider.of<AppointmentProvider>(context, listen: false);
+    final isCompleted = Provider.of<AppointmentProvider>(context).isCompleted;
     final icons = Provider.of<AppointmentProvider>(context).icons;
     final event = details.appointments.first;
-    print('Appointment Details: $event');
+    //print('Appointment Details: $event');
 
     return Container(
       width: details.bounds.width,
       height: details.bounds.height,
       decoration: BoxDecoration(
-        color: event.isCompleted == 1 ? Colors.grey : event.color.withOpacity(0.7),
+        color: isCompleted[event.id] == 1 ? Colors.grey : event.color.withOpacity(0.7),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Center(
@@ -97,7 +99,7 @@ class _ScheduleViewState extends State<ScheduleView> with SingleTickerProviderSt
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  decoration: event.isCompleted == 1 ? TextDecoration.lineThrough : TextDecoration.none,
+                  decoration: isCompleted[event.id] == 1 ? TextDecoration.lineThrough : TextDecoration.none,
                   decorationThickness: 3.0,
                   color: Colors.white,
                   fontSize: 20,
@@ -113,19 +115,20 @@ class _ScheduleViewState extends State<ScheduleView> with SingleTickerProviderSt
                     animation: controller, // Assuming you have an AnimationController
                     builder: (context, child) {
                       return Transform.rotate(
-                        angle: tappedEventId == event.id ? controller.value * (event.isCompleted == 1 ? 2*pi : 2*pi) : controller.value * 0, // Rotate based on isCompleted
+                        angle: tappedEventId == event.id ? controller.value * (isCompleted[event.id]  == 1 ? 2*pi : 2*pi) : controller.value * 0, // Rotate based on isCompleted
                         child: IconButton(
-                          icon: event.isCompleted == 1
+                          icon: isCompleted[event.id] == 1
                               ? Icon(Icons.check_circle_rounded, color: Colors.white)
                               : Icon(Icons.check_circle_outline_rounded, color: Colors.white),
                           onPressed: () {
+                            //print(event.isCompleted);
                             setState(() {
                               tappedEventId = event.id;
                             });
+                            print(isCompleted[event.id]);
                             controller.reset();
                             provider.editCompletedEvent(event);
-                            event.isCompleted == 1 ? controller.forward() : controller.reverse();
-
+                            isCompleted[event.id] == 1 ? controller.forward() : controller.reverse();
 
                           },
                         ),

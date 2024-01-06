@@ -402,6 +402,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
           endTime: toDate,
           icon: icon,
           color: backgroundColor,
+          isCompleted: 0,
         );
 
         createdAppointments.add(event);
@@ -429,6 +430,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
       endTime: toDate,
       icon: icon,
       color: backgroundColor,
+      isCompleted: 0,
     );
 
     if(isEditing) {
@@ -440,6 +442,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
         endTime: toDate,
         icon: icon,
         color: backgroundColor,
+        isCompleted: 0,
       );
       provider.editEvent(editedEvent, widget.appointment!);
       Navigator.pop(context);
@@ -471,6 +474,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
       color: backgroundColor,
       icon: icon,
       recurrenceRule: 'FREQ=WEEKLY;BYDAY=$days',
+      isCompleted: 0,
     );
 
     final isEditing = widget.appointment != null;
@@ -486,6 +490,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
         icon: icon,
         color: backgroundColor,
         recurrenceRule: wasRecurred ? widget.appointment!.recurrenceRule : 'FREQ=WEEKLY;BYDAY=$days',
+        isCompleted: 0,
       );
       provider.editEvent(editedEvent, widget.appointment!);
 
