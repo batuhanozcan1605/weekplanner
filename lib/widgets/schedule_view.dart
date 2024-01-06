@@ -127,9 +127,24 @@ class _ScheduleViewState extends State<ScheduleView> with SingleTickerProviderSt
                             });
                             print(isCompleted[event.id]);
                             controller.reset();
-                            provider.editCompletedEvent(event);
-                            isCompleted[event.id] == 1 ? controller.forward() : controller.reverse();
-
+                            if(event.recurrenceRule == null) {
+                              provider.editCompletedEvent(event);
+                              isCompleted[event.id] == 1
+                                  ? controller.forward()
+                                  : controller.reverse();
+                            }else{
+                              final myAppointment = MyAppointment(
+                                id: event.id,
+                                  startTime: event.startTime,
+                                  endTime: event.endTime,
+                                  subject: event.subject,
+                                  notes: event.notes,
+                                  color: event.color,
+                                  icon: icons[event.id],
+                                  recurrenceRule: event.recurrenceRule,
+                                  isCompleted: isCompleted[event.id]);
+                              provider.editCompletedEvent(myAppointment);
+                            }
                           },
                         ),
                       );
