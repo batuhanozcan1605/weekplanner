@@ -490,8 +490,6 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
   }
 
-
-
   Widget buildTitle() => TextFormField(
     autofocus: widget.appointment != null ? false : true,
         style: TextStyle(
@@ -527,7 +525,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
       onTap: ()async {
         Duration? durationHour = await showDurationPicker(
             context: context,
-            initialTime: Duration(hours: 2),
+            initialTime: selectedDurationHour!,
             baseUnit: BaseUnit.hour
         );
         if(durationHour == null) return;
@@ -551,8 +549,6 @@ class _EventEditingPageState extends State<EventEditingPage> {
     ),
   );
 
-  /////////////////////////////////////////////////////////////////
-
   Widget durationDropdown() {
     return Row(
       children: [
@@ -560,7 +556,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
             onPressed: () async {
               Duration? durationHour = await showDurationPicker(
                   context: context,
-                  initialTime: Duration(hours: 2),
+                  initialTime: selectedDurationHour!,
                   baseUnit: BaseUnit.hour
               );
               if(durationHour == null) return;
