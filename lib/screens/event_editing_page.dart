@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:duration_picker/duration_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:interval_time_picker/interval_time_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -51,21 +52,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
   @override
   void initState() {
     super.initState();
+
     widget.appointment != null ? isEditing = true : isEditing = false;
-
-    // in the version of selectedEvent is came from Navigation.pushReplacement instead of pop
-    /* if(selectedEvent != null) {
-
-
-      titleController.text = selectedEvent!.subject;
-      DateTime fromDateWithExactMinute = DateTime.now();
-      fromDate = Utils.roundOffMinute(fromDateWithExactMinute);
-      toDate = fromDate.add(Duration(hours: 2));
-      isRecurrenceEnabled = false;
-      backgroundColor =  selectedEvent!.color;
-      icon =  selectedEvent!.icon;
-      currentWeekDays = _getWeekDays(DateTime.now());
-    } */
 
     if (widget.appointment == null) {
       isRecurrenceEnabled = false;
@@ -756,10 +744,10 @@ class _EventEditingPageState extends State<EventEditingPage> {
       );
 
   Widget dayPicker() => SizedBox(
-      height: 40,
+      height: 60,
       child: daysThisWeek ? ListView(
         shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         scrollDirection: Axis.horizontal,
         children: List.generate(7, (index) {
           return InkWell(
@@ -777,20 +765,30 @@ class _EventEditingPageState extends State<EventEditingPage> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4.0),
               child: Container(
-                height: 40,
+                height: 60,
                 width: 40,
                 decoration: BoxDecoration(
                   color: selectedDays[index] ? Colors.deepPurple : Colors.grey,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Center(
-                  child: Text(
-                    _getDayAbbreviation(index),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      _getDayAbbreviation(index),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
+                    Text(
+                      '${currentWeekDays[index].day}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -798,7 +796,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
         }),
       ): ListView(
         shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         scrollDirection: Axis.horizontal,
         children: List.generate(7, (index) {
           return InkWell(
@@ -822,14 +820,24 @@ class _EventEditingPageState extends State<EventEditingPage> {
                   color: selectedNextWeekDays[index] ? Colors.deepPurple : Colors.grey,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Center(
-                  child: Text(
-                    _getDayAbbreviation(index),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      _getDayAbbreviation(index),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
+                    Text(
+                      '${nextWeekDays[index].day}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

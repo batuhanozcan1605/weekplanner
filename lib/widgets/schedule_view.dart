@@ -131,9 +131,7 @@ class _ScheduleViewState extends State<ScheduleView> with SingleTickerProviderSt
                             controller.reset();
                             if(event.recurrenceRule == null) {
                               provider.editCompletedEvent(event);
-                              isCompleted[event.id] == 1
-                                  ? controller.forward()
-                                  : controller.reverse();
+                              controller.forward();
                             }else{
                               uniqueIds.contains(uniqueId) ? provider.deleteUniqueIds(uniqueId)
                                   : provider.addUniqueId(uniqueId);

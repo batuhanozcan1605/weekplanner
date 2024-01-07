@@ -18,6 +18,12 @@ class EventViewingPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        title:  Text(appointment.subject,style: const TextStyle(
+            fontFamily: 'Segoe UI',
+            fontSize: 20,
+            fontWeight: FontWeight.bold
+        ),),
+        centerTitle: true,
         actions: [
           IconButton(
             onPressed: () {
@@ -90,15 +96,19 @@ class EventViewingPage extends StatelessWidget {
               padding: const EdgeInsets.all(18.0),
               child: Divider(color: Constants.themePurple,),
             ),
-            Text(appointment.subject,style: const TextStyle(
-              fontFamily: 'Segoe UI',
-              fontSize: 20,
-              fontWeight: FontWeight.bold
-            ),),
             Padding(
               padding: const EdgeInsets.only(top: 18.0),
               child: appointment.notes == null ? const Text("") : Text(appointment.notes!),
             ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                width: 300,
+                height: 300,
+                color: Colors.white,
+                child: Center(child: Text('AD BANNER', style: TextStyle(color: Colors.orangeAccent),)),
+              ),
+            )
           ],
         ),
       )

@@ -18,7 +18,7 @@ class _ColorListViewState extends State<ColorListView> {
     Color(0xFFE53935),
     Color(0xFF42A1E9),
     Color(0xFF4CAF50),
-    Colors.pink
+    Colors.brown
   ];
 
   @override
