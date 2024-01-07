@@ -626,7 +626,16 @@ class _EventEditingPageState extends State<EventEditingPage> {
             Expanded(
               flex: 1,
               child: IconButton(icon: Icon(Icons.arrow_forward, color: Constants.themePurple,),
-                onPressed: () { pickFromDateTime(pickDate: true); },),
+                onPressed: () {
+                setState(() {
+                  selectedDateObjects = [];
+                  selectedDays.fillRange(0, selectedNextWeekDays.length, false);
+                  selectedNextWeekDays.fillRange(0, selectedNextWeekDays.length, false);
+                  isChecked = false;
+                  isCheckedNextWeek = false;
+                });
+                pickFromDateTime(pickDate: true);
+                },),
             ),
 
             Expanded(
