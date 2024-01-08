@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:path/path.dart';
 import 'package:weekplanner/constants.dart';
 import 'package:weekplanner/database/DatabaseHelper.dart';
 import 'package:weekplanner/database/DatabaseHelper2.dart';
@@ -8,6 +9,7 @@ import 'package:weekplanner/model/UniqueId.dart';
 import 'package:weekplanner/provider/appointment_provider.dart';
 import 'package:weekplanner/screens/main_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:weekplanner/theme/theme_provider.dart';
 import 'database/AppointmentDao.dart';
 import 'model/MyAppointment.dart';
 
@@ -18,7 +20,14 @@ void main() async {
   // Initialize the database
   //await DatabaseHelper.instance.database;
 
-  runApp(const MyApp());
+  runApp(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider()),
+          ChangeNotifierProvider<AppointmentProvider>(create: (_) => AppointmentProvider()),
+        ],
+            child: const MyApp()),
+      );
 }
 
 class MyApp extends StatelessWidget {
@@ -30,22 +39,16 @@ class MyApp extends StatelessWidget {
       systemNavigationBarColor: Colors.black,
       systemNavigationBarIconBrightness: Brightness.light,
     ));
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<AppointmentProvider>(
-          create: (_) => AppointmentProvider(),
-        ),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Week Planner App',
-        themeMode: ThemeMode.dark,
-        darkTheme: ThemeData.dark().copyWith(
-            scaffoldBackgroundColor: Colors.black,
-          primaryColor: Constants.primaryColor
-        ),
-        home: const SplashScreen(),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Week Planner App',
+      themeMode: Provider.of<ThemeProvider>(context).themeMode,
+      darkTheme: ThemeData.dark().copyWith(
+          scaffoldBackgroundColor: Colors.black,
+        primaryColor: Constants.primaryColor
       ),
+      theme: Provider.of<ThemeProvider>(context).themeData,
+      home: const SplashScreen(),
     );
   }
 }
@@ -77,7 +80,7 @@ class _SplashScreenState extends State<SplashScreen> {
       List<MyAppointment> fetchedAppointments = await AppointmentDao().getAllAppointments();
       List<String> fetchedUniqueIds = await UniqueIdDao().getAllUniqueIds();
 
-      final provider = Provider.of<AppointmentProvider>(context, listen: false);
+      final provider = Provider.of<AppointmentProvider>(context as BuildContext, listen: false);
       // Initialize your provider with the fetched data
       provider.initializeWithAppointments(fetchedAppointments);
       provider.initializeIcons(fetchedIcons(fetchedAppointments));

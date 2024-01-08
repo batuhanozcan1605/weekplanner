@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weekplanner/constants.dart';
+import 'package:weekplanner/theme/theme_provider.dart';
 import 'package:weekplanner/widgets/schedule_view.dart';
 import 'package:weekplanner/widgets/week_view.dart';
 import '../widgets/daily_view.dart';
@@ -20,6 +22,8 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -36,9 +40,9 @@ class _MainScreenState extends State<MainScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.view_timeline, color: scheduleView == true ? Constants.themePurple : Colors.white),
+                      Icon(Icons.view_timeline, color: scheduleView == true ? colorScheme.primary : colorScheme.onBackground),
                       const SizedBox(height: 10,),
-                      Text('TO DO', style: TextStyle(color: scheduleView == true ? Constants.themePurple : Colors.white),),
+                      Text('TO DO', style: TextStyle(color: scheduleView == true ? colorScheme.primary : colorScheme.onBackground),),
                     ],
                   ),
                 ),
@@ -51,9 +55,9 @@ class _MainScreenState extends State<MainScreen> {
                   }),
                   child: Column(
                     children: [
-                    Icon(Icons.view_week_rounded, color: weekView == true ? Constants.themePurple : Colors.white),
+                    Icon(Icons.view_week_rounded, color: weekView == true ? colorScheme.primary : colorScheme.onBackground),
                       const SizedBox(height: 10,),
-                      Text('WEEKS', style: TextStyle(color: weekView == true ? Constants.themePurple : Colors.white),),
+                      Text('WEEKS', style: TextStyle(color: weekView == true ? colorScheme.primary : colorScheme.onBackground),),
                     ],
                   ),
                 ),
@@ -66,12 +70,22 @@ class _MainScreenState extends State<MainScreen> {
                   }),
                   child: Column(
                     children: [
-                      Icon(Icons.view_day, color: dayView == true ? Constants.themePurple : Colors.white),
+                      Icon(Icons.view_day, color: dayView == true ? colorScheme.primary : colorScheme.onBackground),
                       const SizedBox(height: 10,),
-                      Text('DAYS', style: TextStyle(color: dayView == true ? Constants.themePurple : Colors.white),),
+                      Text('DAYS', style: TextStyle(color: dayView == true ? colorScheme.primary : colorScheme.onBackground),),
                     ],
                   ),
                 ),
+                IconButton(
+                    onPressed: (){
+                      themeProvider.toggleThemeMode();
+                      themeProvider.toggleTheme();
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute (
+                        builder: (BuildContext context) => const MainScreen(),
+                      ),);
+                  },
+                    icon: Icon(Icons.light_mode)),
               ],
             ),
             Expanded(
@@ -89,7 +103,7 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Constants.themePurple,
+       backgroundColor: colorScheme.primary,
         onPressed: () async {
           final SharedPreferences prefs = await SharedPreferences.getInstance();
           final String? selectedDateTimeString = prefs.getString('selectedDateTime');
@@ -101,7 +115,7 @@ class _MainScreenState extends State<MainScreen> {
         );
           }
         },
-        child: const Icon(Icons.add, color: Colors.black),
+        child: Icon(Icons.add, color: colorScheme.background),
       ),
     );
   }
