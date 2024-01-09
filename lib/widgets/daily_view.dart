@@ -34,63 +34,69 @@ class _DailyViewState extends State<DailyView> {
   @override
   Widget build(BuildContext context) {
     final events = Provider.of<AppointmentProvider>(context).events;
-
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Column(
       children: [
         Expanded(
           flex: 1,
-            child: dayListView()
+            child: dayListView(colorScheme)
         ),
         Expanded(
           flex: 12,
-          child: SfCalendar(
-            view: CalendarView.day,
-            onViewChanged: (ViewChangedDetails details) {
-              // Update selectedDay when the view changes
-              Future.delayed(Duration.zero, () {
-                // Update selectedDay when the view changes
-                setState(() {
-                  selectedDay = details.visibleDates[0];
-                });
-              });
-            },
-            controller: _controller,
-            //showNavigationArrow: true,
-            dataSource: EventDataSource(events),
-            initialSelectedDate: DateTime.now(),
-            //cellBorderColor: Colors.transparent,
-            appointmentBuilder: appointmentBuilder,
-            onTap: (details) async {
-              if(details.appointments != null) {
-                final event = details.appointments!.first;
-                final myAppointment = MyAppointment(
-                  id: event.id,
-                  startTime: event.startTime,
-                  endTime: event.endTime,
-                  subject: event.subject,
-                  color: event.color,
-                  recurrenceRule: event.recurrenceRule,
-                  notes: event.notes,
-                  isCompleted: event.recurrenceRule == null ? event.isCompleted : 0,
-                );
+              child: SfCalendar(
+                view: CalendarView.day,
+                onViewChanged: (ViewChangedDetails details) {
+                  // Update selectedDay when the view changes
+                  Future.delayed(Duration.zero, () {
+                    // Update selectedDay when the view changes
+                    setState(() {
+                      selectedDay = details.visibleDates[0];
+                    });
+                  });
+                },
+                controller: _controller,
+                //showNavigationArrow: true,
+                dataSource: EventDataSource(events),
+                initialSelectedDate: DateTime.now(),
+                //cellBorderColor: Colors.transparent,
+                appointmentBuilder: appointmentBuilder,
+                onTap: (details) async {
+                  if (details.appointments != null) {
+                    final event = details.appointments!.first;
+                    final myAppointment = MyAppointment(
+                      id: event.id,
+                      startTime: event.startTime,
+                      endTime: event.endTime,
+                      subject: event.subject,
+                      color: event.color,
+                      recurrenceRule: event.recurrenceRule,
+                      notes: event.notes,
+                      isCompleted: event.recurrenceRule == null ? event
+                          .isCompleted : 0,
+                    );
 
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventViewingPage(appointment: myAppointment)));
-              } else if(details.targetElement == CalendarElement.calendarCell) {
-                DateTime tappedDate = details.date!;
-                print('Tapped on cell: $tappedDate');
-                //save cell info
-                final SharedPreferences prefs = await SharedPreferences.getInstance();
-                prefs.setString('selectedDateTime', tappedDate.toIso8601String());
-              }
-            },
-            headerHeight: 0,
-          ),
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            EventViewingPage(appointment: myAppointment)));
+                  } else
+                  if (details.targetElement == CalendarElement.calendarCell) {
+                    DateTime tappedDate = details.date!;
+                    print('Tapped on cell: $tappedDate');
+                    //save cell info
+                    final SharedPreferences prefs = await SharedPreferences
+                        .getInstance();
+                    prefs.setString(
+                        'selectedDateTime', tappedDate.toIso8601String());
+                  }
+                },
+                headerHeight: 0,
+              ),
         ),
       ],
     );
   }
 
-  Widget dayListView() {
+  Widget dayListView(ColorScheme colorScheme) {
     return Padding(
       padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 5.0),
       child: Align(
@@ -113,15 +119,16 @@ class _DailyViewState extends State<DailyView> {
                 child: Container(
                   width: 42,
                   decoration: BoxDecoration(
-                  color: Colors.black,
+                  color: colorScheme.background,
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
-            color: Colors.black,
+            color: colorScheme.background,
             width: 1
             ),),
                   alignment: Alignment.center,
                    // Customize the color as needed
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       day.day == DateTime.now().day ? Flexible(
                         flex: 1,
@@ -129,7 +136,7 @@ class _DailyViewState extends State<DailyView> {
                           'Today',
                           style: TextStyle(
                             fontSize: 12,
-                            color: Constants.themePurple,
+                            color: colorScheme.primary,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -138,11 +145,12 @@ class _DailyViewState extends State<DailyView> {
                         child: Text(
                           '${day.day}',
                           style: TextStyle(
-                            color: Constants.themePurple,
+                            color: colorScheme.primary,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
+                      const SizedBox(height: 5,),
                       Flexible(
                         flex: 1,
                         child: AnimatedContainer(
@@ -150,7 +158,7 @@ class _DailyViewState extends State<DailyView> {
                           width: selectedDay.day == day.day ? 10:0,
                           height: selectedDay.day == day.day ? 10:0,
                           child: CircleAvatar(
-                            backgroundColor: Constants.themePurple,
+                            backgroundColor: colorScheme.primary,
                             //radius: 5,
                           ),
                         ),
