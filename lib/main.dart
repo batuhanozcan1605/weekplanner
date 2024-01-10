@@ -43,10 +43,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Week Planner App',
       themeMode: Provider.of<ThemeProvider>(context).themeMode,
-      darkTheme: ThemeData.dark().copyWith(
+      /*darkTheme: ThemeData.dark().copyWith(
           scaffoldBackgroundColor: Colors.black,
         primaryColor: Constants.primaryColor
-      ),
+      ),*/
       theme: Provider.of<ThemeProvider>(context).themeData,
       home: const SplashScreen(),
     );

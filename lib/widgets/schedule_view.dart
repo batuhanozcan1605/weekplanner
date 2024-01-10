@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:syncfusion_flutter_core/theme.dart';
+import 'package:weekplanner/theme/theme_provider.dart';
 import '../constants.dart';
 import '../model/MyAppointment.dart';
 import '../model/event_data_source.dart';
 import '../provider/appointment_provider.dart';
 import '../screens/event_viewing_page.dart';
 import 'dart:math';
+
+import '../screens/main_screen.dart';
 
 class ScheduleView extends StatefulWidget {
   const ScheduleView({Key? key}) : super(key: key);
@@ -34,36 +38,38 @@ class _ScheduleViewState extends State<ScheduleView> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     final events = Provider.of<AppointmentProvider>(context).events;
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
 
-    return SfCalendar(
-      view: CalendarView.schedule,
-      firstDayOfWeek: 1,
-      scheduleViewSettings: ScheduleViewSettings(
-          hideEmptyScheduleWeek: true,
-          monthHeaderSettings: MonthHeaderSettings(backgroundColor: Constants.themePurple,
-              monthTextStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.w500))),
-      dataSource: EventDataSource(events),
-      initialSelectedDate: DateTime.now(),
-      //cellBorderColor: Colors.transparent,
-      appointmentBuilder: appointmentBuilder,
-      onTap: (details) {
-        if(details.appointments == null) return;
-        final event = details.appointments!.first;
-        final myAppointment = MyAppointment(
-          id: event.id,
-          startTime: event.startTime,
-          endTime: event.endTime,
-          subject: event.subject,
-          color: event.color,
-          recurrenceRule: event.recurrenceRule,
-          notes: event.notes,
-          isCompleted: event.recurrenceRule == null ? event.isCompleted : 0,
-        );
-        print('DEBUG ${event.subject}');
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventViewingPage(appointment: myAppointment)));
-      },
-      headerHeight: 0,
-    );
+
+      return SfCalendar(
+        view: CalendarView.schedule,
+        firstDayOfWeek: 1,
+        scheduleViewSettings: ScheduleViewSettings(
+            hideEmptyScheduleWeek: true,
+            monthHeaderSettings: MonthHeaderSettings(backgroundColor: Constants.themePurple,
+                monthTextStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.w500))),
+        dataSource: EventDataSource(events),
+        initialSelectedDate: DateTime.now(),
+        //cellBorderColor: Colors.transparent,
+        appointmentBuilder: appointmentBuilder,
+        onTap: (details) {
+          if(details.appointments == null) return;
+          final event = details.appointments!.first;
+          final myAppointment = MyAppointment(
+            id: event.id,
+            startTime: event.startTime,
+            endTime: event.endTime,
+            subject: event.subject,
+            color: event.color,
+            recurrenceRule: event.recurrenceRule,
+            notes: event.notes,
+            isCompleted: event.recurrenceRule == null ? event.isCompleted : 0,
+          );
+          print('DEBUG ${event.subject}');
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventViewingPage(appointment: myAppointment)));
+        },
+        headerHeight: 0,
+      );
 
   }
 

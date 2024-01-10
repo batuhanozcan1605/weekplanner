@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:popover/popover.dart';
 import 'package:provider/provider.dart';
+import 'package:weekplanner/provider/appointment_provider.dart';
 import '../screens/main_screen.dart';
 import '../theme/theme_provider.dart';
 
@@ -10,13 +11,14 @@ class MenuButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+    final provider = Provider.of<AppointmentProvider>(context, listen: false);
     ColorScheme colorScheme = Theme.of(context).colorScheme;
 
     return GestureDetector(
       onTap: () {
         showPopover(
             context: context,
-            bodyBuilder: (context) => menuItems(themeProvider, context, colorScheme),
+            bodyBuilder: (context) => menuItems(themeProvider, context, colorScheme, provider),
           width: 250,
           height: 50
         );
@@ -25,13 +27,13 @@ class MenuButton extends StatelessWidget {
     );
   }
 
-  Widget menuItems(themeProvider, context, colorScheme) => Column(
+  Widget menuItems(themeProvider, context, colorScheme, provider) => Column(
         children: [
           GestureDetector(
             onTap: (){
               themeProvider.toggleThemeMode();
               themeProvider.toggleTheme();
-              Navigator.pop(context);
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> MainScreen()));
 
             },
             child: Container(

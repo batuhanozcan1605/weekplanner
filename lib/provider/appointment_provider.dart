@@ -18,6 +18,39 @@ class AppointmentProvider extends ChangeNotifier {
   Map<int, int> get isCompleted => _isCompleted;
   List<String> get uniqueIds => _uniqueIds;
 
+  //main screen providers
+  bool _scheduleView = false;
+  bool _weekView = true;
+  bool _dayView = false;
+  int rebuildCalender = 0;
+
+  bool get scheduleView => _scheduleView;
+  bool get weekView => _weekView;
+  bool get dayView => _dayView;
+
+  void showWeekView() {
+    _scheduleView = false;
+    _weekView = true;
+    _dayView = false;
+    notifyListeners();
+  }
+  void showDayView() {
+    _scheduleView = false;
+    _weekView = false;
+    _dayView = true;
+    print("show day view");
+    notifyListeners();
+  }
+
+  void showScheduleView() {
+    _scheduleView = true;
+    _weekView = false;
+    _dayView = false;
+    notifyListeners();
+  }
+  //main screen providers
+
+
   int getHighestId() {
     var highestId = _appointments.isNotEmpty
         ? _appointments.map((obj) => obj.id ?? 0).reduce((max, id) => id > max ? id : max)

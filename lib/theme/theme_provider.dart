@@ -11,6 +11,10 @@ class ThemeProvider with ChangeNotifier {
 
   ThemeData get themeData => _themeData;
 
+  double _rebuild = 0;
+
+  double get rebuild => _rebuild;
+
   set themeMode(ThemeMode themeMode) {
     _themeMode = themeMode;
     notifyListeners();
@@ -27,7 +31,8 @@ class ThemeProvider with ChangeNotifier {
     }else{
       themeMode = lightMode;
     }
-
+    _rebuild = 50;
+    notifyListeners();
   }
 
   void toggleTheme() {
@@ -36,6 +41,7 @@ class ThemeProvider with ChangeNotifier {
     }else{
       themeData = lightTheme;
     }
+    notifyListeners();
   }
 
 
