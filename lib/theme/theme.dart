@@ -18,7 +18,7 @@ ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
     colorScheme: const ColorScheme.light(
       background: Color(0xFFF3E7E7),
-      primary: Colors.purple,
+      primary: Colors.deepPurple,
       onBackground: Colors.black,
 
     ),

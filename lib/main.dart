@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:path/path.dart';
-import 'package:weekplanner/constants.dart';
 import 'package:weekplanner/database/DatabaseHelper.dart';
 import 'package:weekplanner/database/DatabaseHelper2.dart';
 import 'package:weekplanner/database/UniqueIdDao.dart';
-import 'package:weekplanner/model/UniqueId.dart';
 import 'package:weekplanner/provider/appointment_provider.dart';
 import 'package:weekplanner/screens/main_screen.dart';
 import 'package:provider/provider.dart';
@@ -54,9 +51,10 @@ class MyApp extends StatelessWidget {
 }
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _SplashScreenState createState() => _SplashScreenState();
 }
 
@@ -65,10 +63,9 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    loadData();
   }
 
-  Future<void> loadData() async {
+  Future<void> loadData(BuildContext context) async {
 
     try {
 
@@ -80,7 +77,8 @@ class _SplashScreenState extends State<SplashScreen> {
       List<MyAppointment> fetchedAppointments = await AppointmentDao().getAllAppointments();
       List<String> fetchedUniqueIds = await UniqueIdDao().getAllUniqueIds();
 
-      final provider = Provider.of<AppointmentProvider>(context as BuildContext, listen: false);
+      // ignore: use_build_context_synchronously
+      final provider = Provider.of<AppointmentProvider>(context, listen: false);
       // Initialize your provider with the fetched data
       provider.initializeWithAppointments(fetchedAppointments);
       provider.initializeIcons(fetchedIcons(fetchedAppointments));
@@ -89,7 +87,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     } catch (error) {
       // Handle errors appropriately
-      print("ERROR: $error");
+      //print("ERROR: $error");
       // Navigate to an error screen or retry loading
     }
 
@@ -115,14 +113,14 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: loadData(),
+      future: loadData(context),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           // Data loading is complete, return your UI here
-          return MainScreen();
+          return const MainScreen();
         } else {
           // Data is still loading, return a loading indicator
-          return Scaffold(
+          return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
             ),
