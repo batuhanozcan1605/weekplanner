@@ -14,13 +14,14 @@ class ChooseEvent extends StatelessWidget {
     final cardSize = (width-40)/4;
     List eventTemplate = Data().eventTemplates;
     final provider = Provider.of<AppointmentProvider>(context, listen: false);
-    List latestEvents = provider.get4LatestEvents();
-    print(latestEvents);
+    List latestEvents = provider.get8LatestEvents();
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
+    //print(latestEvents);
 
     return Scaffold(
-      backgroundColor: Colors.black38,
+      backgroundColor: colorScheme.background,
       appBar: AppBar(
-        backgroundColor: Colors.black38,
+        backgroundColor: colorScheme.background,
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -30,10 +31,10 @@ class ChooseEvent extends StatelessWidget {
             children: [
             const Padding(
               padding: EdgeInsets.only(left: 18.0, bottom: 8),
-              child: Text("Latest", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, fontFamily: 'Segoe UI'),),
+              child: Text("Latest", style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold, fontFamily: 'Segoe UI'),),
             ),
-              SizedBox(
-                height: cardSize,
+              Container(
+                height: latestEvents.isNotEmpty ? cardSize : 10,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
@@ -45,7 +46,7 @@ class ChooseEvent extends StatelessWidget {
                         Navigator.pop(context, event);
                       },
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 6.0), // Add spacing between items
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0), // Add spacing between items
                         child: Constants().eventCard(event.subject, event.icon, event.color.withOpacity(0.7)),
                       ),
                     );

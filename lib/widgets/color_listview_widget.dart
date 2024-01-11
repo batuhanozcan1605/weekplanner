@@ -27,7 +27,7 @@ class _ColorListViewState extends State<ColorListView> {
       height: 50,
       child: ListView.builder(
         shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         scrollDirection: Axis.horizontal,
         itemCount: colors.length,
         itemBuilder: (context, index) {

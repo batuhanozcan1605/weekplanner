@@ -10,6 +10,7 @@ ThemeData darkTheme = ThemeData(
     background: Colors.black,
     primary: Color(0xFFD0BBFF),
     onBackground: Color(0xFFF3E7E7),
+    secondary: Color(0XFF383838)
 
   )
 );
@@ -20,6 +21,6 @@ ThemeData lightTheme = ThemeData(
       background: Color(0xFFF3E7E7),
       primary: Colors.deepPurple,
       onBackground: Colors.black,
-
+      secondary: Colors.white
     ),
 );

@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:syncfusion_flutter_core/theme.dart';
-import 'package:weekplanner/theme/theme_provider.dart';
-import '../constants.dart';
 import '../model/MyAppointment.dart';
 import '../model/event_data_source.dart';
 import '../provider/appointment_provider.dart';
 import '../screens/event_viewing_page.dart';
 import 'dart:math';
 
-import '../screens/main_screen.dart';
 
 class ScheduleView extends StatefulWidget {
-  const ScheduleView({Key? key}) : super(key: key);
+  const ScheduleView({super.key});
 
   @override
   State<ScheduleView> createState() => _ScheduleViewState();
@@ -40,14 +36,13 @@ class _ScheduleViewState extends State<ScheduleView> with SingleTickerProviderSt
     final events = Provider.of<AppointmentProvider>(context).events;
     ColorScheme colorScheme = Theme.of(context).colorScheme;
 
-
       return SfCalendar(
         view: CalendarView.schedule,
         firstDayOfWeek: 1,
         scheduleViewSettings: ScheduleViewSettings(
             hideEmptyScheduleWeek: true,
-            monthHeaderSettings: MonthHeaderSettings(backgroundColor: Constants.themePurple,
-                monthTextStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.w500))),
+            monthHeaderSettings: MonthHeaderSettings(backgroundColor: colorScheme.primary,
+                monthTextStyle: TextStyle(color: colorScheme.background, fontWeight: FontWeight.w500))),
         dataSource: EventDataSource(events),
         initialSelectedDate: DateTime.now(),
         //cellBorderColor: Colors.transparent,
@@ -65,7 +60,7 @@ class _ScheduleViewState extends State<ScheduleView> with SingleTickerProviderSt
             notes: event.notes,
             isCompleted: event.recurrenceRule == null ? event.isCompleted : 0,
           );
-          print('DEBUG ${event.subject}');
+          //print('DEBUG ${event.subject}');
           Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventViewingPage(appointment: myAppointment)));
         },
         headerHeight: 0,
@@ -126,8 +121,8 @@ class _ScheduleViewState extends State<ScheduleView> with SingleTickerProviderSt
                         angle: tappedEventId == event.id ? controller.value * (isCompleted[event.id]  == 1 ? 2*pi : 2*pi) : controller.value * 0, // Rotate based on isCompleted
                         child: IconButton(
                           icon: isCompleted[event.id] == 1 || uniqueIds.contains(uniqueId)
-                              ? Icon(Icons.check_circle_rounded, color: Colors.white)
-                              : Icon(Icons.check_circle_outline_rounded, color: Colors.white),
+                              ? const Icon(Icons.check_circle_rounded, color: Colors.white)
+                              : const Icon(Icons.check_circle_outline_rounded, color: Colors.white),
                           onPressed: () {
                             //print(event.isCompleted);
                             setState(() {

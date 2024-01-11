@@ -152,7 +152,7 @@ class AppointmentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<Events> get4LatestEvents() {
+  List<Events> get8LatestEvents() {
     Set<Events> latestEventSet = {};
     List<Events> latestEvents = [];
     for(int i=_appointments.length; i > _appointments.length-8 && i > 0; i--) {

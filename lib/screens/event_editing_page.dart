@@ -1,10 +1,7 @@
-import 'dart:ui';
 import 'package:duration_picker/duration_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:interval_time_picker/interval_time_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:weekplanner/constants.dart';
 import 'package:weekplanner/provider/appointment_provider.dart';
 import 'package:weekplanner/utils.dart';
@@ -14,7 +11,7 @@ import '../model/Events.dart';
 import '../model/MyAppointment.dart';
 
 class EventEditingPage extends StatefulWidget {
-  const EventEditingPage({Key? key, this.appointment, this.eventTemplate, this.iconFromEdit, this.cellDate}) : super(key: key);
+  const EventEditingPage({super.key, this.appointment, this.eventTemplate, this.iconFromEdit, this.cellDate});
 
   final MyAppointment? appointment;
   final Events? eventTemplate;
@@ -45,7 +42,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
   List<DateTime> currentWeekDays = [];
   List<DateTime> nextWeekDays = [];
   List<DateTime> selectedDateObjects = [];
-  Duration? selectedDurationHour = Duration(hours: 2);
+  Duration? selectedDurationHour = const Duration(hours: 2);
   int selectedDurationMinute = 0;
   Events? selectedEvent;
 
@@ -59,7 +56,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
       isRecurrenceEnabled = false;
       DateTime fromDateWithExactMinute = widget.cellDate!;
       fromDate = Utils.roundOffMinute(fromDateWithExactMinute);
-      toDate = fromDate.add(Duration(hours: 2));
+      toDate = fromDate.add(const Duration(hours: 2));
       currentWeekDays = _getWeekDays(DateTime.now());
       nextWeekDays = _getNextWeekDays(DateTime.now());
     } else {
@@ -89,16 +86,18 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: colorScheme.background,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
-            }, icon: Icon(Icons.cancel),),
+            }, icon: const Icon(Icons.cancel),),
         actions: [
           IconButton(
               onPressed: (){
-                print('RecurrenceRule: $isRecurrenceEnabled');
+
                 if(isRecurrenceEnabled) {
                   saveRecurringEvent();
                 }else{
@@ -107,17 +106,17 @@ class _EventEditingPageState extends State<EventEditingPage> {
               },
               icon: Icon(
                 Icons.check,
-                color: Constants.themePurple,
+                color: colorScheme.primary,
               ))
         ],
         title: Text(
           "ADD PLAN",
-          style: TextStyle(color: Constants.softColor),
+          style: TextStyle(color: colorScheme.onBackground),
         ),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(27),
+        padding: const EdgeInsets.all(27),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -162,8 +161,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
                         children: [
                           IconButton(
                               onPressed: () async  {
-                                  final chosenEvent = await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ChooseEvent()));
-                                  print(chosenEvent.subject);
+                                  final chosenEvent = await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const ChooseEvent()));
+
                                  setState(() {
                                    selectedEvent = chosenEvent;
                                    titleController.text = selectedEvent!.subject;
@@ -190,7 +189,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
               child: Container(
                 height: 115,
                 decoration: BoxDecoration(
-                  color: Color(0XFF383838),
+                  color: colorScheme.secondary,
                   borderRadius: BorderRadius.circular(11.0),
                 ),
                 child: Column(
@@ -199,10 +198,10 @@ class _EventEditingPageState extends State<EventEditingPage> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(12.0),
-                          child: Icon(Icons.palette, color: Constants.softColor,),
+                          child: Icon(Icons.palette, color: colorScheme.onBackground,),
                         ),
                         Text('Color', style: TextStyle(
-                            color: Constants.softColor,
+                            color: colorScheme.onBackground,
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Segoe UI'),
@@ -250,7 +249,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
               child: Container(
                 height: 390,
                 decoration: BoxDecoration(
-                  color: Color(0xFF383838),
+                  color: colorScheme.secondary,
                   borderRadius: BorderRadius.circular(11.0),
                 ),
                 child: Column(
@@ -261,7 +260,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                               Text('Time', style: TextStyle(
-                              color: Constants.softColor,
+                              color: colorScheme.onBackground,
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Segoe UI'),),
@@ -272,7 +271,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10.0),
                       child: ListTile(
-                        title: Text('Repeat Each Week', style: TextStyle(fontWeight: FontWeight.bold, color: Constants.themePurple),),
+                        title: Text('Repeat Each Week', style: TextStyle(fontWeight: FontWeight.bold, color: colorScheme.primary),),
                         trailing: Switch(
                           value: isRecurrenceEnabled,
                           onChanged: (value) {
@@ -286,7 +285,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                     ),
                     isEditing ? const Center() : Padding(
                       padding: const EdgeInsets.all(14.0),
-                      child: Divider(color: Constants.themePurple,),
+                      child: Divider(color: colorScheme.primary,),
                     ),
                     isEditing ? const Center() : Padding(
                       padding: const EdgeInsets.only(left: 13.0, right: 13.0),
@@ -294,10 +293,11 @@ class _EventEditingPageState extends State<EventEditingPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(daysThisWeek ? "Days - This Week" : "Days - Next Week", style: TextStyle(
-                              color: Constants.softColor,
+                              color: colorScheme.onBackground,
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              fontFamily: 'Segoe UI'),),
+                              fontFamily: 'Segoe UI'),
+                          ),
                          IconButton(
                              onPressed: () {
                                setState(() {
@@ -503,24 +503,29 @@ class _EventEditingPageState extends State<EventEditingPage> {
       );
 
   Widget buildDetailInput() => TextFormField(
-    maxLines: 2,
-        style: TextStyle(
-            color: Constants.softColor, fontSize: 14, fontFamily: 'Segoe UI'),
-        decoration:
-            InputDecoration(border: InputBorder.none, hintText: 'Details'),
-        onFieldSubmitted: (_) {},
-        controller: detailController,
-      );
+      maxLines: 2,
+          style: TextStyle(
+              color: Constants.softColor, fontSize: 14, fontFamily: 'Segoe UI'),
+          decoration:
+              InputDecoration(border: InputBorder.none, hintText: 'Details', hintStyle: TextStyle(color: Constants.softColor)),
+          onFieldSubmitted: (_) {},
+          controller: detailController,
+        );
 
-  Widget buildDateTimePicker() => Column(
-        children: [
-          buildFrom(),
-          buildDuration(),
-          //buildTo(),
-        ],
-      );
 
-  Widget buildDuration() => Padding(padding: const EdgeInsets.symmetric(horizontal: 4.0),
+  Widget buildDateTimePicker() => Builder(
+    builder: (BuildContext context) {
+      ColorScheme colorScheme = Theme.of(context).colorScheme;
+    return Column(
+          children: [
+            buildFrom(colorScheme),
+            buildDuration(colorScheme),
+            //buildTo(),
+          ],
+        );},
+  );
+
+  Widget buildDuration(colorScheme) => Padding(padding: const EdgeInsets.symmetric(horizontal: 4.0),
     child: GestureDetector(
       onTap: ()async {
         Duration? durationHour = await showDurationPicker(
@@ -537,19 +542,19 @@ class _EventEditingPageState extends State<EventEditingPage> {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 14.0),
-            child: Icon(Icons.timelapse_rounded, color: Constants.themePurple,),
+            child: Icon(Icons.timelapse_rounded, color: colorScheme.primary,),
           ),
-          Text('Duration', style: TextStyle(color: Constants.themePurple, fontWeight: FontWeight.bold, fontSize: 16),),
+          Text('Duration', style: TextStyle(color: colorScheme.primary, fontWeight: FontWeight.bold, fontSize: 16),),
           const SizedBox(width: 15,),
           Expanded(
-            child: durationDropdown(),
+            child: durationDropdown(colorScheme),
           ),
         ],
       ),
     ),
   );
 
-  Widget durationDropdown() {
+  Widget durationDropdown(colorScheme) {
     return Row(
       children: [
         TextButton(
@@ -565,14 +570,14 @@ class _EventEditingPageState extends State<EventEditingPage> {
               });
             },
             child: Text('${selectedDurationHour!.inHours} hours',
-              style: TextStyle(color: Constants.softColor, fontSize: 16),)),
+              style: TextStyle(color: colorScheme.onBackground, fontSize: 16),)),
         //SizedBox(width: 8),
         TextButton(
             onPressed: () async {
               await showMinutePickerDialog(context);
             },
             child: Text('${selectedDurationMinute.toString()} minutes',
-                style: TextStyle(color: Constants.softColor, fontSize: 16))),
+                style: TextStyle(color: colorScheme.onBackground, fontSize: 16))),
       ],
     );
   }
@@ -619,13 +624,13 @@ class _EventEditingPageState extends State<EventEditingPage> {
   }
 
 
-  Widget buildFrom() => Padding(
+  Widget buildFrom(colorScheme) => Padding(
     padding: const EdgeInsets.symmetric(horizontal: 4.0),
     child: Row(
           children: [
             Expanded(
               flex: 1,
-              child: IconButton(icon: Icon(Icons.arrow_forward, color: Constants.themePurple,),
+              child: IconButton(icon: Icon(Icons.arrow_forward, color: colorScheme.primary),
                 onPressed: () {
                 setState(() {
                   selectedDateObjects = [];
@@ -742,11 +747,16 @@ class _EventEditingPageState extends State<EventEditingPage> {
   Widget buildDropdownField({
     required String text,
     required VoidCallback onClicked,
-  }) =>
-      ListTile(
-        title: Text(text),
-        onTap: onClicked,
-      );
+  }) => Builder(
+    builder: (context) {
+      ColorScheme colorScheme = Theme.of(context).colorScheme;
+      return ListTile(
+              title: Text(text, style: TextStyle(color: colorScheme.onBackground),),
+              onTap: onClicked,
+            );
+    }
+  );
+
 
   Widget dayPicker() => SizedBox(
       height: 60,

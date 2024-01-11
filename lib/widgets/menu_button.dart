@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:popover/popover.dart';
 import 'package:provider/provider.dart';
-import 'package:weekplanner/provider/appointment_provider.dart';
+import 'package:weekplanner/theme/theme.dart';
 import '../screens/main_screen.dart';
 import '../theme/theme_provider.dart';
 
 class MenuButton extends StatelessWidget {
-  const MenuButton({Key? key}) : super(key: key);
+  const MenuButton({super.key});
 
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
-    final provider = Provider.of<AppointmentProvider>(context, listen: false);
     ColorScheme colorScheme = Theme.of(context).colorScheme;
 
     return GestureDetector(
       onTap: () {
         showPopover(
             context: context,
-            bodyBuilder: (context) => menuItems(themeProvider, context, colorScheme, provider),
+            bodyBuilder: (context) => menuItems(themeProvider, context, colorScheme),
           width: 250,
           height: 50
         );
@@ -27,13 +26,13 @@ class MenuButton extends StatelessWidget {
     );
   }
 
-  Widget menuItems(themeProvider, context, colorScheme, provider) => Column(
+  Widget menuItems(themeProvider, context, colorScheme) => Column(
         children: [
           GestureDetector(
             onTap: (){
               themeProvider.toggleThemeMode();
               themeProvider.toggleTheme();
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> MainScreen()));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const MainScreen()));
 
             },
             child: Container(
@@ -42,9 +41,9 @@ class MenuButton extends StatelessWidget {
               child: Row(
                 children: [
                   const SizedBox(width: 8,),
-                  Icon(Icons.light_mode, color: colorScheme.onBackground,),
+                  Icon(themeProvider.themeData == lightTheme ? Icons.light_mode : Icons.dark_mode, color: colorScheme.onBackground,),
                   const SizedBox(width: 8,),
-                  Text("Light Mode", style: TextStyle(color: colorScheme.onBackground),),
+                  Text(themeProvider.themeData == lightTheme ?  "Light Mode" : "Dark Mode" , style: TextStyle(color: colorScheme.onBackground),),
                 ],
               ),
             ),

@@ -31,7 +31,6 @@ class ThemeProvider with ChangeNotifier {
     }else{
       themeMode = lightMode;
     }
-    _rebuild = 50;
     notifyListeners();
   }
 
