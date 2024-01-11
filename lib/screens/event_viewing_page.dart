@@ -15,9 +15,10 @@ class EventViewingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final icons = Provider.of<AppointmentProvider>(context).icons;
-
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: colorScheme.background,
         title:  Text(appointment.subject,style: const TextStyle(
             fontFamily: 'Segoe UI',
             fontSize: 20,
@@ -30,14 +31,14 @@ class EventViewingPage extends StatelessWidget {
               Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => EventEditingPage(appointment: appointment, iconFromEdit: icons[appointment.id])));
             },
-            icon: const Icon(Icons.edit), color: Constants.softColor,),
+            icon: const Icon(Icons.edit), color: colorScheme.onBackground,),
           IconButton(
             onPressed: () {
               final provider = Provider.of<AppointmentProvider>(context, listen: false);
               provider.deleteEvent(appointment);
               Navigator.pop(context);
             },
-            icon: const Icon(Icons.delete), color: Constants.softColor,)
+            icon: const Icon(Icons.delete), color: colorScheme.onBackground,)
         ],
       ),
       body: Padding(
@@ -50,7 +51,7 @@ class EventViewingPage extends StatelessWidget {
               children: [
                 Expanded(
                   flex: 1,
-                    child: Text('FROM', style: TextStyle(color: Constants.themePurple),)),
+                    child: Text('FROM', style: TextStyle(color: colorScheme.primary),)),
                 Expanded(
                   flex: 2,
                   child: Row(
@@ -70,7 +71,7 @@ class EventViewingPage extends StatelessWidget {
                 children: [
                   Expanded(
                       flex: 1,
-                      child: Text('TO', style: TextStyle(color: Constants.themePurple))),
+                      child: Text('TO', style: TextStyle(color: colorScheme.primary))),
                   Expanded(
                     flex: 2,
                     child: Row(
@@ -98,7 +99,7 @@ class EventViewingPage extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 18.0),
-              child: appointment.notes == null ? const Text("") : Text(appointment.notes!),
+              child: appointment.notes == null ? const Text("") : Text(appointment.notes!, style: TextStyle(color: colorScheme.onBackground),),
             ),
             Align(
               alignment: Alignment.bottomCenter,
