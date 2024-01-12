@@ -496,12 +496,12 @@ class _EventEditingPageState extends State<EventEditingPage> {
   }
 
   Widget buildTitle() => TextFormField(
-    autofocus: widget.appointment != null ? false : true,
+    autofocus: false,
         style: TextStyle(
             color: Constants.softColor, fontSize: 20, fontFamily: 'Segoe UI'),
         decoration:
             InputDecoration(
-            border: InputBorder.none, hintText: 'Title', hintStyle: TextStyle(color: Constants.softColor)),
+            border: InputBorder.none, hintText: 'Enter a title or add one', hintStyle: TextStyle(color: Constants.softColor.withOpacity(0.6)),),
         onFieldSubmitted: (_) {},
         //validator: (title) => title != null && title.isEmpty ? 'Title can not be empty' : null,
         controller: titleController,
