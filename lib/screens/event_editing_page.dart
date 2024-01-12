@@ -194,29 +194,35 @@ class _EventEditingPageState extends State<EventEditingPage> {
                 ),
                 child: Column(
                   children: [
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Icon(Icons.palette, color: colorScheme.onBackground,),
-                        ),
-                        Text('Color', style: TextStyle(
-                            color: colorScheme.onBackground,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Segoe UI'),
-                        )
-                      ],
+                    Flexible(
+                      flex: 1,
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Icon(Icons.palette, color: colorScheme.onBackground,),
+                          ),
+                          Text('Color', style: TextStyle(
+                              color: colorScheme.onBackground,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Segoe UI'),
+                          )
+                        ],
+                      ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 38.0, vertical: 5),
-                      child: ColorListView(
-                        selectedColor: backgroundColor,
-                          onColorSelected: (Color color){
-                            setState(() {
-                              backgroundColor = color;
-                            });
-                          }),
+                    Flexible(
+                      flex: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 38.0, vertical: 5),
+                        child: ColorListView(
+                          selectedColor: backgroundColor,
+                            onColorSelected: (Color color){
+                              setState(() {
+                                backgroundColor = color;
+                              });
+                            }),
+                      ),
                     )
                   ],
                 ),
@@ -276,7 +282,6 @@ class _EventEditingPageState extends State<EventEditingPage> {
                           value: isRecurrenceEnabled,
                           onChanged: (value) {
                             setState(() {
-                              print(value);
                               isRecurrenceEnabled = value;
                             });
                           },
@@ -304,7 +309,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                                  daysThisWeek = !daysThisWeek;
                                });
                              },
-                             icon: daysThisWeek ? Icon(Icons.arrow_forward_ios_rounded) : Icon(Icons.arrow_back_ios_new_rounded)),
+                             icon: daysThisWeek ? const Icon(Icons.arrow_forward_ios_rounded) : const Icon(Icons.arrow_back_ios_new_rounded)),
                         myCheckBox(),
                         ],
                       ),
@@ -326,7 +331,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
   Widget myCheckBox() => Row(
     children: [
-      Text('Everyday'),
+      const Text('Everyday'),
       daysThisWeek ? Checkbox(
         activeColor: Colors.deepPurple,
         checkColor: Constants.softColor,
@@ -466,7 +471,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
     );
 
     final isEditing = widget.appointment != null;
-    print(isEditing);
+
     if(isEditing) {
       final wasRecurred = widget.appointment!.recurrenceRule != null;
       final editedEvent = MyAppointment(
@@ -588,7 +593,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: Colors.black,
-          title: Center(child: Text('Pick Minutes')),
+          title: const Center(child: Text('Pick Minutes')),
           content: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -596,7 +601,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
             children: [
               GestureDetector(
                 onTap: () => Navigator.pop(context, 0),
-                child: Container(
+                child: SizedBox(
                   height: 100,
                   width: 100,
                   child: Center(child: Text('0',
@@ -606,10 +611,9 @@ class _EventEditingPageState extends State<EventEditingPage> {
               const SizedBox(height: 20),
               GestureDetector(
                 onTap: () => Navigator.pop(context, 30),
-                child: Container(
-                  child: Center(child: Text('30',
-                    style: TextStyle(color: Constants.softColor, fontSize: 30, fontFamily: 'Segoe UI'),)),
-                ),
+                child: Center(
+                    child: Text('30',
+                  style: TextStyle(color: Constants.softColor, fontSize: 30, fontFamily: 'Segoe UI'),)),
               ),
             ],
           ),
