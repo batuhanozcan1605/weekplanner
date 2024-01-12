@@ -3,20 +3,15 @@ import 'package:provider/provider.dart';
 import 'package:weekplanner/constants.dart';
 import 'package:weekplanner/data.dart';
 import 'package:weekplanner/provider/appointment_provider.dart';
+import 'package:weekplanner/widgets/latest_events_pageview.dart';
 
 class ChooseEvent extends StatelessWidget {
   const ChooseEvent({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var screenSize = MediaQuery.of(context).size;
-    final width = screenSize.width;
-    final cardSize = (width-40)/4;
     List eventTemplate = Data().eventTemplates;
-    final provider = Provider.of<AppointmentProvider>(context, listen: false);
-    List latestEvents = provider.get8LatestEvents();
     ColorScheme colorScheme = Theme.of(context).colorScheme;
-    //print(latestEvents);
 
     return Scaffold(
       backgroundColor: colorScheme.background,
@@ -33,28 +28,9 @@ class ChooseEvent extends StatelessWidget {
               padding: EdgeInsets.only(left: 18.0, bottom: 8),
               child: Text("Latest", style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold, fontFamily: 'Segoe UI'),),
             ),
-              Container(
-                height: latestEvents.isNotEmpty ? cardSize : 10,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  itemCount: latestEvents.length, // Adjust the number of items as needed
-                  itemBuilder: (context, index) {
-                    final event = latestEvents[index];
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context, event);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0), // Add spacing between items
-                        child: Constants().eventCard(event.subject, event.icon, event.color.withOpacity(0.7)),
-                      ),
-                    );
-                  },
-                ),
-              ),
+              const LatestEvents(),
             const Padding(
-              padding: EdgeInsets.all(18.0),
+              padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 10.0),
               child: Divider(),
             ),
 
@@ -84,3 +60,4 @@ class ChooseEvent extends StatelessWidget {
     );
   }
 }
+

@@ -15,14 +15,14 @@ class Constants {
   );
 
   Widget eventCard(String subject, IconData icon, Color color) => Builder(
-    builder: (context) {
-      ColorScheme colorScheme = Theme.of(context).colorScheme;
-      return Container(
-        color: Colors.transparent,
-        child: Column(
-          children: [
-            Flexible(
-              flex: 4,
+      builder: (context) {
+        ColorScheme colorScheme = Theme.of(context).colorScheme;
+        return Container(
+          color: Colors.transparent,
+          child: Column(
+            children: [
+              Flexible(
+                flex: 4,
                 child: AspectRatio(
                   aspectRatio: 1,
                   child: Container(
@@ -32,29 +32,28 @@ class Constants {
                     ),
 
                     child: Center(child: Icon(icon, color: Colors.white,)),
-                          ),
+                  ),
                 ),
-            ),
-            Flexible(
-                flex: 2,
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: FittedBox(
-                    fit: BoxFit.fitHeight,
-                    child: Text(
-                      subject,
-                      style: TextStyle(
-                        fontFamily: 'Segoe UI',
-                        fontSize: 16,
-                        color: colorScheme.onBackground,
+              ),
+              Flexible(
+                  flex: 2,
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: FittedBox(
+                      fit: BoxFit.fitHeight,
+                      child: Text(
+                        subject,
+                        style: TextStyle(
+                          fontFamily: 'Segoe UI',
+                          fontSize: 16,
+                          color: colorScheme.onBackground,
+                        ),
                       ),
                     ),
-                  ),
-                )),
-          ],
-        ),
-      );
-    }
+                  )),
+            ],
+          ),
+        );
+      }
   );
-
 }

@@ -152,10 +152,25 @@ class AppointmentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<Events> get8LatestEvents() {
+  List<Events> get4LatestEvents() {
     Set<Events> latestEventSet = {};
     List<Events> latestEvents = [];
-    for(int i=_appointments.length; i > _appointments.length-8 && i > 0; i--) {
+    for(int i= _appointments.length; i > _appointments.length-4 && i > 0; i--) {
+      print('provider içi latest $i');
+      final appointment = _appointments[i-1];
+      print('provider içi latest $appointment');
+      final event = Events(subject: appointment.subject, icon: appointment.icon, color: appointment.color);
+      latestEventSet.add(event);
+      print(latestEventSet);
+    }
+    latestEvents = latestEventSet.toList();
+    return latestEvents;
+  }
+
+  List<Events> getOther4LatestEvents() {
+    Set<Events> latestEventSet = {};
+    List<Events> latestEvents = [];
+    for(int i= _appointments.length-4; i > _appointments.length-8 && i > 0; i--) {
       print('provider içi latest $i');
       final appointment = _appointments[i-1];
       print('provider içi latest $appointment');
