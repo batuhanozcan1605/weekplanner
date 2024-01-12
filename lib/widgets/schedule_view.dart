@@ -39,10 +39,11 @@ class _ScheduleViewState extends State<ScheduleView> with SingleTickerProviderSt
       return SfCalendar(
         view: CalendarView.schedule,
         firstDayOfWeek: 1,
-        scheduleViewSettings: ScheduleViewSettings(
+        scheduleViewMonthHeaderBuilder: scheduleViewHeaderBuilder,
+        /*scheduleViewSettings: ScheduleViewSettings(
             hideEmptyScheduleWeek: true,
             monthHeaderSettings: MonthHeaderSettings(backgroundColor: colorScheme.primary,
-                monthTextStyle: TextStyle(color: colorScheme.background, fontWeight: FontWeight.w500))),
+                monthTextStyle: TextStyle(color: colorScheme.background, fontWeight: FontWeight.w500))),*/
         dataSource: EventDataSource(events),
         initialSelectedDate: DateTime.now(),
         //cellBorderColor: Colors.transparent,
@@ -155,4 +156,47 @@ class _ScheduleViewState extends State<ScheduleView> with SingleTickerProviderSt
 
 String getUniqueId(String eventId, DateTime occurrenceDateTime) {
   return '$eventId-${occurrenceDateTime.toIso8601String()}';
+}
+
+Widget scheduleViewHeaderBuilder(
+    BuildContext buildContext, ScheduleViewMonthHeaderDetails details) {
+  final String monthName = _getMonthName(details.date.month);
+  return Stack(
+    children: [
+      Image(
+          image: ExactAssetImage('assets/images/$monthName.png'),
+          fit: BoxFit.cover,
+          width: details.bounds.width,
+          height: details.bounds.height),
+
+    ],
+  );
+}
+
+String _getMonthName(int month) {
+  if (month == 01) {
+    return 'january';
+  } else if (month == 02) {
+    return 'february';
+  } else if (month == 03) {
+    return 'march';
+  } else if (month == 04) {
+    return 'april';
+  } else if (month == 05) {
+    return 'may';
+  } else if (month == 06) {
+    return 'june';
+  } else if (month == 07) {
+    return 'july';
+  } else if (month == 08) {
+    return 'august';
+  } else if (month == 09) {
+    return 'september';
+  } else if (month == 10) {
+    return 'october';
+  } else if (month == 11) {
+    return 'november';
+  } else {
+    return 'december';
+  }
 }
