@@ -40,10 +40,9 @@ class _ScheduleViewState extends State<ScheduleView> with SingleTickerProviderSt
         view: CalendarView.schedule,
         firstDayOfWeek: 1,
         scheduleViewMonthHeaderBuilder: scheduleViewHeaderBuilder,
-        /*scheduleViewSettings: ScheduleViewSettings(
-            hideEmptyScheduleWeek: true,
-            monthHeaderSettings: MonthHeaderSettings(backgroundColor: colorScheme.primary,
-                monthTextStyle: TextStyle(color: colorScheme.background, fontWeight: FontWeight.w500))),*/
+        scheduleViewSettings: const ScheduleViewSettings(
+            hideEmptyScheduleWeek: false,
+            ),
         dataSource: EventDataSource(events),
         initialSelectedDate: DateTime.now(),
         //cellBorderColor: Colors.transparent,

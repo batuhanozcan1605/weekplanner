@@ -611,9 +611,14 @@ class _EventEditingPageState extends State<EventEditingPage> {
               const SizedBox(height: 20),
               GestureDetector(
                 onTap: () => Navigator.pop(context, 30),
-                child: Center(
-                    child: Text('30',
-                  style: TextStyle(color: Constants.softColor, fontSize: 30, fontFamily: 'Segoe UI'),)),
+                child: SizedBox(
+                  height: 100,
+                  width: 100,
+                  child: Center(
+                      child: Text('30',
+                    style: TextStyle(color: Constants.softColor, fontSize: 30, fontFamily: 'Segoe UI'),)
+                  ),
+                ),
               ),
             ],
           ),
