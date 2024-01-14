@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weekplanner/database/DatabaseHelper.dart';
 import 'package:weekplanner/database/DatabaseHelper2.dart';
 import 'package:weekplanner/database/UniqueIdDao.dart';
 import 'package:weekplanner/provider/appointment_provider.dart';
 import 'package:weekplanner/screens/main_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:weekplanner/screens/onboarding_screen.dart';
 import 'package:weekplanner/theme/theme_provider.dart';
 import 'database/AppointmentDao.dart';
 import 'model/MyAppointment.dart';
@@ -13,9 +15,6 @@ import 'model/MyAppointment.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Initialize the database
-  //await DatabaseHelper.instance.database;
 
   runApp(
       MultiProvider(
@@ -40,14 +39,45 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Week Planner App',
       themeMode: Provider.of<ThemeProvider>(context).themeMode,
-      /*darkTheme: ThemeData.dark().copyWith(
-          scaffoldBackgroundColor: Colors.black,
-        primaryColor: Constants.primaryColor
-      ),*/
       theme: Provider.of<ThemeProvider>(context).themeData,
-      home: const SplashScreen(),
+      home: const OnBoardingScreen(),
     );
   }
+}
+
+
+class StartApp extends StatelessWidget {
+  const StartApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<bool>(
+      future: checkIfFirstTime(),
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // Show loading indicator or splash screen
+          return const CircularProgressIndicator();
+        } else if (snapshot.hasData && snapshot.data!) {
+          // Show onboarding screen
+          return const OnBoardingScreen();
+        } else {
+          // Show main content
+          return const SplashScreen();
+        }
+      },
+    );
+  }
+}
+
+Future<bool> checkIfFirstTime() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool isFirstTime = prefs.getBool('isFirstTime') ?? true;
+  return isFirstTime;
+}
+
+Future<void> setFirstTimeFalse() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setBool('isFirstTime', false);
 }
 
 class SplashScreen extends StatefulWidget {
@@ -62,7 +92,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-
+    setFirstTimeFalse();
   }
 
   Future<void> loadData(BuildContext context) async {
