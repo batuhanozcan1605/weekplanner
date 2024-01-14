@@ -57,16 +57,38 @@ class _MainScreenState extends State<MainScreen> {
           if(selectedDateTimeString != null) {
             final DateTime cellDate = DateTime.parse(selectedDateTimeString);
           // ignore: use_build_context_synchronously
-          Navigator.of(context).push(
-          MaterialPageRoute(builder: (BuildContext context) => EventEditingPage(cellDate: cellDate,)),
-        );
+            Navigator.push(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) {
+                  return EventEditingPage(cellDate: cellDate,);
+                },
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  const begin = 0.0;
+                  const end = 1.0;
+                  const curve = Curves.easeInOut;
+
+                  var tween = Tween(begin: begin, end: end).chain(
+                    CurveTween(curve: curve),
+                  );
+
+                  var offsetAnimation = animation.drive(tween);
+
+                  return ScaleTransition(
+                    scale: offsetAnimation,
+                    child: child,
+                  );
+                },
+              ),
+            );
           }
         },
+        heroTag: 'fabHero',
         child: Icon(Icons.add, color: colorScheme.background),
       ),
     );
   }
- //////////////////////////////////////////////////////////////////////////////////////
 
 
 }
