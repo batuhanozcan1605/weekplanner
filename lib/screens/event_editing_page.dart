@@ -87,6 +87,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: colorScheme.background,
@@ -214,7 +215,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                     Flexible(
                       flex: 1,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 38.0, vertical: 5),
+                        padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 5),
                         child: ColorListView(
                           selectedColor: backgroundColor,
                             onColorSelected: (Color color){
@@ -767,107 +768,115 @@ class _EventEditingPageState extends State<EventEditingPage> {
   );
 
 
-  Widget dayPicker() => SizedBox(
-      height: 60,
-      child: daysThisWeek ? ListView(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        scrollDirection: Axis.horizontal,
-        children: List.generate(7, (index) {
-          return InkWell(
-            onTap: () {
-              setState(() {
-                  selectedDays[index] = !selectedDays[index];
-                  selectedDays[index] ? selectedDateObjects.add(
-                      currentWeekDays[index]) : selectedDateObjects.remove(
-                      currentWeekDays[index]);
-                  selectedDateObjects.length == 7
-                      ? isChecked = true
-                      : isChecked = false;
-              });
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4.0),
-              child: Container(
-                height: 60,
-                width: 40,
-                decoration: BoxDecoration(
-                  color: selectedDays[index] ? Colors.deepPurple : Colors.grey,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      _getDayAbbreviation(index),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
+  Widget dayPicker() => Builder(
+    builder: (context) {
+      var screenSize = MediaQuery.of(context).size;
+      final width = screenSize.width;
+      double tileWidth = width/10.3 ;
+      return SizedBox(
+          height: 60,
+          child: daysThisWeek ? ListView(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            children: List.generate(7, (index) {
+
+              return InkWell(
+                onTap: () {
+                  setState(() {
+                      selectedDays[index] = !selectedDays[index];
+                      selectedDays[index] ? selectedDateObjects.add(
+                          currentWeekDays[index]) : selectedDateObjects.remove(
+                          currentWeekDays[index]);
+                      selectedDateObjects.length == 7
+                          ? isChecked = true
+                          : isChecked = false;
+                  });
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  child: Container(
+                    height: 60,
+                    width: tileWidth,
+                    decoration: BoxDecoration(
+                      color: selectedDays[index] ? Colors.deepPurple : Colors.grey,
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                    Text(
-                      '${currentWeekDays[index].day}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          _getDayAbbreviation(index),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          '${currentWeekDays[index].day}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          );
-        }),
-      ): ListView(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        scrollDirection: Axis.horizontal,
-        children: List.generate(7, (index) {
-          return InkWell(
-            onTap: () {
-              setState(() {
-                selectedNextWeekDays[index] = !selectedNextWeekDays[index];
-                selectedNextWeekDays[index] ? selectedDateObjects.add(
-                    nextWeekDays[index]) : selectedDateObjects.remove(
-                    nextWeekDays[index]);
-                selectedDateObjects.length == 7
-                    ? isChecked = true
-                    : isChecked = false;
-              });
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4.0),
-              child: Container(
-                height: 40,
-                width: 40,
-                decoration: BoxDecoration(
-                  color: selectedNextWeekDays[index] ? Colors.deepPurple : Colors.grey,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      _getDayAbbreviation(index),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
+              );
+            }),
+          ): ListView(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            children: List.generate(7, (index) {
+              return InkWell(
+                onTap: () {
+                  setState(() {
+                    selectedNextWeekDays[index] = !selectedNextWeekDays[index];
+                    selectedNextWeekDays[index] ? selectedDateObjects.add(
+                        nextWeekDays[index]) : selectedDateObjects.remove(
+                        nextWeekDays[index]);
+                    selectedDateObjects.length == 7
+                        ? isChecked = true
+                        : isChecked = false;
+                  });
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  child: Container(
+                    height: 40,
+                    width: tileWidth,
+                    decoration: BoxDecoration(
+                      color: selectedNextWeekDays[index] ? Colors.deepPurple : Colors.grey,
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                    Text(
-                      '${nextWeekDays[index].day}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          _getDayAbbreviation(index),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          '${nextWeekDays[index].day}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          );
-        }),
-      )
+              );
+            }),
+          )
+      );
+    }
   );
 
   String _getDayAbbreviation(int index) {

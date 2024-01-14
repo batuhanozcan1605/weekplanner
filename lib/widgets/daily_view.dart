@@ -43,12 +43,12 @@ class _DailyViewState extends State<DailyView> with SingleTickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     final events = Provider.of<AppointmentProvider>(context).events;
-    ColorScheme colorScheme = Theme.of(context).colorScheme;
+
     return Column(
       children: [
         Expanded(
           flex: 1,
-            child: dayListView(colorScheme)
+            child: dayListView()
         ),
         Expanded(
           flex: 12,
@@ -115,81 +115,89 @@ class _DailyViewState extends State<DailyView> with SingleTickerProviderStateMix
     );
   }
 
-  Widget dayListView(ColorScheme colorScheme) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 5.0),
-      child: Align(
-        alignment: Alignment.center,
-        child: ListView(
-          scrollDirection: Axis.horizontal,
-          children: List.generate(14, (index) {
+  Widget dayListView() {
+    return Builder(
+      builder: (context) {
+        ColorScheme colorScheme = Theme.of(context).colorScheme;
+        var screenSize = MediaQuery.of(context).size;
+        final width = screenSize.width;
+        double tileWidth = width/10.3 ;
+        return Padding(
+          padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 5.0),
+          child: Align(
+            alignment: Alignment.center,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: List.generate(14, (index) {
 
-            DateTime currentDate = DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1));
-            DateTime day = currentDate.add(Duration(days: index));
-            return GestureDetector(
-              onTap: () {
-                _controller.displayDate = day;
-                setState(() {
-                  selectedDay = day;
-                });
-              },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 7),
-                child: Container(
-                  width: 42,
-                  decoration: BoxDecoration(
-                  color: colorScheme.background,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(
-            color: colorScheme.background,
-            width: 1
-            ),),
-                  alignment: Alignment.center,
-                   // Customize the color as needed
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      day.day == DateTime.now().day ? Flexible(
-                        flex: 1,
-                        child: Text(
-                          'Today',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: colorScheme.primary,
-                            fontWeight: FontWeight.bold,
+                DateTime currentDate = DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1));
+                DateTime day = currentDate.add(Duration(days: index));
+                return GestureDetector(
+                  onTap: () {
+                    _controller.displayDate = day;
+                    setState(() {
+                      selectedDay = day;
+                    });
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 7),
+                    child: Container(
+                      width: tileWidth,
+                      decoration: BoxDecoration(
+                      color: colorScheme.background,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                color: colorScheme.background,
+                width: 1
+                ),),
+                      alignment: Alignment.center,
+                       // Customize the color as needed
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          day.day == DateTime.now().day ? Flexible(
+                            flex: 1,
+                            child: Text(
+                              'Today',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: colorScheme.primary,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ) : Flexible(
+                            flex: 1,
+                            child: Text(
+                              '${day.day}',
+                              style: TextStyle(
+                                color: colorScheme.primary,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
-                        ),
-                      ) : Flexible(
-                        flex: 1,
-                        child: Text(
-                          '${day.day}',
-                          style: TextStyle(
-                            color: colorScheme.primary,
-                            fontWeight: FontWeight.bold,
+                          const SizedBox(height: 5,),
+                          Flexible(
+                            flex: 1,
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 500),
+                              width: selectedDay.day == day.day ? 10:0,
+                              height: selectedDay.day == day.day ? 10:0,
+                              child: CircleAvatar(
+                                backgroundColor: colorScheme.primary,
+                                //radius: 5,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      const SizedBox(height: 5,),
-                      Flexible(
-                        flex: 1,
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 500),
-                          width: selectedDay.day == day.day ? 10:0,
-                          height: selectedDay.day == day.day ? 10:0,
-                          child: CircleAvatar(
-                            backgroundColor: colorScheme.primary,
-                            //radius: 5,
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
-                ),
-              ),
-            );
-          }),
-        ),
-      ),
+                        ],
+                      )
+                    ),
+                  ),
+                );
+              }),
+            ),
+          ),
+        );
+      }
     );
   }
 
