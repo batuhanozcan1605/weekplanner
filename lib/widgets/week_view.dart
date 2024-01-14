@@ -24,7 +24,6 @@ class WeekView extends StatelessWidget {
     return SfCalendar(
       view: CalendarView.week,
       firstDayOfWeek: 1,
-      scheduleViewSettings: ScheduleViewSettings(monthHeaderSettings: MonthHeaderSettings(backgroundColor: Constants.themePurple, monthTextStyle: TextStyle(color: Colors.black))),
       dataSource: EventDataSource(events),
       initialSelectedDate: DateTime.now(),
       //cellBorderColor: Colors.transparent,

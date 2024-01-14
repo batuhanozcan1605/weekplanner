@@ -34,7 +34,6 @@ class _ScheduleViewState extends State<ScheduleView> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     final events = Provider.of<AppointmentProvider>(context).events;
-    ColorScheme colorScheme = Theme.of(context).colorScheme;
 
       return SfCalendar(
         view: CalendarView.schedule,
@@ -128,7 +127,7 @@ class _ScheduleViewState extends State<ScheduleView> with SingleTickerProviderSt
                             setState(() {
                               tappedEventId = event.id;
                             });
-                            print(isCompleted[event.id]);
+
                             controller.reset();
                             if(event.recurrenceRule == null) {
                               provider.editCompletedEvent(event);

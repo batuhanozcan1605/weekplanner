@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:weekplanner/constants.dart';
 import 'package:weekplanner/data.dart';
-import 'package:weekplanner/provider/appointment_provider.dart';
 import 'package:weekplanner/widgets/latest_events_pageview.dart';
 
 class ChooseEvent extends StatelessWidget {
