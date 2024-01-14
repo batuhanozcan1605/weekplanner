@@ -28,7 +28,7 @@ class PseudoAppBar extends StatelessWidget {
                     children: [
                       Icon(Icons.view_timeline, color: value.scheduleView == true ? colorScheme.primary : colorScheme.onBackground),
                       const SizedBox(height: 10,),
-                      Text('TO DO', style: TextStyle(color: value.scheduleView == true ? colorScheme.primary : colorScheme.onBackground),),
+                      Text('TO DO', style: TextStyle(color: value.scheduleView == true ? colorScheme.primary : colorScheme.onBackground, fontFamily: 'Montserrat'),),
                     ],
                   ),
                 ),
@@ -39,7 +39,7 @@ class PseudoAppBar extends StatelessWidget {
                     children: [
                       Icon(Icons.view_week_rounded, color: value.weekView == true ? colorScheme.primary : colorScheme.onBackground),
                       const SizedBox(height: 10,),
-                      Text('WEEKS', style: TextStyle(color: value.weekView == true ? colorScheme.primary : colorScheme.onBackground),),
+                      Text('WEEKS', style: TextStyle(color: value.weekView == true ? colorScheme.primary : colorScheme.onBackground, fontFamily: 'Montserrat'),),
                     ],
                   ),
                 ),
@@ -50,7 +50,7 @@ class PseudoAppBar extends StatelessWidget {
                     children: [
                       Icon(Icons.view_day, color: value.dayView == true ? colorScheme.primary : colorScheme.onBackground),
                       const SizedBox(height: 10,),
-                      Text('DAYS', style: TextStyle(color: value.dayView == true ? colorScheme.primary : colorScheme.onBackground),),
+                      Text('DAYS', style: TextStyle(color: value.dayView == true ? colorScheme.primary : colorScheme.onBackground, fontFamily: 'Montserrat'),),
                     ],
                   ),
                 ),

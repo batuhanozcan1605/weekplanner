@@ -24,7 +24,7 @@ class ChooseEvent extends StatelessWidget {
             children: [
             const Padding(
               padding: EdgeInsets.only(left: 18.0, bottom: 8),
-              child: Text("Latest", style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold, fontFamily: 'Segoe UI'),),
+              child: Text("Latest", style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold, fontFamily: 'Montserrat'),),
             ),
               const LatestEvents(),
             const Padding(
