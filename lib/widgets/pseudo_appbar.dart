@@ -5,7 +5,7 @@ import '../theme/theme_provider.dart';
 import 'menu_button.dart';
 
 class PseudoAppBar extends StatelessWidget {
-  const PseudoAppBar({Key? key}) : super(key: key);
+  const PseudoAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +15,7 @@ class PseudoAppBar extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        IconButton(
-            onPressed: (){
-
-            },
-            icon: Icon(Icons.light_mode)),
+        Icon(Icons.pie_chart, color: colorScheme.background,),
         Consumer<AppointmentProvider>(
           builder: (BuildContext context, AppointmentProvider value, Widget? child) {
             return Row(
