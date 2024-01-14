@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weekplanner/provider/appointment_provider.dart';
-import 'package:weekplanner/theme/theme_provider.dart';
-import 'package:weekplanner/widgets/menu_button.dart';
 import 'package:weekplanner/widgets/pseudo_appbar.dart';
 import 'package:weekplanner/widgets/schedule_view.dart';
 import 'package:weekplanner/widgets/week_view.dart';
@@ -11,7 +9,7 @@ import '../widgets/daily_view.dart';
 import 'event_editing_page.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  const MainScreen({super.key});
 
   @override
   State<MainScreen> createState() => _MainScreenState();

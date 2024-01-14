@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weekplanner/constants.dart';
-import 'package:weekplanner/database/AppointmentDao.dart';
 import 'package:weekplanner/screens/event_editing_page.dart';
 import 'package:weekplanner/utils.dart';
 import '../model/MyAppointment.dart';
 import '../provider/appointment_provider.dart';
 
 class EventViewingPage extends StatelessWidget {
-  const EventViewingPage({Key? key, required this.appointment}) : super(key: key);
+  const EventViewingPage({super.key, required this.appointment});
 
   final MyAppointment appointment;
 
@@ -85,16 +84,16 @@ class EventViewingPage extends StatelessWidget {
                 ],
               ),
             ),
-            appointment.recurrenceRule != null ? Row(
+            appointment.recurrenceRule != null ? const Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
               Icon(Icons.repeat, color: Constants.themePurple,),
-              const SizedBox(width: 8,),
-              const Text('Recurring Event'),
+              SizedBox(width: 8,),
+              Text('Recurring Event'),
             ],
             ) : const Center(),
-            Padding(
-              padding: const EdgeInsets.all(18.0),
+            const Padding(
+              padding: EdgeInsets.all(18.0),
               child: Divider(color: Constants.themePurple,),
             ),
             Padding(
@@ -107,7 +106,7 @@ class EventViewingPage extends StatelessWidget {
                 width: 300,
                 height: 300,
                 color: Colors.white,
-                child: Center(child: Text('AD BANNER', style: TextStyle(color: Colors.orangeAccent),)),
+                child: const Center(child: Text('AD BANNER', style: TextStyle(color: Colors.orangeAccent),)),
               ),
             )
           ],

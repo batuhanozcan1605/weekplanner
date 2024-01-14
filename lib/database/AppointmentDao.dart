@@ -1,6 +1,4 @@
-import 'dart:ui';
-import 'package:flutter/cupertino.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:flutter/material.dart';
 import 'package:weekplanner/database/DatabaseHelper.dart';
 import '../model/MyAppointment.dart';
 

@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:weekplanner/constants.dart';
 import '../model/MyAppointment.dart';
 import '../model/event_data_source.dart';
 import '../provider/appointment_provider.dart';
 import '../screens/event_viewing_page.dart';
 
 class WeekView extends StatelessWidget {
-  const WeekView({Key? key}) : super(key: key);
+  const WeekView({super.key});
 
   Future<void> setDefaultCellDate() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();

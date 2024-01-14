@@ -1,11 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:weekplanner/database/UniqueIdDao.dart';
 import '../database/AppointmentDao.dart';
-import '../database/DatabaseHelper.dart';
 import '../model/Events.dart';
 import '../model/MyAppointment.dart';
-import '../model/UniqueId.dart';
 
 class AppointmentProvider extends ChangeNotifier {
   List<MyAppointment> _appointments = [];
@@ -38,7 +35,7 @@ class AppointmentProvider extends ChangeNotifier {
     _scheduleView = false;
     _weekView = false;
     _dayView = true;
-    print("show day view");
+
     notifyListeners();
   }
 
@@ -156,12 +153,12 @@ class AppointmentProvider extends ChangeNotifier {
     Set<Events> latestEventSet = {};
     List<Events> latestEvents = [];
     for(int i= _appointments.length; i > _appointments.length-4 && i > 0; i--) {
-      print('provider içi latest $i');
+
       final appointment = _appointments[i-1];
-      print('provider içi latest $appointment');
+
       final event = Events(subject: appointment.subject, icon: appointment.icon, color: appointment.color);
       latestEventSet.add(event);
-      print(latestEventSet);
+
     }
     latestEvents = latestEventSet.toList();
     return latestEvents;
@@ -171,12 +168,12 @@ class AppointmentProvider extends ChangeNotifier {
     Set<Events> latestEventSet = {};
     List<Events> latestEvents = [];
     for(int i= _appointments.length-4; i > _appointments.length-8 && i > 0; i--) {
-      print('provider içi latest $i');
+
       final appointment = _appointments[i-1];
-      print('provider içi latest $appointment');
+
       final event = Events(subject: appointment.subject, icon: appointment.icon, color: appointment.color);
       latestEventSet.add(event);
-      print(latestEventSet);
+
     }
     latestEvents = latestEventSet.toList();
     return latestEvents;

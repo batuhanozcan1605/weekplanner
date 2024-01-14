@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weekplanner/provider/appointment_provider.dart';
-import '../theme/theme_provider.dart';
 import 'menu_button.dart';
 
 class PseudoAppBar extends StatelessWidget {
@@ -58,7 +57,7 @@ class PseudoAppBar extends StatelessWidget {
             );
           },
         ),
-        MenuButton(),
+        const MenuButton(),
       ],
     );
   }

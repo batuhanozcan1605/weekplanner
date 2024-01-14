@@ -1,18 +1,15 @@
-import 'package:sqflite/sqflite.dart';
-import 'package:weekplanner/database/DatabaseHelper.dart';
 import 'package:weekplanner/database/DatabaseHelper2.dart';
-import 'package:weekplanner/model/UniqueId.dart';
 
 class UniqueIdDao {
 
   Future<void> insertData(String uniqueId) async {
     final db = await DatabaseHelper2.database();
-    print('debugg $uniqueId');
+
     await db.insert(
       'uniqueId',
       {'uniqueId': uniqueId},
     );
-    print('debugg $uniqueId');
+
   }
 
   Future<void> deleteAppointment(String uniqueId) async {

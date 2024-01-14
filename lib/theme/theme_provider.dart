@@ -11,10 +11,6 @@ class ThemeProvider with ChangeNotifier {
 
   ThemeData get themeData => _themeData;
 
-  double _rebuild = 0;
-
-  double get rebuild => _rebuild;
-
   set themeMode(ThemeMode themeMode) {
     _themeMode = themeMode;
     notifyListeners();

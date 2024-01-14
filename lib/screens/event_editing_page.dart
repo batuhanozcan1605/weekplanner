@@ -195,13 +195,13 @@ class _EventEditingPageState extends State<EventEditingPage> {
                                 icon = selectedEvent!.icon as IconData;
                               });
                             },
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.add_circle,
                               color: Constants.softColor,
                             ),
                             iconSize: 30,
                           ),
-                          Text("Event",
+                          const Text("Event",
                               style: TextStyle(
                                   color: Constants.softColor,
                                   fontSize: 12,
@@ -548,7 +548,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
       toDate = fromDate.add(Duration(
           hours: selectedDurationHour!.inHours, minutes: selectedDurationMinute));
     }
-    
+
     final event = MyAppointment(
       id: provider.getHighestId() + 1,
       subject: titleController.text,
@@ -589,7 +589,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
   Widget buildTitle() => TextFormField(
         autofocus: false,
-        style: TextStyle(
+        style: const TextStyle(
             color: Constants.softColor, fontSize: 20, fontFamily: 'Segoe UI'),
         decoration: InputDecoration(
           border: InputBorder.none,
@@ -603,9 +603,9 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
   Widget buildDetailInput() => TextFormField(
         maxLines: 2,
-        style: TextStyle(
+        style: const TextStyle(
             color: Constants.softColor, fontSize: 14, fontFamily: 'Segoe UI'),
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
             border: InputBorder.none,
             hintText: 'Details',
             hintStyle: TextStyle(color: Constants.softColor)),
@@ -710,7 +710,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
             children: [
               GestureDetector(
                 onTap: () => Navigator.pop(context, 0),
-                child: SizedBox(
+                child: const SizedBox(
                   height: 100,
                   width: 100,
                   child: Center(
@@ -726,7 +726,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
               const SizedBox(height: 20),
               GestureDetector(
                 onTap: () => Navigator.pop(context, 30),
-                child: SizedBox(
+                child: const SizedBox(
                   height: 100,
                   width: 100,
                   child: Center(
@@ -794,7 +794,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
         padding: const EdgeInsets.only(left: 14.0),
         child: Row(
           children: [
-            Expanded(
+            const Expanded(
               flex: 1,
               child: Icon(
                 Icons.arrow_back,

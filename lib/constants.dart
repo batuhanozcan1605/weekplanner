@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 
 class Constants {
 
-  static final primaryColor =  Color(0xFFBFB528);
-  static final softColor = Color(0xFFF3E7E7);
-  static final lightGrey = Color(0xFF74736F);
-  static final themePurple = Color(0xFFD0BBFF);
+
+  static const softColor = Color(0xFFF3E7E7);
+  static const lightGrey = Color(0xFF74736F);
+  static const themePurple = Color(0xFFD0BBFF);
 
 
-  Widget myText(input) => Text(
+  /*Widget myText(input) => Text(
     '$input',
-    style: TextStyle(color: softColor),
-  );
+    style: const TextStyle(color: softColor),
+  );*/
 
   Widget eventCard(String subject, IconData icon, Color color) => Builder(
       builder: (context) {
