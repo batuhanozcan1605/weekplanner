@@ -454,9 +454,15 @@ class _EventEditingPageState extends State<EventEditingPage> {
     for (int i = 0; i < selectedDateObjects.length; i++) {
       DateTime newFromDate = DateTime(fromDate.year, fromDate.month,
           selectedDateObjects[i].day, fromDate.hour, fromDate.minute);
-      toDate = newFromDate.add(Duration(
-          hours: selectedDurationHour!.inHours,
-          minutes: selectedDurationMinute));
+      DateTime checkToDateIf00 = newFromDate.add(Duration(
+          hours: selectedDurationHour!.inHours, minutes: selectedDurationMinute));
+      if(checkToDateIf00.hour == 0 && checkToDateIf00.minute == 0){
+        toDate = fromDate.add(Duration(
+            hours: selectedDurationHour!.inHours, minutes: selectedDurationMinute)).subtract(const Duration(minutes: 1));
+      }else{
+        toDate = fromDate.add(Duration(
+            hours: selectedDurationHour!.inHours, minutes: selectedDurationMinute));
+      }
 
       final event = MyAppointment(
         id: highestId + i,
@@ -484,8 +490,16 @@ class _EventEditingPageState extends State<EventEditingPage> {
       return;
     }
 
-    toDate = fromDate.add(Duration(
+    DateTime checkToDateIf00 = fromDate.add(Duration(
         hours: selectedDurationHour!.inHours, minutes: selectedDurationMinute));
+    if(checkToDateIf00.hour == 0 && checkToDateIf00.minute == 0){
+      toDate = fromDate.add(Duration(
+          hours: selectedDurationHour!.inHours, minutes: selectedDurationMinute)).subtract(const Duration(minutes: 1));
+    }else{
+      toDate = fromDate.add(Duration(
+          hours: selectedDurationHour!.inHours, minutes: selectedDurationMinute));
+    }
+
     final event = MyAppointment(
       id: provider.getHighestId() + 1,
       subject: titleController.text,
@@ -525,8 +539,16 @@ class _EventEditingPageState extends State<EventEditingPage> {
         ? Utils.dayAbbreviationForMultipleDays(selectedDateObjects)
         : Utils.dayAbbreviation(fromDate);
 
-    toDate = fromDate.add(Duration(
+    DateTime checkToDateIf00 = fromDate.add(Duration(
         hours: selectedDurationHour!.inHours, minutes: selectedDurationMinute));
+    if(checkToDateIf00.hour == 0 && checkToDateIf00.minute == 0){
+      toDate = fromDate.add(Duration(
+          hours: selectedDurationHour!.inHours, minutes: selectedDurationMinute)).subtract(const Duration(minutes: 1));
+    }else{
+      toDate = fromDate.add(Duration(
+          hours: selectedDurationHour!.inHours, minutes: selectedDurationMinute));
+    }
+    
     final event = MyAppointment(
       id: provider.getHighestId() + 1,
       subject: titleController.text,
