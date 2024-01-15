@@ -30,7 +30,7 @@ class MenuButton extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: (){
-              themeProvider.toggleThemeMode();
+              //themeProvider.toggleThemeMode();
               themeProvider.toggleTheme();
               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const MainScreen()));
 

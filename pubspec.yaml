@@ -49,6 +49,7 @@ dependencies:
   state_notifier: ^1.0.0
   page_view_dot_indicator: ^2.3.0
   flutter_svg: ^2.0.9
+  flutter_inset_box_shadow: ^1.0.8
 
 dev_dependencies:
   flutter_test:

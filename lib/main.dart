@@ -15,19 +15,22 @@ import 'model/MyAppointment.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  final isDark = sharedPreferences.getBool('isDark') ?? true;
 
   runApp(
       MultiProvider(
         providers: [
-          ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider()),
+          ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider(isDark)),
           ChangeNotifierProvider<AppointmentProvider>(create: (_) => AppointmentProvider()),
         ],
-            child: const MyApp()),
+            child: MyApp()),
       );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +41,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Week Planner App',
-      themeMode: Provider.of<ThemeProvider>(context).themeMode,
+      //themeMode: Provider.of<ThemeProvider>(context).themeMode,
       theme: Provider.of<ThemeProvider>(context).themeData,
       home: const OnBoardingScreen(),
     );
