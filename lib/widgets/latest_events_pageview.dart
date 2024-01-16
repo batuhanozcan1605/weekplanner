@@ -75,7 +75,7 @@ class _LatestEventsState extends State<LatestEvents> {
           ),
         ),
         const SizedBox(height: 8),
-        PageViewDotIndicator(
+        latestEvents.isNotEmpty ? PageViewDotIndicator(
           size: const Size(12, 12),
           unselectedSize: const Size(8, 8),
           count: 2,
@@ -89,7 +89,7 @@ class _LatestEventsState extends State<LatestEvents> {
           currentItem: selectedPage,
           unselectedColor: Colors.grey,
           selectedColor: colorScheme.primary,
-        ),
+        ) : const Center(),
       ],
     );
   }

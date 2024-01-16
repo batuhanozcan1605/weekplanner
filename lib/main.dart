@@ -24,7 +24,7 @@ void main() async {
           ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider(isDark)),
           ChangeNotifierProvider<AppointmentProvider>(create: (_) => AppointmentProvider()),
         ],
-            child: MyApp()),
+            child: const MyApp()),
       );
 }
 
@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
       title: 'Week Planner App',
       //themeMode: Provider.of<ThemeProvider>(context).themeMode,
       theme: Provider.of<ThemeProvider>(context).themeData,
-      home: const OnBoardingScreen(),
+      home: const StartApp(),
     );
   }
 }
