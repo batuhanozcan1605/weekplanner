@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:weekplanner/ad_helper.dart';
 import 'package:weekplanner/provider/appointment_provider.dart';
 import 'package:weekplanner/widgets/pseudo_appbar.dart';
 import 'package:weekplanner/widgets/schedule_view.dart';
@@ -16,83 +18,103 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  BannerAd? _bannerAd;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _createBannerAd();
+  }
 
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8.0),
-              child: PseudoAppBar(),
-            ),
-            Expanded(
-                child: Consumer<AppointmentProvider>(
-                  builder: (BuildContext context, AppointmentProvider value, Widget? child) {
-                  return AnimatedSwitcher(
-                    switchInCurve: Curves.easeIn,
-                    switchOutCurve: Curves.easeOut,
-                    duration: const Duration(milliseconds: 500),
-                    child: value.weekView ? const WeekView() : AnimatedSwitcher(
-                        switchInCurve: Curves.easeIn,
-                        switchOutCurve: Curves.easeOut,
-                        duration: const Duration(milliseconds: 500),
-                        child: value.scheduleView == false ? const DailyView() : const ScheduleView()),
-                    );
-                  }
-                )
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-       backgroundColor: colorScheme.primary,
-        onPressed: () async {
-          final SharedPreferences prefs = await SharedPreferences.getInstance();
-          final String? selectedDateTimeString = prefs.getString('selectedDateTime');
-          if(selectedDateTimeString != null) {
-            final DateTime cellDate = DateTime.parse(selectedDateTimeString);
-          // ignore: use_build_context_synchronously
-            Navigator.push(
-              context,
-              PageRouteBuilder(
-                pageBuilder: (context, animation, secondaryAnimation) {
-                  return EventEditingPage(cellDate: cellDate,);
-                },
-                transitionsBuilder:
-                    (context, animation, secondaryAnimation, child) {
-                  const begin = 0.0;
-                  const end = 1.0;
-                  const curve = Curves.easeInOut;
-
-                  var tween = Tween(begin: begin, end: end).chain(
-                    CurveTween(curve: curve),
-                  );
-
-                  var offsetAnimation = animation.drive(tween);
-
-                  return ScaleTransition(
-                    scale: offsetAnimation,
-                    child: child,
-                  );
-                },
+        body: SafeArea(
+          child: Column(
+            children: [
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                child: PseudoAppBar(),
               ),
-            );
-          }
-        },
-        heroTag: 'fabHero',
-        child: Icon(Icons.add, color: colorScheme.background),
-      ),
-      bottomNavigationBar: Container(
-        height: 50,
-        color: Colors.white,
-        child: Center(child: Text('Ad Banner', style: TextStyle(color: Colors.black),),),
-      ),
-    );
+              Expanded(child: Consumer<AppointmentProvider>(builder:
+                  (BuildContext context, AppointmentProvider value,
+                      Widget? child) {
+                return AnimatedSwitcher(
+                  switchInCurve: Curves.easeIn,
+                  switchOutCurve: Curves.easeOut,
+                  duration: const Duration(milliseconds: 500),
+                  child: value.weekView
+                      ? const WeekView()
+                      : AnimatedSwitcher(
+                          switchInCurve: Curves.easeIn,
+                          switchOutCurve: Curves.easeOut,
+                          duration: const Duration(milliseconds: 500),
+                          child: value.scheduleView == false
+                              ? const DailyView()
+                              : const ScheduleView()),
+                );
+              })),
+            ],
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: colorScheme.primary,
+          onPressed: () async {
+            final SharedPreferences prefs =
+                await SharedPreferences.getInstance();
+            final String? selectedDateTimeString =
+                prefs.getString('selectedDateTime');
+            if (selectedDateTimeString != null) {
+              final DateTime cellDate = DateTime.parse(selectedDateTimeString);
+              // ignore: use_build_context_synchronously
+              Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) {
+                    return EventEditingPage(
+                      cellDate: cellDate,
+                    );
+                  },
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    const begin = 0.0;
+                    const end = 1.0;
+                    const curve = Curves.easeInOut;
+
+                    var tween = Tween(begin: begin, end: end).chain(
+                      CurveTween(curve: curve),
+                    );
+
+                    var offsetAnimation = animation.drive(tween);
+
+                    return ScaleTransition(
+                      scale: offsetAnimation,
+                      child: child,
+                    );
+                  },
+                ),
+              );
+            }
+          },
+          heroTag: 'fabHero',
+          child: Icon(Icons.add, color: colorScheme.background),
+        ),
+        bottomNavigationBar: _bannerAd == null
+            ? Container()
+            : SizedBox(
+                height: 52,
+                child: AdWidget(ad: _bannerAd!),
+              ));
   }
 
-
+  void _createBannerAd() {
+    _bannerAd = BannerAd(
+      size: AdSize.fullBanner,
+      adUnitId: AdHelper.bannerAdUnitId,
+      listener: AdHelper.bannerAdListener,
+      request: const AdRequest(),
+    )..load();
+  }
 }
-
