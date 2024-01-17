@@ -55,4 +55,16 @@ class AppointmentDao {
     });
   }
 
+  Future<void> deleteObsoleteData(List fetchedAppointments) async {
+
+    fetchedAppointments.forEach((appointment) {
+      if(appointment.recurrenceRule == null) {
+        if (appointment.endTime.isBefore(DateTime.now().subtract(const Duration(days: 31)))) {
+          deleteAppointment(appointment.id);
+        }
+      }
+    });
+
+  }
+
 }

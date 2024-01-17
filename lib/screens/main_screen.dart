@@ -85,6 +85,11 @@ class _MainScreenState extends State<MainScreen> {
         heroTag: 'fabHero',
         child: Icon(Icons.add, color: colorScheme.background),
       ),
+      bottomNavigationBar: Container(
+        height: 50,
+        color: Colors.white,
+        child: Center(child: Text('Ad Banner', style: TextStyle(color: Colors.black),),),
+      ),
     );
   }
 

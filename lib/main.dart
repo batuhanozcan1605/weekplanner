@@ -109,6 +109,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
       List<MyAppointment> fetchedAppointments = await AppointmentDao().getAllAppointments();
       List<String> fetchedUniqueIds = await UniqueIdDao().getAllUniqueIds();
+      AppointmentDao().deleteObsoleteData(fetchedAppointments);
 
       // ignore: use_build_context_synchronously
       final provider = Provider.of<AppointmentProvider>(context, listen: false);
