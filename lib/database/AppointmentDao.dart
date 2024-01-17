@@ -1,11 +1,14 @@
-import 'dart:ui';
-import 'package:flutter/cupertino.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:flutter/material.dart';
 import 'package:weekplanner/database/DatabaseHelper.dart';
 import '../model/MyAppointment.dart';
 
 class AppointmentDao {
 
+  Future<void> updateIsCompleted(MyAppointment appointment) async {
+    MyAppointment myAppointment = appointment;
+    myAppointment.isCompleted = myAppointment.isCompleted == 1 ? 0 : 1;
+    updateAppointment(myAppointment);
+  }
 
   // Example method: Insert appointment
     Future<void> insertAppointment(MyAppointment appointment) async {
@@ -47,8 +50,21 @@ class AppointmentDao {
         color: Color(maps[i]['color']),
         icon: IconData(maps[i]['icon'], fontFamily: 'MaterialIcons'),
         recurrenceRule: maps[i]['recurrenceRule'],
+        isCompleted: maps[i]['isCompleted']
       );
     });
+  }
+
+  Future<void> deleteObsoleteData(List fetchedAppointments) async {
+
+    fetchedAppointments.forEach((appointment) {
+      if(appointment.recurrenceRule == null) {
+        if (appointment.endTime.isBefore(DateTime.now().subtract(const Duration(days: 31)))) {
+          deleteAppointment(appointment.id);
+        }
+      }
+    });
+
   }
 
 }

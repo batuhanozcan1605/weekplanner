@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:weekplanner/constants.dart';
 import '../model/MyAppointment.dart';
 import '../model/event_data_source.dart';
 import '../provider/appointment_provider.dart';
 import '../screens/event_viewing_page.dart';
 
 class WeekView extends StatelessWidget {
-  const WeekView({Key? key}) : super(key: key);
+  const WeekView({super.key});
 
   Future<void> setDefaultCellDate() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -24,7 +23,6 @@ class WeekView extends StatelessWidget {
     return SfCalendar(
       view: CalendarView.week,
       firstDayOfWeek: 1,
-      scheduleViewSettings: ScheduleViewSettings(monthHeaderSettings: MonthHeaderSettings(backgroundColor: Constants.themePurple, monthTextStyle: TextStyle(color: Colors.black))),
       dataSource: EventDataSource(events),
       initialSelectedDate: DateTime.now(),
       //cellBorderColor: Colors.transparent,
@@ -40,12 +38,13 @@ class WeekView extends StatelessWidget {
             color: event.color,
             recurrenceRule: event.recurrenceRule,
             notes: event.notes,
+              isCompleted: event.recurrenceRule == null ? event.isCompleted : 0,
           );
 
           Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventViewingPage(appointment: myAppointment)));
         } else if(details.targetElement == CalendarElement.calendarCell) {
           DateTime tappedDate = details.date!;
-          print('Tapped on cell: $tappedDate');
+
           //save cell info
           final SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('selectedDateTime', tappedDate.toIso8601String());
@@ -61,8 +60,7 @@ class WeekView extends StatelessWidget {
       ) {
     final icons = Provider.of<AppointmentProvider>(context).icons;
     final event = details.appointments.first;
-    print('${details.bounds.width}');
-    print('${details.bounds.height}');
+
     return Container(
       width: details.bounds.width,
       height: details.bounds.height,

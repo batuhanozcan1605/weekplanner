@@ -1,104 +1,98 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:weekplanner/constants.dart';
+import 'package:weekplanner/provider/appointment_provider.dart';
+import 'package:weekplanner/widgets/pseudo_appbar.dart';
 import 'package:weekplanner/widgets/schedule_view.dart';
 import 'package:weekplanner/widgets/week_view.dart';
-import '../provider/appointment_provider.dart';
 import '../widgets/daily_view.dart';
 import 'event_editing_page.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  const MainScreen({super.key});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-  bool scheduleView = false;
-  bool weekView = false;
-  bool dayView = true;
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(
-                        onPressed: () => setState(() {
-                          scheduleView = true;
-                          weekView = false;
-                          dayView = false;
-                        }),
-                        icon: Icon(Icons.view_timeline, color: scheduleView == true ? Constants.themePurple : Colors.white)),
-                    Text('SCHEDULE', style: TextStyle(color: scheduleView == true ? Constants.themePurple : Colors.white),),
-                  ],
-                ),
-                SizedBox(width: 20,),
-                Column(
-                  children: [
-                    IconButton(
-                        onPressed: () => setState(() {
-                          weekView = true;
-                          scheduleView = false;
-                          dayView = false;
-                        }),
-                        icon: Icon(Icons.view_week_rounded, color: weekView == true ? Constants.themePurple : Colors.white)),
-                    Text('WEEKS', style: TextStyle(color: weekView == true ? Constants.themePurple : Colors.white),),
-                  ],
-                ),
-                SizedBox(width: 20,),
-                Column(
-                  children: [
-                    IconButton(
-                        onPressed: () => setState(() {
-                          scheduleView = false;
-                          weekView = false;
-                          dayView = true;
-                        }),
-                        icon: Icon(Icons.view_day, color: dayView == true ? Constants.themePurple : Colors.white)),
-                    Text('DAYS', style: TextStyle(color: dayView == true ? Constants.themePurple : Colors.white),),
-                  ],
-                ),
-              ],
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              child: PseudoAppBar(),
             ),
             Expanded(
-                child: AnimatedSwitcher(
-                  child: weekView ? WeekView() : AnimatedSwitcher(
-                      switchInCurve: Curves.easeIn,
-                      switchOutCurve: Curves.easeOut,
-                      duration: Duration(milliseconds: 500),
-                      child: scheduleView == false ? DailyView() : const ScheduleView()),
-                  switchInCurve: Curves.easeIn,
-                  switchOutCurve: Curves.easeOut,
-                  duration: Duration(milliseconds: 500),)
+                child: Consumer<AppointmentProvider>(
+                  builder: (BuildContext context, AppointmentProvider value, Widget? child) {
+                  return AnimatedSwitcher(
+                    switchInCurve: Curves.easeIn,
+                    switchOutCurve: Curves.easeOut,
+                    duration: const Duration(milliseconds: 500),
+                    child: value.weekView ? const WeekView() : AnimatedSwitcher(
+                        switchInCurve: Curves.easeIn,
+                        switchOutCurve: Curves.easeOut,
+                        duration: const Duration(milliseconds: 500),
+                        child: value.scheduleView == false ? const DailyView() : const ScheduleView()),
+                    );
+                  }
+                )
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Constants.themePurple,
+       backgroundColor: colorScheme.primary,
         onPressed: () async {
           final SharedPreferences prefs = await SharedPreferences.getInstance();
           final String? selectedDateTimeString = prefs.getString('selectedDateTime');
           if(selectedDateTimeString != null) {
             final DateTime cellDate = DateTime.parse(selectedDateTimeString);
-            print("CELL DATE $cellDate");
-          Navigator.of(context).push(
-          MaterialPageRoute(builder: (BuildContext context) => EventEditingPage(cellDate: cellDate,)),
-        );
+          // ignore: use_build_context_synchronously
+            Navigator.push(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) {
+                  return EventEditingPage(cellDate: cellDate,);
+                },
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  const begin = 0.0;
+                  const end = 1.0;
+                  const curve = Curves.easeInOut;
+
+                  var tween = Tween(begin: begin, end: end).chain(
+                    CurveTween(curve: curve),
+                  );
+
+                  var offsetAnimation = animation.drive(tween);
+
+                  return ScaleTransition(
+                    scale: offsetAnimation,
+                    child: child,
+                  );
+                },
+              ),
+            );
           }
         },
-        child: Icon(Icons.add, color: Colors.black),
+        heroTag: 'fabHero',
+        child: Icon(Icons.add, color: colorScheme.background),
+      ),
+      bottomNavigationBar: Container(
+        height: 50,
+        color: Colors.white,
+        child: Center(child: Text('Ad Banner', style: TextStyle(color: Colors.black),),),
       ),
     );
   }
+
+
 }
+

@@ -1,6 +1,4 @@
-import 'dart:io';
 import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
@@ -19,7 +17,8 @@ class DatabaseHelper {
             notes TEXT,
             color INTEGER,
             icon INTEGER,
-            recurrenceRule TEXT
+            recurrenceRule TEXT,
+            isCompleted INTEGER DEFAULT 0
         )"""
             );
       },

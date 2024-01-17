@@ -1,16 +1,52 @@
 import 'package:flutter/cupertino.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:weekplanner/database/UniqueIdDao.dart';
 import '../database/AppointmentDao.dart';
-import '../database/DatabaseHelper.dart';
 import '../model/Events.dart';
 import '../model/MyAppointment.dart';
 
 class AppointmentProvider extends ChangeNotifier {
   List<MyAppointment> _appointments = [];
   Map<int, IconData> _icons = {};
+  Map<int, int> _isCompleted = {};
+  List<String> _uniqueIds = [];
 
   List<MyAppointment> get events => _appointments;
   Map<int, IconData> get icons => _icons;
+  Map<int, int> get isCompleted => _isCompleted;
+  List<String> get uniqueIds => _uniqueIds;
+
+  //main screen providers
+  bool _scheduleView = false;
+  bool _weekView = true;
+  bool _dayView = false;
+  int rebuildCalender = 0;
+
+  bool get scheduleView => _scheduleView;
+  bool get weekView => _weekView;
+  bool get dayView => _dayView;
+
+  void showWeekView() {
+    _scheduleView = false;
+    _weekView = true;
+    _dayView = false;
+    notifyListeners();
+  }
+  void showDayView() {
+    _scheduleView = false;
+    _weekView = false;
+    _dayView = true;
+
+    notifyListeners();
+  }
+
+  void showScheduleView() {
+    _scheduleView = true;
+    _weekView = false;
+    _dayView = false;
+    notifyListeners();
+  }
+  //main screen providers
+
 
   int getHighestId() {
     var highestId = _appointments.isNotEmpty
@@ -30,12 +66,28 @@ class AppointmentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void initializeIsCompleted(Map<int, int> fetchedIsCompleted) {
+    _isCompleted = fetchedIsCompleted;
+    notifyListeners();
+  }
+
+  void initializeUniqueIds(List<String> fetchedUniqueIds) {
+    _uniqueIds = fetchedUniqueIds;
+    notifyListeners();
+  }
 
   void addEvent(MyAppointment appointment, IconData icon) {
     _appointments.add(appointment);
     _icons[appointment.id!]= icon;
     AppointmentDao().insertAppointment(appointment);
 
+
+    notifyListeners();
+  }
+
+  void addUniqueId(String uniqueId) {
+    UniqueIdDao().insertData(uniqueId);
+    _uniqueIds.add(uniqueId);
 
     notifyListeners();
   }
@@ -50,6 +102,13 @@ class AppointmentProvider extends ChangeNotifier {
       // Handle non-recurring appointment deletion
       _appointments.remove(appointment);
     }
+
+    notifyListeners();
+  }
+
+  void deleteUniqueIds(String uniqueId) {
+    UniqueIdDao().deleteAppointment(uniqueId);
+    _uniqueIds.remove(uniqueId);
 
     notifyListeners();
   }
@@ -72,6 +131,14 @@ class AppointmentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void editCompletedEvent(MyAppointment event) {
+
+      AppointmentDao().updateIsCompleted(event);
+      _isCompleted[event.id!] = event.isCompleted;
+
+    notifyListeners();
+  }
+
   void addSelectedDaysEvents(List<MyAppointment> appointments, icon){
     for(int i=0; i < appointments.length; i++) {
       //print('DEBUG provider içi appointment: ${appointments[i]}');
@@ -83,15 +150,34 @@ class AppointmentProvider extends ChangeNotifier {
   }
 
   List<Events> get4LatestEvents() {
+    Set<Events> latestEventSet = {};
     List<Events> latestEvents = [];
-    for(int i=_appointments.length; i > _appointments.length-4 && i > 0; i--) {
-      print('provider içi latest $i');
+    for(int i= _appointments.length; i > _appointments.length-4 && i > 0; i--) {
+
       final appointment = _appointments[i-1];
-      print('provider içi latest $appointment');
+
       final event = Events(subject: appointment.subject, icon: appointment.icon, color: appointment.color);
-      latestEvents.add(event);
+      latestEventSet.add(event);
+
     }
+    latestEvents = latestEventSet.toList();
     return latestEvents;
   }
+
+  List<Events> getOther4LatestEvents() {
+    Set<Events> latestEventSet = {};
+    List<Events> latestEvents = [];
+    for(int i= _appointments.length-4; i > _appointments.length-8 && i > 0; i--) {
+
+      final appointment = _appointments[i-1];
+
+      final event = Events(subject: appointment.subject, icon: appointment.icon, color: appointment.color);
+      latestEventSet.add(event);
+
+    }
+    latestEvents = latestEventSet.toList();
+    return latestEvents;
+  }
+
 
 }

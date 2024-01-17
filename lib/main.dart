@@ -1,25 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:weekplanner/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weekplanner/database/DatabaseHelper.dart';
+import 'package:weekplanner/database/DatabaseHelper2.dart';
+import 'package:weekplanner/database/UniqueIdDao.dart';
 import 'package:weekplanner/provider/appointment_provider.dart';
 import 'package:weekplanner/screens/main_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:weekplanner/screens/onboarding_screen.dart';
+import 'package:weekplanner/theme/theme_provider.dart';
 import 'database/AppointmentDao.dart';
 import 'model/MyAppointment.dart';
 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  final isDark = sharedPreferences.getBool('isDark') ?? true;
 
-  // Initialize the database
-  //await DatabaseHelper.instance.database;
-
-  runApp(const MyApp());
+  runApp(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider(isDark)),
+          ChangeNotifierProvider<AppointmentProvider>(create: (_) => AppointmentProvider()),
+        ],
+            child: const MyApp()),
+      );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -27,30 +38,56 @@ class MyApp extends StatelessWidget {
       systemNavigationBarColor: Colors.black,
       systemNavigationBarIconBrightness: Brightness.light,
     ));
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<AppointmentProvider>(
-          create: (_) => AppointmentProvider(),
-        ),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Week Planner App',
-        themeMode: ThemeMode.dark,
-        darkTheme: ThemeData.dark().copyWith(
-            scaffoldBackgroundColor: Colors.black,
-          primaryColor: Constants.primaryColor
-        ),
-        home: const SplashScreen(),
-      ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Week Planner App',
+      //themeMode: Provider.of<ThemeProvider>(context).themeMode,
+      theme: Provider.of<ThemeProvider>(context).themeData,
+      home: const StartApp(),
     );
   }
 }
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+
+class StartApp extends StatelessWidget {
+  const StartApp({super.key});
 
   @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<bool>(
+      future: checkIfFirstTime(),
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // Show loading indicator or splash screen
+          return const CircularProgressIndicator();
+        } else if (snapshot.hasData && snapshot.data!) {
+          // Show onboarding screen
+          return const OnBoardingScreen();
+        } else {
+          // Show main content
+          return const SplashScreen();
+        }
+      },
+    );
+  }
+}
+
+Future<bool> checkIfFirstTime() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool isFirstTime = prefs.getBool('isFirstTime') ?? true;
+  return isFirstTime;
+}
+
+Future<void> setFirstTimeFalse() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setBool('isFirstTime', false);
+}
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
+  @override
+  // ignore: library_private_types_in_public_api
   _SplashScreenState createState() => _SplashScreenState();
 }
 
@@ -58,29 +95,33 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-
-    loadData();
+    setFirstTimeFalse();
   }
 
-  Future<void> loadData() async {
+  Future<void> loadData(BuildContext context) async {
 
     try {
 
       await DatabaseHelper.database();
+      await DatabaseHelper2.database();
 
       // Fetch data from the database
 
       List<MyAppointment> fetchedAppointments = await AppointmentDao().getAllAppointments();
+      List<String> fetchedUniqueIds = await UniqueIdDao().getAllUniqueIds();
+      AppointmentDao().deleteObsoleteData(fetchedAppointments);
 
-
+      // ignore: use_build_context_synchronously
+      final provider = Provider.of<AppointmentProvider>(context, listen: false);
       // Initialize your provider with the fetched data
-      Provider.of<AppointmentProvider>(context, listen: false).initializeWithAppointments(fetchedAppointments);
-      Provider.of<AppointmentProvider>(context, listen: false).initializeIcons(fetchedIcons(fetchedAppointments));
-
+      provider.initializeWithAppointments(fetchedAppointments);
+      provider.initializeIcons(fetchedIcons(fetchedAppointments));
+      provider.initializeIsCompleted(fetchedIsCompleted(fetchedAppointments));
+      provider.initializeUniqueIds(fetchedUniqueIds);
 
     } catch (error) {
       // Handle errors appropriately
-
+      //print("ERROR: $error");
       // Navigate to an error screen or retry loading
     }
 
@@ -90,22 +131,30 @@ class _SplashScreenState extends State<SplashScreen> {
     Map<int, IconData> map = {};
     for(var i = 0; i < fetchedAppointments.length; i++) {
         map[fetchedAppointments[i].id!] = fetchedAppointments[i].icon!;
-        print(i);
     }
     return map;
   }
 
+  Map<int, int> fetchedIsCompleted(List<MyAppointment> fetchedAppointments) {
+    Map<int, int> map = {};
+    for(var i = 0; i < fetchedAppointments.length; i++) {
+      map[fetchedAppointments[i].id!] = fetchedAppointments[i].isCompleted!;
+    }
+    return map;
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: loadData(),
+      future: loadData(context),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           // Data loading is complete, return your UI here
-          return MainScreen();
+          return const MainScreen();
         } else {
           // Data is still loading, return a loading indicator
-          return Scaffold(
+          return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
             ),

@@ -1,61 +1,89 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import '../constants.dart';
 import '../model/MyAppointment.dart';
 import '../model/event_data_source.dart';
 import '../provider/appointment_provider.dart';
 import '../screens/event_viewing_page.dart';
+import 'dart:math';
 
-class ScheduleView extends StatelessWidget {
-  const ScheduleView({Key? key}) : super(key: key);
+
+class ScheduleView extends StatefulWidget {
+  const ScheduleView({super.key});
+
+  @override
+  State<ScheduleView> createState() => _ScheduleViewState();
+}
+
+class _ScheduleViewState extends State<ScheduleView> with SingleTickerProviderStateMixin {
+  late AnimationController controller;
+  int tappedEventId = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 600));
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final events = Provider.of<AppointmentProvider>(context).events;
 
-    return SfCalendar(
-      view: CalendarView.schedule,
-      firstDayOfWeek: 1,
-      scheduleViewSettings: ScheduleViewSettings(
-          hideEmptyScheduleWeek: true,
-          monthHeaderSettings: MonthHeaderSettings(backgroundColor: Constants.themePurple,
-              monthTextStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold))),
-      dataSource: EventDataSource(events),
-      initialSelectedDate: DateTime.now(),
-      //cellBorderColor: Colors.transparent,
-      appointmentBuilder: appointmentBuilder,
-      onTap: (details) {
-        if(details.appointments == null) return;
-        final event = details.appointments!.first;
-        final myAppointment = MyAppointment(
-          id: event.id,
-          startTime: event.startTime,
-          endTime: event.endTime,
-          subject: event.subject,
-          color: event.color,
-          recurrenceRule: event.recurrenceRule,
-          notes: event.notes,
-        );
-        print('DEBUG ${event.subject}');
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventViewingPage(appointment: myAppointment)));
-      },
-      headerHeight: 0,
-    );
+      return SfCalendar(
+        view: CalendarView.schedule,
+        firstDayOfWeek: 1,
+        scheduleViewMonthHeaderBuilder: scheduleViewHeaderBuilder,
+        scheduleViewSettings: const ScheduleViewSettings(
+            hideEmptyScheduleWeek: false,
+            ),
+        dataSource: EventDataSource(events),
+        initialSelectedDate: DateTime.now(),
+        //cellBorderColor: Colors.transparent,
+        appointmentBuilder: appointmentBuilder,
+        onTap: (details) {
+          if(details.appointments == null) return;
+          final event = details.appointments!.first;
+          final myAppointment = MyAppointment(
+            id: event.id,
+            startTime: event.startTime,
+            endTime: event.endTime,
+            subject: event.subject,
+            color: event.color,
+            recurrenceRule: event.recurrenceRule,
+            notes: event.notes,
+            isCompleted: event.recurrenceRule == null ? event.isCompleted : 0,
+          );
+          //print('DEBUG ${event.subject}');
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventViewingPage(appointment: myAppointment)));
+        },
+        headerHeight: 0,
+      );
 
   }
+
   Widget appointmentBuilder(
       BuildContext context,
       CalendarAppointmentDetails details,
       ) {
+    final provider = Provider.of<AppointmentProvider>(context, listen: false);
+    final isCompleted = Provider.of<AppointmentProvider>(context).isCompleted;
     final icons = Provider.of<AppointmentProvider>(context).icons;
+    final uniqueIds = Provider.of<AppointmentProvider>(context).uniqueIds;
     final event = details.appointments.first;
-    print('Appointment Details: $event');
+    //print('Appointment Details: $event');
+    String uniqueId = getUniqueId(event.id.toString(), event.startTime);
+
     return Container(
       width: details.bounds.width,
       height: details.bounds.height,
       decoration: BoxDecoration(
-        color: event.color.withOpacity(0.7),
+        color: isCompleted[event.id] == 1 || uniqueIds.contains(uniqueId) ? Colors.grey : event.color.withOpacity(0.7),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Center(
@@ -72,11 +100,48 @@ class ScheduleView extends StatelessWidget {
                 event.subject,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
+                style: TextStyle(
+                  decoration: isCompleted[event.id] == 1 || uniqueIds.contains(uniqueId) ? TextDecoration.lineThrough : TextDecoration.none,
+                  decorationThickness: 3.0,
                   color: Colors.white,
                   fontSize: 20,
                   fontFamily: 'Segoe UI',
                 ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 9.0),
+              child: Align(
+                  alignment: Alignment.centerRight,
+                  child: AnimatedBuilder(
+                    animation: controller, // Assuming you have an AnimationController
+                    builder: (context, child) {
+                      return Transform.rotate(
+                        angle: tappedEventId == event.id ? controller.value * (isCompleted[event.id]  == 1 ? 2*pi : 2*pi) : controller.value * 0, // Rotate based on isCompleted
+                        child: IconButton(
+                          icon: isCompleted[event.id] == 1 || uniqueIds.contains(uniqueId)
+                              ? const Icon(Icons.check_circle_rounded, color: Colors.white)
+                              : const Icon(Icons.check_circle_outline_rounded, color: Colors.white),
+                          onPressed: () {
+                            //print(event.isCompleted);
+                            setState(() {
+                              tappedEventId = event.id;
+                            });
+
+                            controller.reset();
+                            if(event.recurrenceRule == null) {
+                              provider.editCompletedEvent(event);
+                              controller.forward();
+                            }else{
+                              uniqueIds.contains(uniqueId) ? provider.deleteUniqueIds(uniqueId)
+                                  : provider.addUniqueId(uniqueId);
+                              controller.forward();
+                            }
+                          },
+                        ),
+                      );
+                    },
+                  ),
               ),
             ),
           ],
@@ -84,6 +149,52 @@ class ScheduleView extends StatelessWidget {
       ),
     );
 
+  }
+}
 
+String getUniqueId(String eventId, DateTime occurrenceDateTime) {
+  return '$eventId-${occurrenceDateTime.toIso8601String()}';
+}
+
+Widget scheduleViewHeaderBuilder(
+    BuildContext buildContext, ScheduleViewMonthHeaderDetails details) {
+  final String monthName = _getMonthName(details.date.month);
+  return Stack(
+    children: [
+      Image(
+          image: ExactAssetImage('assets/images/$monthName.png'),
+          fit: BoxFit.cover,
+          width: details.bounds.width,
+          height: details.bounds.height),
+
+    ],
+  );
+}
+
+String _getMonthName(int month) {
+  if (month == 01) {
+    return 'january';
+  } else if (month == 02) {
+    return 'february';
+  } else if (month == 03) {
+    return 'march';
+  } else if (month == 04) {
+    return 'april';
+  } else if (month == 05) {
+    return 'may';
+  } else if (month == 06) {
+    return 'june';
+  } else if (month == 07) {
+    return 'july';
+  } else if (month == 08) {
+    return 'august';
+  } else if (month == 09) {
+    return 'september';
+  } else if (month == 10) {
+    return 'october';
+  } else if (month == 11) {
+    return 'november';
+  } else {
+    return 'december';
   }
 }
