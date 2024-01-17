@@ -4,7 +4,6 @@ import 'package:weekplanner/main.dart';
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:weekplanner/theme/theme.dart';
-
 import '../theme/theme_provider.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -22,7 +21,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   void initState() {
     super.initState();
     // Start the opacity animation after a delay
-    Future.delayed(Duration(milliseconds: 1200), () {
+    Future.delayed(const Duration(milliseconds: 1200), () {
       setState(() {
         opacity = 1.0;
       });
@@ -31,15 +30,18 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var screenSize = MediaQuery.of(context).size;
+    final height = screenSize.height;
+    double refPhoneHeight = 915.0;
     final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
     ColorScheme colorScheme = Theme.of(context).colorScheme;
-    Offset distance = isPressed ? Offset(10, 10) : Offset(28, 28);
+    Offset distance = isPressed ? const Offset(10, 10) : const Offset(28, 28);
     double blur = 20.0;
 
     return Scaffold(
       backgroundColor: themeProvider.themeData == darkTheme
-          ? Color(0xFF2E3239)
-          : Color(0xFFF3E7E7),
+          ? const Color(0xFF2E3239)
+          : const Color(0xFFF3E7E7),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(32.0),
@@ -50,19 +52,19 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 30.0),
+                  padding: EdgeInsets.only(top: height/(refPhoneHeight/30.0)),
                   child: Text(
                     "WELCOME TO THE\nSTRONG WEEK",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: colorScheme.primary,
                         fontFamily: 'Montserrat',
-                        fontSize: 20,
+                        fontSize: height/(refPhoneHeight/20),
                         fontWeight: FontWeight.bold),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 44.0),
+                  padding: EdgeInsets.only(top: height/(refPhoneHeight/44)),
                   child: Row(
                     children: [
                       SvgPicture.asset(
@@ -81,19 +83,19 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     ],
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 24.0),
+                Padding(
+                  padding: EdgeInsets.only(top: height/(refPhoneHeight/24)),
                   child: Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.remove_red_eye_outlined,
                         color: Color(0xFFFFC107),
                         size: 30,
                       ),
                       SizedBox(
-                        width: 20,
+                        width: height/(refPhoneHeight/20),
                       ),
-                      Flexible(
+                      const Flexible(
                           child: Text(
                         'Overview your week and manage your time efficiently.',
                         style:
@@ -145,7 +147,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 54.0),
+                  padding: EdgeInsets.only(top: height/(refPhoneHeight/54)),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -162,15 +164,15 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30),
                               color: themeProvider.themeData == darkTheme
-                                  ? Color(0xFF2E3239)
-                                  : Color(0xFFF3E7E7),
+                                  ? const Color(0xFF2E3239)
+                                  : const Color(0xFFF3E7E7),
                               boxShadow: [
                                 BoxShadow(
                                   inset: isPressed,
                                   blurRadius: blur,
                                   offset: -distance,
                                   color: themeProvider.themeData == darkTheme
-                                      ? Color(0xFF35393F)
+                                      ? const Color(0xFF35393F)
                                       : Colors.white70,
                                 ),
                                 BoxShadow(
@@ -178,8 +180,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                   blurRadius: blur,
                                   offset: distance,
                                   color: themeProvider.themeData == darkTheme
-                                      ? Color(0xFF23262A)
-                                      : Color(0xFFA7A9AF),
+                                      ? const Color(0xFF23262A)
+                                      : const Color(0xFFA7A9AF),
                                 ),
                               ]),
                           duration: const Duration(milliseconds: 100),
@@ -199,7 +201,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     ],
                   ),
                 ),
-                SizedBox(height: 38,),
+                SizedBox(height: height/(refPhoneHeight/38),),
                 Text(
                   "Change Theme",
                   style:
@@ -231,50 +233,3 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     );
   }
 }
-
-/*
-Container(
-width: 500.0,
-height: 500.0,
-color: Color(0xff333333),
-alignment: Alignment.center,
-transformAlignment: Alignment.center,
-child: Container(
-color: Color(0xff333333),
-child: Container(
-width: 184,
-height: 184,
-child: Icon(
-Icons.star,
-size: 61,
-color: Colors.amber,
-),
-decoration: BoxDecoration(
-color: Color(0xff333333),
-borderRadius: BorderRadius.circular(33),
-gradient: LinearGradient(
-begin: Alignment.topLeft,
-end: Alignment.bottomRight,
-colors: [
-Color(0xff333333),
-Color(0xff333333),
-],
-),
-boxShadow: [
-BoxShadow(
-color: Color(0xff4a4a4a),
-offset: Offset(-12.8, -12.8),
-blurRadius: 19,
-spreadRadius: 0.0,
-),
-BoxShadow(
-color: Color(0xff1c1c1c),
-offset: Offset(12.8, 12.8),
-blurRadius: 19,
-spreadRadius: 0.0,
-),
-],
-),
-),
-),
-)*/

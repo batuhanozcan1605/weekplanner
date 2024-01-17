@@ -7,8 +7,6 @@ class Constants {
   static const softColor = Color(0xFFF3E7E7);
   static const lightGrey = Color(0xFF74736F);
   static const themePurple = Color(0xFFD0BBFF);
-
-
   /*Widget myText(input) => Text(
     '$input',
     style: const TextStyle(color: softColor),
