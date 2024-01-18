@@ -454,15 +454,17 @@ class _EventEditingPageState extends State<EventEditingPage> {
     for (int i = 0; i < selectedDateObjects.length; i++) {
       DateTime newFromDate = DateTime(fromDate.year, fromDate.month,
           selectedDateObjects[i].day, fromDate.hour, fromDate.minute);
+
       DateTime checkToDateIf00 = newFromDate.add(Duration(
           hours: selectedDurationHour!.inHours, minutes: selectedDurationMinute));
       if(checkToDateIf00.hour == 0 && checkToDateIf00.minute == 0){
-        toDate = fromDate.add(Duration(
+        toDate = newFromDate.add(Duration(
             hours: selectedDurationHour!.inHours, minutes: selectedDurationMinute)).subtract(const Duration(minutes: 1));
       }else{
-        toDate = fromDate.add(Duration(
+        toDate = newFromDate.add(Duration(
             hours: selectedDurationHour!.inHours, minutes: selectedDurationMinute));
       }
+
 
       final event = MyAppointment(
         id: highestId + i,
