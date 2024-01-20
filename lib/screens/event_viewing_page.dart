@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weekplanner/constants.dart';
+import 'package:weekplanner/simple_widgets.dart';
 import 'package:weekplanner/screens/event_editing_page.dart';
 import 'package:weekplanner/utils.dart';
 import '../model/MyAppointment.dart';
@@ -87,14 +87,14 @@ class EventViewingPage extends StatelessWidget {
             appointment.recurrenceRule != null ? const Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-              Icon(Icons.repeat, color: Constants.themePurple,),
+              Icon(Icons.repeat, color: SimpleWidgets.themePurple,),
               SizedBox(width: 8,),
               Text('Recurring Event'),
             ],
             ) : const Center(),
             const Padding(
               padding: EdgeInsets.all(18.0),
-              child: Divider(color: Constants.themePurple,),
+              child: Divider(color: SimpleWidgets.themePurple,),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 18.0),

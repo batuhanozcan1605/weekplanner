@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:page_view_dot_indicator/page_view_dot_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:weekplanner/model/Events.dart';
-import '../constants.dart';
+import '../simple_widgets.dart';
 import '../provider/appointment_provider.dart';
 
 class LatestEvents extends StatefulWidget {
@@ -61,7 +61,7 @@ class _LatestEventsState extends State<LatestEvents> {
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0), // Add spacing between items
-                      child: Constants().eventCard(event.subject, event.icon!, event.color.withOpacity(0.7)),
+                      child: SimpleWidgets().eventCard(event.subject, event.icon!, event.color.withOpacity(0.7)),
                     ),
                   );
                 },

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weekplanner/constants.dart';
+import 'package:weekplanner/simple_widgets.dart';
 import 'package:weekplanner/data.dart';
 import 'package:weekplanner/widgets/latest_events_pageview.dart';
 
@@ -48,7 +48,7 @@ class ChooseEvent extends StatelessWidget {
                     Navigator.pop(context, event);
 
                   },
-                    child: Constants().eventCard(event.subject, event.icon, event.color));
+                    child: SimpleWidgets().eventCard(event.subject, event.icon, event.color));
               },
             ),
           ],

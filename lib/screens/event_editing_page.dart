@@ -2,7 +2,7 @@ import 'package:duration_picker/duration_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:interval_time_picker/interval_time_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:weekplanner/constants.dart';
+import 'package:weekplanner/simple_widgets.dart';
 import 'package:weekplanner/provider/appointment_provider.dart';
 import 'package:weekplanner/utils.dart';
 import 'package:weekplanner/widgets/choose_event_widget.dart';
@@ -30,6 +30,9 @@ class EventEditingPage extends StatefulWidget {
 class _EventEditingPageState extends State<EventEditingPage> {
   final titleController = TextEditingController();
   final detailController = TextEditingController();
+  late FixedExtentScrollController _scrollControllerHour;
+  late FixedExtentScrollController _scrollControllerMinute;
+
 
   late DateTime fromDate;
   late DateTime toDate;
@@ -53,7 +56,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
   List<DateTime> currentWeekDays = [];
   List<DateTime> nextWeekDays = [];
   List<DateTime> selectedDateObjects = [];
-  Duration? selectedDurationHour = const Duration(hours: 2);
+  Duration? selectedDuration = const Duration(hours: 2, minutes: 0);
   int selectedDurationMinute = 0;
   Events? selectedEvent;
 
@@ -76,13 +79,12 @@ class _EventEditingPageState extends State<EventEditingPage> {
       titleController.text = event.subject;
       fromDate = event.startTime;
       toDate = event.endTime;
-      Duration durationHour = event.endTime.hour - event.startTime.hour < 0
-          ? Duration(hours: 24 + (event.endTime.hour - event.startTime.hour))
-          : Duration(hours: event.endTime.hour - event.startTime.hour);
-      selectedDurationHour = durationHour;
-      int durationMinute =
-          (event.startTime.minute - event.endTime.minute).abs();
-      selectedDurationMinute = durationMinute;
+
+      Duration dif = toDate.difference(fromDate);
+      int durationMinute = dif.inMinutes % 60;
+      int durationHour = dif.inHours;
+
+      selectedDuration = Duration(hours: durationHour, minutes: durationMinute);
       isRecurrenceEnabled =
           widget.appointment!.recurrenceRule == null ? false : true;
       backgroundColor = widget.appointment!.color;
@@ -102,6 +104,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
+    _scrollControllerHour = FixedExtentScrollController(initialItem: selectedDuration!.inHours);
+    _scrollControllerMinute = FixedExtentScrollController(initialItem: selectedDuration!.inMinutes % 60);
 
     return Scaffold(
       appBar: AppBar(
@@ -160,7 +164,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                                   selectedEvent == null
                                       ? icon
                                       : selectedEvent!.icon,
-                                  color: Constants.softColor,
+                                  color: SimpleWidgets.softColor,
                                 ),
                               ),
                               Expanded(child: buildTitle()),
@@ -197,13 +201,13 @@ class _EventEditingPageState extends State<EventEditingPage> {
                             },
                             icon: const Icon(
                               Icons.add_circle,
-                              color: Constants.softColor,
+                              color: SimpleWidgets.softColor,
                             ),
                             iconSize: 30,
                           ),
                           const Text("Event",
                               style: TextStyle(
-                                  color: Constants.softColor,
+                                  color: SimpleWidgets.softColor,
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                   fontFamily: 'Segoe UI')),
@@ -331,7 +335,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                         ),
                       ),
                       isEditing
-                          ? const Center()
+                          ? const SizedBox(height: 15,)
                           : Padding(
                               padding: const EdgeInsets.all(14.0),
                               child: Divider(
@@ -397,7 +401,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
           daysThisWeek
               ? Checkbox(
                   activeColor: Colors.deepPurple,
-                  checkColor: Constants.softColor,
+                  checkColor: SimpleWidgets.softColor,
                   value: isChecked,
                   onChanged: (value) {
                     setState(() {
@@ -427,7 +431,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                 )
               : Checkbox(
                   activeColor: Colors.deepPurple,
-                  checkColor: Constants.softColor,
+                  checkColor: SimpleWidgets.softColor,
                   value: isCheckedNextWeek,
                   onChanged: (value) {
                     setState(() {
@@ -456,13 +460,13 @@ class _EventEditingPageState extends State<EventEditingPage> {
           selectedDateObjects[i].day, fromDate.hour, fromDate.minute);
 
       DateTime checkToDateIf00 = newFromDate.add(Duration(
-          hours: selectedDurationHour!.inHours, minutes: selectedDurationMinute));
+          hours: selectedDuration!.inHours, minutes: selectedDuration!.inMinutes % 60));
       if(checkToDateIf00.hour == 0 && checkToDateIf00.minute == 0){
         toDate = newFromDate.add(Duration(
-            hours: selectedDurationHour!.inHours, minutes: selectedDurationMinute)).subtract(const Duration(minutes: 1));
+            hours: selectedDuration!.inHours, minutes: selectedDuration!.inMinutes % 60)).subtract(const Duration(minutes: 1));
       }else{
         toDate = newFromDate.add(Duration(
-            hours: selectedDurationHour!.inHours, minutes: selectedDurationMinute));
+            hours: selectedDuration!.inHours, minutes: selectedDuration!.inMinutes % 60));
       }
 
 
@@ -493,13 +497,13 @@ class _EventEditingPageState extends State<EventEditingPage> {
     }
 
     DateTime checkToDateIf00 = fromDate.add(Duration(
-        hours: selectedDurationHour!.inHours, minutes: selectedDurationMinute));
+        hours: selectedDuration!.inHours, minutes: selectedDuration!.inMinutes % 60));
     if(checkToDateIf00.hour == 0 && checkToDateIf00.minute == 0){
       toDate = fromDate.add(Duration(
-          hours: selectedDurationHour!.inHours, minutes: selectedDurationMinute)).subtract(const Duration(minutes: 1));
+          hours: selectedDuration!.inHours, minutes: selectedDuration!.inMinutes % 60)).subtract(const Duration(minutes: 1));
     }else{
       toDate = fromDate.add(Duration(
-          hours: selectedDurationHour!.inHours, minutes: selectedDurationMinute));
+          hours: selectedDuration!.inHours, minutes: selectedDuration!.inMinutes % 60));
     }
 
     final event = MyAppointment(
@@ -542,13 +546,13 @@ class _EventEditingPageState extends State<EventEditingPage> {
         : Utils.dayAbbreviation(fromDate);
 
     DateTime checkToDateIf00 = fromDate.add(Duration(
-        hours: selectedDurationHour!.inHours, minutes: selectedDurationMinute));
+        hours: selectedDuration!.inHours, minutes: selectedDuration!.inMinutes % 60));
     if(checkToDateIf00.hour == 0 && checkToDateIf00.minute == 0){
       toDate = fromDate.add(Duration(
-          hours: selectedDurationHour!.inHours, minutes: selectedDurationMinute)).subtract(const Duration(minutes: 1));
+          hours: selectedDuration!.inHours, minutes: selectedDuration!.inMinutes % 60)).subtract(const Duration(minutes: 1));
     }else{
       toDate = fromDate.add(Duration(
-          hours: selectedDurationHour!.inHours, minutes: selectedDurationMinute));
+          hours: selectedDuration!.inHours, minutes: selectedDuration!.inMinutes % 60));
     }
 
     final event = MyAppointment(
@@ -592,11 +596,11 @@ class _EventEditingPageState extends State<EventEditingPage> {
   Widget buildTitle() => TextFormField(
         autofocus: false,
         style: const TextStyle(
-            color: Constants.softColor, fontSize: 20, fontFamily: 'Segoe UI'),
+            color: SimpleWidgets.softColor, fontSize: 20, fontFamily: 'Segoe UI'),
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: 'Enter a title or add one',
-          hintStyle: TextStyle(color: Constants.softColor.withOpacity(0.6)),
+          hintStyle: TextStyle(color: SimpleWidgets.softColor.withOpacity(0.6)),
         ),
         onFieldSubmitted: (_) {},
         //validator: (title) => title != null && title.isEmpty ? 'Title can not be empty' : null,
@@ -606,11 +610,11 @@ class _EventEditingPageState extends State<EventEditingPage> {
   Widget buildDetailInput() => TextFormField(
         maxLines: 2,
         style: const TextStyle(
-            color: Constants.softColor, fontSize: 14, fontFamily: 'Segoe UI'),
+            color: SimpleWidgets.softColor, fontSize: 14, fontFamily: 'Segoe UI'),
         decoration: const InputDecoration(
             border: InputBorder.none,
             hintText: 'Details',
-            hintStyle: TextStyle(color: Constants.softColor)),
+            hintStyle: TextStyle(color: SimpleWidgets.softColor)),
         onFieldSubmitted: (_) {},
         controller: detailController,
       );
@@ -632,13 +636,79 @@ class _EventEditingPageState extends State<EventEditingPage> {
         padding: const EdgeInsets.symmetric(horizontal: 4.0),
         child: GestureDetector(
           onTap: () async {
-            Duration? durationHour = await showDurationPicker(
+            Duration? duration = await showDialog<Duration>(
                 context: context,
-                initialTime: selectedDurationHour!,
-                baseUnit: BaseUnit.hour);
-            if (durationHour == null) return;
+                builder: (BuildContext context) {
+                  var screenSize = MediaQuery.of(context).size;
+                  final width = screenSize.width;
+                  int selectedHour = selectedDuration!.inHours;
+                  int selectedMinute = selectedDuration!.inMinutes % 60;
+                  return AlertDialog(
+                    actions: [
+                      TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text('CANCEL', style: TextStyle(fontSize: 18),)),
+                      TextButton(
+                          onPressed: () => Navigator.pop(context, Duration(hours: selectedHour, minutes: selectedMinute)),
+                          child: const Text('OK', style: TextStyle(fontSize: 18),)),
+                    ],
+                    //title: Text('Select Duration'),
+                      content: SizedBox(
+                        width: (width/412)*400,
+                        child: Row(
+                          children: [
+                            //hours wheel
+                            Expanded(
+                              child: ListWheelScrollView.useDelegate(
+                                  controller: _scrollControllerHour,
+                                  onSelectedItemChanged: (value) {
+                                    selectedHour = value;
+                                  },
+                                  itemExtent: 50,
+                                  overAndUnderCenterOpacity: 0.5,
+                                  perspective: 0.005,
+                                  diameterRatio: 1.2,
+                                  physics: const FixedExtentScrollPhysics(),
+                                  childDelegate: ListWheelChildBuilderDelegate(
+                                      childCount: 25,
+                                      builder: (BuildContext context, int index) {
+
+                                        return SimpleWidgets().hourTile(index);
+                                      }
+                                  )
+                              ),
+                            ),
+                            //minutes wheel
+                            Expanded(
+                              child: ListWheelScrollView.useDelegate(
+                                controller: _scrollControllerMinute,
+                                onSelectedItemChanged: (value) {
+                                  print(value*30);
+                                  selectedMinute = value*30;
+                                },
+                                  itemExtent: 50,
+                                  overAndUnderCenterOpacity: 0.5,
+                                  perspective: 0.005,
+                                  diameterRatio: 1.2,
+                                  physics: const FixedExtentScrollPhysics(),
+                                  childDelegate: ListWheelChildBuilderDelegate(
+                                      childCount: 2,
+                                      builder: (BuildContext context, int index) {
+                                        int minutes = index*30;
+                                        return SimpleWidgets().minuteTile(minutes);
+                                      }
+                                  )
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                  );
+
+                });
+            if (duration == null) return;
             setState(() {
-              selectedDurationHour = durationHour;
+              selectedDuration = duration;
             });
           },
           child: Row(
@@ -670,30 +740,22 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
   Widget durationDropdown(colorScheme) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        TextButton(
-            onPressed: () async {
-              Duration? durationHour = await showDurationPicker(
-                  context: context,
-                  initialTime: selectedDurationHour!,
-                  baseUnit: BaseUnit.hour);
-              if (durationHour == null) return;
-              setState(() {
-                selectedDurationHour = durationHour;
-              });
-            },
-            child: Text(
-              '${selectedDurationHour!.inHours} hours',
-              style: TextStyle(color: colorScheme.onBackground, fontSize: 16),
-            )),
+        Flexible(
+          flex: 1,
+          child: Text(
+            '${selectedDuration!.inHours} hours',
+            style: TextStyle(color: colorScheme.onBackground, fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+        ),
         //SizedBox(width: 8),
-        TextButton(
-            onPressed: () async {
-              await showMinutePickerDialog(context);
-            },
-            child: Text('${selectedDurationMinute.toString()} minutes',
-                style:
-                    TextStyle(color: colorScheme.onBackground, fontSize: 16))),
+        Flexible(
+          flex: 1,
+          child: Text('${(selectedDuration!.inMinutes % 60).toString()} minutes',
+              style:
+                  TextStyle(color: colorScheme.onBackground, fontSize: 16, fontWeight: FontWeight.bold)),
+        ),
       ],
     );
   }
@@ -719,7 +781,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                       child: Text(
                     '0',
                     style: TextStyle(
-                        color: Constants.softColor,
+                        color: SimpleWidgets.softColor,
                         fontSize: 30,
                         fontFamily: 'Segoe UI'),
                   )),
@@ -735,7 +797,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                       child: Text(
                     '30',
                     style: TextStyle(
-                        color: Constants.softColor,
+                        color: SimpleWidgets.softColor,
                         fontSize: 30,
                         fontFamily: 'Segoe UI'),
                   )),
@@ -800,7 +862,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
               flex: 1,
               child: Icon(
                 Icons.arrow_back,
-                color: Constants.themePurple,
+                color: SimpleWidgets.themePurple,
               ),
             ),
             Expanded(

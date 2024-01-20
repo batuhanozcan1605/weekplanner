@@ -1,9 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
-class Constants {
-
-
+class SimpleWidgets {
   static const softColor = Color(0xFFF3E7E7);
   static const lightGrey = Color(0xFF74736F);
   static const themePurple = Color(0xFFD0BBFF);
@@ -12,8 +10,8 @@ class Constants {
     style: const TextStyle(color: softColor),
   );*/
 
-  Widget eventCard(String subject, IconData icon, Color color) => Builder(
-      builder: (context) {
+  Widget eventCard(String subject, IconData icon, Color color) =>
+      Builder(builder: (context) {
         ColorScheme colorScheme = Theme.of(context).colorScheme;
         return Container(
           color: Colors.transparent,
@@ -28,8 +26,11 @@ class Constants {
                       color: color,
                       borderRadius: BorderRadius.circular(11.0),
                     ),
-
-                    child: Center(child: Icon(icon, color: Colors.white,)),
+                    child: Center(
+                        child: Icon(
+                      icon,
+                      color: Colors.white,
+                    )),
                   ),
                 ),
               ),
@@ -52,6 +53,29 @@ class Constants {
             ],
           ),
         );
-      }
-  );
+      });
+
+  Widget hourTile(int hours) {
+    return Builder(builder: (context) {
+      ColorScheme colorScheme = Theme.of(context).colorScheme;
+      return Center(
+          child: Text(
+        hours.toString(),
+        style: TextStyle(
+            color: colorScheme.onBackground, fontWeight: FontWeight.bold, fontSize: 32),
+      ));
+    });
+  }
+
+  Widget minuteTile(int minutes) {
+    return Builder(builder: (context) {
+      ColorScheme colorScheme = Theme.of(context).colorScheme;
+      return Center(
+          child: Text(
+            minutes.toString(),
+            style: TextStyle(
+                color: colorScheme.onBackground, fontWeight: FontWeight.bold, fontSize: 32),
+          ));
+    });
+  }
 }
