@@ -653,49 +653,68 @@ class _EventEditingPageState extends State<EventEditingPage> {
                     //title: Text('Select Duration'),
                       content: SizedBox(
                         width: (width/412)*400,
-                        child: Row(
+                        child: Column(
                           children: [
-                            //hours wheel
-                            Expanded(
-                              child: ListWheelScrollView.useDelegate(
-                                  controller: _scrollControllerHour,
-                                  onSelectedItemChanged: (value) {
-                                    selectedHour = value;
-                                  },
-                                  itemExtent: 50,
-                                  overAndUnderCenterOpacity: 0.5,
-                                  perspective: 0.005,
-                                  diameterRatio: 1.2,
-                                  physics: const FixedExtentScrollPhysics(),
-                                  childDelegate: ListWheelChildBuilderDelegate(
-                                      childCount: 25,
-                                      builder: (BuildContext context, int index) {
-
-                                        return SimpleWidgets().hourTile(index);
-                                      }
-                                  )
+                            const Expanded(
+                              flex: 2,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Expanded(
+                                      child: Center(child: Text('HOURS', style: TextStyle(fontWeight: FontWeight.bold),))),
+                                  Expanded(
+                                      child: Center(child: Text('MINUTES', style: TextStyle(fontWeight: FontWeight.bold)))),
+                                ],
                               ),
                             ),
-                            //minutes wheel
                             Expanded(
-                              child: ListWheelScrollView.useDelegate(
-                                controller: _scrollControllerMinute,
-                                onSelectedItemChanged: (value) {
+                              flex: 10,
+                              child: Row(
+                                children: [
+                                  //hours wheel
+                                  Expanded(
+                                    child: ListWheelScrollView.useDelegate(
+                                        controller: _scrollControllerHour,
+                                        onSelectedItemChanged: (value) {
+                                          selectedHour = value;
+                                        },
+                                        itemExtent: 50,
+                                        overAndUnderCenterOpacity: 0.5,
+                                        perspective: 0.005,
+                                        diameterRatio: 1.2,
+                                        physics: const FixedExtentScrollPhysics(),
+                                        childDelegate: ListWheelChildBuilderDelegate(
+                                            childCount: 25,
+                                            builder: (BuildContext context, int index) {
 
-                                  selectedMinute = value*30;
-                                },
-                                  itemExtent: 50,
-                                  overAndUnderCenterOpacity: 0.5,
-                                  perspective: 0.005,
-                                  diameterRatio: 1.2,
-                                  physics: const FixedExtentScrollPhysics(),
-                                  childDelegate: ListWheelChildBuilderDelegate(
-                                      childCount: 2,
-                                      builder: (BuildContext context, int index) {
-                                        int minutes = index*30;
-                                        return SimpleWidgets().minuteTile(minutes);
-                                      }
-                                  )
+                                              return SimpleWidgets().hourTile(index);
+                                            }
+                                        )
+                                    ),
+                                  ),
+                                  //minutes wheel
+                                  Expanded(
+                                    child: ListWheelScrollView.useDelegate(
+                                      controller: _scrollControllerMinute,
+                                      onSelectedItemChanged: (value) {
+
+                                        selectedMinute = value*30;
+                                      },
+                                        itemExtent: 50,
+                                        overAndUnderCenterOpacity: 0.5,
+                                        perspective: 0.005,
+                                        diameterRatio: 1.2,
+                                        physics: const FixedExtentScrollPhysics(),
+                                        childDelegate: ListWheelChildBuilderDelegate(
+                                            childCount: 2,
+                                            builder: (BuildContext context, int index) {
+                                              int minutes = index*30;
+                                              return SimpleWidgets().minuteTile(minutes);
+                                            }
+                                        )
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
