@@ -71,66 +71,141 @@ class Utils {
   }) {
     List<TargetFocus> targets = [];
 
-    targets.add(TargetFocus(
-        keyTarget: viewNavigator,
-        enableOverlayTab: true,
-        alignSkip: Alignment.bottomRight,
-        radius: 10,
-        shape: ShapeLightFocus.RRect,
-        contents: [
-          TargetContent(
-              align: ContentAlign.bottom,
-              builder: (context, controller) {
-                return Container(
-                  alignment: Alignment.center,
-                  child: const Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "You can change the calender view here.",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 28,
-                          color: Colors.white,
+    targets.add(
+      TargetFocus(
+          keyTarget: viewNavigator,
+          enableOverlayTab: true,
+          alignSkip: Alignment.bottomRight,
+          radius: 10,
+          shape: ShapeLightFocus.RRect,
+          contents: [
+            TargetContent(
+                align: ContentAlign.bottom,
+                builder: (context, controller) {
+                  return Container(
+                    alignment: Alignment.center,
+                    child: const Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "You can change the calender view here.",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontFamily: 'Montserrat',
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              }),
-        ]),
+                      ],
+                    ),
+                  );
+                }),
+          ]),
     );
 
-    targets.add(TargetFocus(
-        keyTarget: fabKey,
-        enableOverlayTab: true,
-        alignSkip: Alignment.topRight,
-        radius: 10,
-        shape: ShapeLightFocus.RRect,
-        contents: [
-          TargetContent(
-              align: ContentAlign.top,
-              builder: (context, controller) {
-                return Container(
-                  alignment: Alignment.center,
-                  child: const Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "You can add an event from here.\n(Tap to the calender cell you want to assign before)",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 24,
-                          color: Colors.white,
+    targets.add(
+      TargetFocus(
+          keyTarget: fabKey,
+          enableOverlayTab: true,
+          alignSkip: Alignment.topRight,
+          radius: 10,
+          shape: ShapeLightFocus.RRect,
+          contents: [
+            TargetContent(
+                align: ContentAlign.top,
+                builder: (context, controller) {
+                  return Container(
+                    alignment: Alignment.center,
+                    child: const Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "You can add an event from here.\n(Tap to the calender cell you want to assign before)",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontFamily: 'Montserrat',
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              }),
-        ]),
+                      ],
+                    ),
+                  );
+                }),
+          ]),
+    );
+
+    return targets;
+  }
+
+  List<TargetFocus> eventEditingTargets({required GlobalKey addEventKey, required GlobalKey dayPickerKey}) {
+    List<TargetFocus> targets = [];
+    targets.add(
+      TargetFocus(
+          keyTarget: addEventKey,
+          enableOverlayTab: true,
+          alignSkip: Alignment.bottomRight,
+          radius: 10,
+          shape: ShapeLightFocus.RRect,
+          contents: [
+            TargetContent(
+                align: ContentAlign.bottom,
+                builder: (context, controller) {
+                  return Container(
+                    alignment: Alignment.center,
+                    child: const Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "You can add existing events from here.",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontFamily: 'Montserrat',
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+          ]),
+    );
+
+    targets.add(
+      TargetFocus(
+          keyTarget: dayPickerKey,
+          enableOverlayTab: true,
+          alignSkip: Alignment.topRight,
+          radius: 10,
+          shape: ShapeLightFocus.RRect,
+          contents: [
+            TargetContent(
+                align: ContentAlign.top,
+                builder: (context, controller) {
+                  return Container(
+                    alignment: Alignment.center,
+                    child: const Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "You can select multiple days from here in this week and next week.",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontFamily: 'Montserrat',
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+          ]),
     );
 
     return targets;

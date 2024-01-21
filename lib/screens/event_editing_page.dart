@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:interval_time_picker/interval_time_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'package:weekplanner/simple_widgets.dart';
 import 'package:weekplanner/provider/appointment_provider.dart';
 import 'package:weekplanner/utils.dart';
@@ -27,6 +29,53 @@ class EventEditingPage extends StatefulWidget {
 }
 
 class _EventEditingPageState extends State<EventEditingPage> {
+  final addEventKey = GlobalKey();
+  final dayPickerKey = GlobalKey();
+  late TutorialCoachMark tutorialCoachMark;
+  bool showTutorial = true;
+
+  void _initEventEditInAppTour() {
+    tutorialCoachMark = TutorialCoachMark(
+        targets: Utils().eventEditingTargets(
+            addEventKey: addEventKey,
+          dayPickerKey: dayPickerKey,
+        ),
+        skipWidget: const Card(
+          color: Colors.black,
+          child: Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Text('SKIP TUTORIAL', style: TextStyle(fontWeight: FontWeight.bold),),
+          ),
+        ),
+        colorShadow: Colors.grey,
+        paddingFocus: 10,
+        hideSkip: false,
+        opacityShadow: 0.8,
+        onFinish: () {
+          setState(() {
+            showTutorial = false; // Tutorial tamamlandıktan sonra gösterme bayrağını kapat
+          });
+        }
+    );
+  }
+
+  void _showInAppTour() {
+    Future.delayed(const Duration(seconds: 1), () {
+      tutorialCoachMark.show(context: context);
+    });
+  }
+
+  void _checkTutorialStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool tutorialShown = prefs.getBool('tutorialShownEventEdit') ?? false;
+    //
+    if (!tutorialShown && showTutorial) {
+      _initEventEditInAppTour();
+      _showInAppTour();
+      prefs.setBool('tutorialShownEventEdit', true);
+    }
+  }
+
   final titleController = TextEditingController();
   final detailController = TextEditingController();
   late FixedExtentScrollController _scrollControllerHour;
@@ -61,6 +110,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
   @override
   void initState() {
     super.initState();
+    _checkTutorialStatus();
 
     widget.appointment != null ? isEditing = true : isEditing = false;
 
@@ -181,6 +231,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                   Expanded(
                       flex: 2,
                       child: Column(
+                        key: addEventKey,
                         children: [
                           IconButton(
                             onPressed: () async {
@@ -929,6 +980,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
         final width = screenSize.width;
         double tileWidth = width / 10.3;
         return SizedBox(
+          key: dayPickerKey,
             height: 60,
             child: daysThisWeek
                 ? ListView(
