@@ -1,4 +1,3 @@
-import 'package:duration_picker/duration_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:interval_time_picker/interval_time_picker.dart';
 import 'package:provider/provider.dart';
@@ -57,7 +56,6 @@ class _EventEditingPageState extends State<EventEditingPage> {
   List<DateTime> nextWeekDays = [];
   List<DateTime> selectedDateObjects = [];
   Duration? selectedDuration = const Duration(hours: 2, minutes: 0);
-  int selectedDurationMinute = 0;
   Events? selectedEvent;
 
   @override
@@ -683,7 +681,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                               child: ListWheelScrollView.useDelegate(
                                 controller: _scrollControllerMinute,
                                 onSelectedItemChanged: (value) {
-                                  print(value*30);
+
                                   selectedMinute = value*30;
                                 },
                                   itemExtent: 50,
@@ -760,60 +758,6 @@ class _EventEditingPageState extends State<EventEditingPage> {
     );
   }
 
-  Future<void> showMinutePickerDialog(BuildContext context) async {
-    int? result = await showDialog<int>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.black,
-          title: const Center(child: Text('Pick Minutes')),
-          content: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              GestureDetector(
-                onTap: () => Navigator.pop(context, 0),
-                child: const SizedBox(
-                  height: 100,
-                  width: 100,
-                  child: Center(
-                      child: Text(
-                    '0',
-                    style: TextStyle(
-                        color: SimpleWidgets.softColor,
-                        fontSize: 30,
-                        fontFamily: 'Segoe UI'),
-                  )),
-                ),
-              ),
-              const SizedBox(height: 20),
-              GestureDetector(
-                onTap: () => Navigator.pop(context, 30),
-                child: const SizedBox(
-                  height: 100,
-                  width: 100,
-                  child: Center(
-                      child: Text(
-                    '30',
-                    style: TextStyle(
-                        color: SimpleWidgets.softColor,
-                        fontSize: 30,
-                        fontFamily: 'Segoe UI'),
-                  )),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-    if (result != null) {
-      setState(() {
-        selectedDurationMinute = result;
-      });
-    }
-  }
 
   Widget buildFrom(colorScheme) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4.0),
