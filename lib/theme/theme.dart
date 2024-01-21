@@ -7,7 +7,7 @@ ThemeMode lightMode = ThemeMode.light;
 ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
   colorScheme: const ColorScheme.dark(
-    background: Colors.black,
+    background: Color(0xFF2E3239),
     primary: Color(0xFFD0BBFF),
     onBackground: Color(0xFFF3E7E7),
     secondary: Color(0XFF383838)
