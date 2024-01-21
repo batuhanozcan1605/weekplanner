@@ -31,7 +31,22 @@ class ChooseEvent extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 10.0),
               child: Divider(),
             ),
+            GridView(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4,
+                crossAxisSpacing: 8,
 
+              ),
+              children: [
+                SimpleWidgets().categoryCard('MUST', const Color(0xFF673AB7)),
+                SimpleWidgets().categoryCard('DAILY', const Color(0xFFFFC107)),
+                SimpleWidgets().categoryCard('SOCIAL', const Color(0xFFE53935)),
+                SimpleWidgets().categoryCard('SELF\nIMPROVEMENT', const Color(0xFF42A1E9)),
+              ],
+            ),
+            const SizedBox(height: 5),
             GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),

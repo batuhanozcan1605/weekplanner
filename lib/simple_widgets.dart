@@ -54,6 +54,26 @@ class SimpleWidgets {
         );
       });
 
+  Widget categoryCard(String category, Color color) => Padding(
+    padding: const EdgeInsets.symmetric(vertical: 18.0, horizontal: 2),
+    child: Card(
+      color: color.withOpacity(0.7),
+      child: Center(
+        child: FittedBox(
+          fit: BoxFit.fitWidth,
+          child: Text(
+            category,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontFamily: 'Segoe UI',
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+
   Widget hourTile(int hours) {
     return Builder(builder: (context) {
       ColorScheme colorScheme = Theme.of(context).colorScheme;
