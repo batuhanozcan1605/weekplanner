@@ -37,7 +37,7 @@ class _MainScreenState extends State<MainScreen> {
         color: Colors.black,
         child: Padding(
           padding: EdgeInsets.all(10.0),
-          child: Text('SKIP TUTORIAL', style: TextStyle(fontWeight: FontWeight.bold),),
+          child: Text('SKIP TUTORIAL', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),),
         ),
       ),
       colorShadow: Colors.grey,

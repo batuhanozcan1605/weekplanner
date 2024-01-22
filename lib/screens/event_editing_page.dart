@@ -51,7 +51,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
             padding: EdgeInsets.all(10.0),
             child: Text(
               'SKIP TUTORIAL',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
             ),
           ),
         ),

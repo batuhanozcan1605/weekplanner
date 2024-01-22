@@ -33,7 +33,7 @@ class _DailyViewState extends State<DailyView> with SingleTickerProviderStateMix
           color: Colors.black,
           child: Padding(
             padding: EdgeInsets.all(10.0),
-            child: Text('SKIP TUTORIAL', style: TextStyle(fontWeight: FontWeight.bold),),
+            child: Text('SKIP TUTORIAL', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),),
           ),
         ),
         colorShadow: Colors.grey,
