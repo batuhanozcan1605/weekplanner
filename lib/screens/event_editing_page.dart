@@ -32,6 +32,7 @@ class EventEditingPage extends StatefulWidget {
 
 class _EventEditingPageState extends State<EventEditingPage> {
   BannerAd? _bannerAd;
+  InterstitialAd? _interstitialAd;
 
   final addEventKey = GlobalKey();
   final dayPickerKey = GlobalKey();
@@ -117,6 +118,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
   void initState() {
     super.initState();
     _createBannerAd();
+    _createInterstitialAd();
     _checkTutorialStatus();
 
     widget.appointment != null ? isEditing = true : isEditing = false;
@@ -176,11 +178,16 @@ class _EventEditingPageState extends State<EventEditingPage> {
         actions: [
           IconButton(
               onPressed: () {
+
+                interstitialAdFrequency();
+
+                Future.delayed(const Duration(milliseconds: 1000));
                 if (isRecurrenceEnabled) {
                   saveRecurringEvent();
                 } else {
                   saveForm();
                 }
+
               },
               icon: Icon(
                 Icons.check,
@@ -1160,6 +1167,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
     return weekDays;
   }
 
+  //ADD METHODS
+
   void _createBannerAd() {
     _bannerAd = BannerAd(
       size: AdSize.fullBanner,
@@ -1168,4 +1177,49 @@ class _EventEditingPageState extends State<EventEditingPage> {
       request: const AdRequest(),
     )..load();
   }
+
+  void _createInterstitialAd() {
+    InterstitialAd.load(
+        adUnitId: AdHelper.interstitialAdUnitId,
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+            onAdLoaded: (ad)=> _interstitialAd = ad,
+            onAdFailedToLoad: (LoadAdError error) => _interstitialAd = null,
+        )
+    );
+  }
+
+  void _showInterstitialAd() {
+    if(_interstitialAd != null) {
+      print("not null");
+      _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+        onAdDismissedFullScreenContent: (ad) {
+          ad.dispose();
+          _createInterstitialAd();
+        },
+        onAdFailedToShowFullScreenContent: (ad, error) {
+          ad.dispose();
+          _createInterstitialAd();
+        }
+      );
+      _interstitialAd!.show();
+      print("show ad");
+      _interstitialAd = null;
+    }
+  }
+
+  Future<void> interstitialAdFrequency() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int showedAdCount = prefs.getInt('showedAdCount') ?? 0;
+
+    showedAdCount++;
+    print(showedAdCount);
+    if (showedAdCount % 4 == 0) {
+      print("it has entered");
+      _showInterstitialAd();
+    }
+
+    prefs.setInt('showedAdCount', showedAdCount);
+  }
+
 }
