@@ -210,4 +210,46 @@ class Utils {
 
     return targets;
   }
+
+  List<TargetFocus> dailyViewTarget({required GlobalKey dayListKey}) {
+    List<TargetFocus> targets = [];
+
+    targets.add(
+      TargetFocus(
+          keyTarget: dayListKey,
+          enableOverlayTab: true,
+          alignSkip: Alignment.bottomRight,
+          radius: 10,
+          shape: ShapeLightFocus.RRect,
+          contents: [
+            TargetContent(
+                align: ContentAlign.bottom,
+                builder: (context, controller) {
+                  return Container(
+                    alignment: Alignment.center,
+                    child: const Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "This list is scrollable.",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontFamily: 'Montserrat',
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+          ]),
+    );
+
+    return targets;
+
+  }
+
+
 }

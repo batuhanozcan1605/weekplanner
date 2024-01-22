@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'package:weekplanner/model/event_data_source.dart';
 import 'package:weekplanner/provider/appointment_provider.dart';
 import '../model/MyAppointment.dart';
 import '../screens/event_viewing_page.dart';
+import '../utils.dart';
 
 class DailyView extends StatefulWidget {
   const DailyView({super.key});
@@ -18,6 +20,51 @@ class _DailyViewState extends State<DailyView> with SingleTickerProviderStateMix
   late CalendarController _controller;
   late AnimationController _animationController;
   DateTime selectedDay = DateTime.now();
+  final dayListKey = GlobalKey();
+  late TutorialCoachMark tutorialCoachMark;
+  bool showTutorial = true;
+
+  void _initMainScreenInAppTour() {
+    tutorialCoachMark = TutorialCoachMark(
+        targets: Utils().dailyViewTarget(
+            dayListKey: dayListKey,
+        ),
+        skipWidget: const Card(
+          color: Colors.black,
+          child: Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Text('SKIP TUTORIAL', style: TextStyle(fontWeight: FontWeight.bold),),
+          ),
+        ),
+        colorShadow: Colors.grey,
+        paddingFocus: 10,
+        hideSkip: false,
+        opacityShadow: 0.8,
+        onFinish: () {
+          print("Completed");
+          setState(() {
+            showTutorial = false; // Tutorial tamamlandıktan sonra gösterme bayrağını kapat
+          });
+        }
+    );
+  }
+
+  void _showInAppTour() {
+    Future.delayed(const Duration(seconds: 1), () {
+      tutorialCoachMark.show(context: context);
+    });
+  }
+
+  void _checkTutorialStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool tutorialShown = prefs.getBool('tutorialShownDailyView') ?? false;
+
+    if (!tutorialShown && showTutorial) {
+      _initMainScreenInAppTour();
+      _showInAppTour();
+      prefs.setBool('tutorialShownDailyView', true);
+    }
+  }
 
   @override
   void initState() {
@@ -26,6 +73,7 @@ class _DailyViewState extends State<DailyView> with SingleTickerProviderStateMix
     _animationController = AnimationController(
         vsync: this,
         duration: const Duration(milliseconds: 500),);
+    _checkTutorialStatus();
     super.initState();
   }
 
@@ -127,6 +175,7 @@ class _DailyViewState extends State<DailyView> with SingleTickerProviderStateMix
           child: Align(
             alignment: Alignment.center,
             child: ListView(
+              key: dayListKey,
               scrollDirection: Axis.horizontal,
               children: List.generate(14, (index) {
 
