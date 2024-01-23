@@ -596,7 +596,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
         endTime: toDate,
         icon: icon,
         color: backgroundColor,
-        isCompleted: 0,
+        isCompleted: widget.appointment!.isCompleted,
       );
       provider.editEvent(editedEvent, widget.appointment!);
       Navigator.pop(context);
