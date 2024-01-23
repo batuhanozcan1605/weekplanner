@@ -367,13 +367,19 @@ class _EventEditingPageState extends State<EventEditingPage> {
                       ),
                       buildDateTimePicker(),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
                         child: ListTile(
-                          title: Text(
-                            'Repeat Each Week',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: colorScheme.primary),
+                          title: Row(
+                            children: [
+                              Icon(Icons.repeat, color: colorScheme.primary,),
+                              SizedBox(width: 5,),
+                              Text(
+                                'Repeat Each Week',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: colorScheme.primary),
+                              ),
+                            ],
                           ),
                           trailing: Switch(
                             value: isRecurrenceEnabled,
@@ -1017,7 +1023,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
         return ListTile(
           title: Text(
             text,
-            style: TextStyle(color: colorScheme.onBackground),
+            style: TextStyle(color: colorScheme.onBackground, fontWeight: FontWeight.bold),
           ),
           onTap: onClicked,
         );
