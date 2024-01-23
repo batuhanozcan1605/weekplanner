@@ -4,11 +4,12 @@ import 'package:weekplanner/provider/appointment_provider.dart';
 import 'menu_button.dart';
 
 class PseudoAppBar extends StatelessWidget {
-  const PseudoAppBar({super.key});
+  const PseudoAppBar({super.key, this.globalKey});
+  // ignore: prefer_typing_uninitialized_variables
+  final globalKey;
 
   @override
   Widget build(BuildContext context) {
-
     final provider = Provider.of<AppointmentProvider>(context, listen: false);
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Row(
@@ -18,6 +19,7 @@ class PseudoAppBar extends StatelessWidget {
         Consumer<AppointmentProvider>(
           builder: (BuildContext context, AppointmentProvider value, Widget? child) {
             return Row(
+              key: globalKey,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 InkWell(

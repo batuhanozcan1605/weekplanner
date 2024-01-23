@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weekplanner/constants.dart';
+import 'package:weekplanner/simple_widgets.dart';
 
 class ColorListView extends StatefulWidget {
   final Function(Color) onColorSelected;
@@ -55,7 +55,7 @@ class _ColorListViewState extends State<ColorListView> {
                         width: 24,
                         decoration: BoxDecoration(
                           borderRadius: const BorderRadius.all(Radius.elliptical(9999.0, 9999.0)),
-                          border: Border.all(width: 2.0, color: Constants.softColor),
+                          border: Border.all(width: 2.0, color: SimpleWidgets.softColor),
                         ),
                       )
                   ],
