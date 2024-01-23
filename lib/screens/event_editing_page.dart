@@ -657,7 +657,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
         recurrenceRule: wasRecurred
             ? widget.appointment!.recurrenceRule
             : 'FREQ=WEEKLY;BYDAY=$days',
-        isCompleted: 0,
+        isCompleted: widget.appointment!.isCompleted,
       );
       provider.editEvent(editedEvent, widget.appointment!);
 
