@@ -257,12 +257,14 @@ class _EventEditingPageState extends State<EventEditingPage> {
                                       builder: (BuildContext context) =>
                                           const ChooseEvent()));
 
-                              setState(() {
-                                selectedEvent = chosenEvent;
-                                titleController.text = selectedEvent!.subject;
-                                backgroundColor = selectedEvent!.color;
-                                icon = selectedEvent!.icon as IconData;
-                              });
+                              if(chosenEvent != null) {
+                                setState(() {
+                                  selectedEvent = chosenEvent;
+                                  titleController.text = selectedEvent!.subject;
+                                  backgroundColor = selectedEvent!.color;
+                                  icon = selectedEvent!.icon as IconData;
+                                });
+                              }
                             },
                             icon: const Icon(
                               Icons.add_circle,
