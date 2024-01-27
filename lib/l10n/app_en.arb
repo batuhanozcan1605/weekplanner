@@ -15,4 +15,19 @@
   "minutes" : "minutes",
   "hoursCapital" : "HOURS",
   "minutesCapital" : "MINUTES",
+  "today" : "Today",
+
+  "must" : "MUST",
+  "daily" : "DAILY",
+  "social" : "SOCIAL",
+  "selfImprovement" : "SELF-IMPROVEMENT",
+  "latest" : "Latest",
+
+  "tuto1" : "You can change the calender view here.",
+  "tuto2" : "You can add an event from here.\n(Tap to the calender cell you want to assign before)",
+  "tuto3" : "You can add existing events from here.",
+  "tuto4" : "You can create recurring event from here.",
+  "tuto5" : "You can select multiple days from here for in this week and next week.",
+  "tuto6" : "This list is scrollable."
+
 }

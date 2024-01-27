@@ -13,5 +13,20 @@
   "hours" : "saat",
   "minutes" : "dakika",
   "hoursCapital" : "SAAT",
-  "minutesCapital" : "DAKİKA"
+  "minutesCapital" : "DAKİKA",
+  "today" : "Bugün",
+
+  "must" : "MUTLAK",
+  "daily" : "GÜNLÜK",
+  "social" : "SOSYAL",
+  "selfImprovement" : "ÖZ GELİŞİM",
+  "latest" : "En son",
+
+  "tuto1": "Burada takvim görünümünü değiştirebilirsiniz.",
+  "tuto2": "Buradan etkinlik ekleyebilirsiniz.\n(Önce atamak istediğiniz takvim hücresine dokunun)",
+  "tuto3": "Buradan mevcut etkinlikleri ekleyebilirsiniz.",
+  "tuto4": "Buradan tekrarlanan etkinlik oluşturabilirsiniz.",
+  "tuto5": "Bu hafta ve gelecek haftada için buradan birden fazla gün seçebilirsiniz.",
+  "tuto6": "Bu liste kaydırılabilir."
+
 }

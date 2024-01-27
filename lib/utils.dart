@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class Utils {
   static String toDate(DateTime dateTime, context) {
@@ -84,14 +86,14 @@ class Utils {
                 builder: (context, controller) {
                   return Container(
                     alignment: Alignment.center,
-                    child: const Column(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "You can change the calender view here.",
+                          AppLocalizations.of(context)!.tuto1,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 28,
                             fontFamily: 'Montserrat',
                             color: Colors.white,
@@ -117,14 +119,14 @@ class Utils {
                 builder: (context, controller) {
                   return Container(
                     alignment: Alignment.center,
-                    child: const Column(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "You can add an event from here.\n(Tap to the calender cell you want to assign before)",
+                        AppLocalizations.of(context)!.tuto2,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 24,
                             fontFamily: 'Montserrat',
                             color: Colors.white,
@@ -140,7 +142,11 @@ class Utils {
     return targets;
   }
 
-  List<TargetFocus> eventEditingTargets({required GlobalKey addEventKey, required GlobalKey dayPickerKey}) {
+  List<TargetFocus> eventEditingTargets(
+      { required GlobalKey addEventKey,
+        required GlobalKey repeatEachWeek,
+        required GlobalKey dayPickerKey,
+      }) {
     List<TargetFocus> targets = [];
     targets.add(
       TargetFocus(
@@ -155,14 +161,14 @@ class Utils {
                 builder: (context, controller) {
                   return Container(
                     alignment: Alignment.center,
-                    child: const Column(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "You can add existing events from here.",
+                          AppLocalizations.of(context)!.tuto3,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 28,
                             fontFamily: 'Montserrat',
                             color: Colors.white,
@@ -177,6 +183,40 @@ class Utils {
 
     targets.add(
       TargetFocus(
+          keyTarget: repeatEachWeek,
+          enableOverlayTab: true,
+          alignSkip: Alignment.bottomRight,
+          radius: 10,
+          shape: ShapeLightFocus.RRect,
+          contents: [
+            TargetContent(
+                align: ContentAlign.top,
+                builder: (context, controller) {
+                  return Container(
+                    alignment: Alignment.center,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          AppLocalizations.of(context)!.tuto4,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 28,
+                            fontFamily: 'Montserrat',
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+          ]),
+    );
+
+
+    targets.add(
+      TargetFocus(
           keyTarget: dayPickerKey,
           enableOverlayTab: true,
           alignSkip: Alignment.topRight,
@@ -188,14 +228,14 @@ class Utils {
                 builder: (context, controller) {
                   return Container(
                     alignment: Alignment.center,
-                    child: const Column(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "You can select multiple days from here in this week and next week.",
+                          AppLocalizations.of(context)!.tuto5,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 28,
                             fontFamily: 'Montserrat',
                             color: Colors.white,
@@ -227,14 +267,14 @@ class Utils {
                 builder: (context, controller) {
                   return Container(
                     alignment: Alignment.center,
-                    child: const Column(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "This list is scrollable.",
+                          AppLocalizations.of(context)!.tuto6,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 28,
                             fontFamily: 'Montserrat',
                             color: Colors.white,

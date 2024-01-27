@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:weekplanner/simple_widgets.dart';
 import 'package:weekplanner/data.dart';
 import 'package:weekplanner/widgets/latest_events_pageview.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChooseEvent extends StatelessWidget {
   const ChooseEvent({super.key});
@@ -22,9 +23,9 @@ class ChooseEvent extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(left: 18.0, bottom: 8),
-              child: Text("Latest", style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold, fontFamily: 'Montserrat'),),
+              child: Text(AppLocalizations.of(context)!.latest, style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold, fontFamily: 'Montserrat'),),
             ),
               const LatestEvents(),
             const Padding(
@@ -40,10 +41,10 @@ class ChooseEvent extends StatelessWidget {
 
               ),
               children: [
-                SimpleWidgets().categoryCard('MUST', const Color(0xFF673AB7)),
-                SimpleWidgets().categoryCard('DAILY', const Color(0xFFFFC107)),
-                SimpleWidgets().categoryCard('SOCIAL', const Color(0xFFE53935)),
-                SimpleWidgets().categoryCard('SELF\nIMPROVEMENT', const Color(0xFF42A1E9)),
+                SimpleWidgets().categoryCard(AppLocalizations.of(context)!.must, const Color(0xFF673AB7)),
+                SimpleWidgets().categoryCard(AppLocalizations.of(context)!.daily, const Color(0xFFFFC107)),
+                SimpleWidgets().categoryCard(AppLocalizations.of(context)!.social, const Color(0xFFE53935)),
+                SimpleWidgets().categoryCard(AppLocalizations.of(context)!.selfImprovement, const Color(0xFF42A1E9)),
               ],
             ),
             const SizedBox(height: 5),

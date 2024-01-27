@@ -36,6 +36,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
   InterstitialAd? _interstitialAd;
 
   final addEventKey = GlobalKey();
+  final repeatEachWeek = GlobalKey();
   final dayPickerKey = GlobalKey();
   late TutorialCoachMark tutorialCoachMark;
   bool showTutorial = true;
@@ -45,6 +46,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
         targets: Utils().eventEditingTargets(
           addEventKey: addEventKey,
           dayPickerKey: dayPickerKey,
+          repeatEachWeek: repeatEachWeek,
         ),
         skipWidget: const Card(
           color: Colors.black,
@@ -373,6 +375,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4.0),
                         child: ListTile(
+                          key: repeatEachWeek,
                           title: Row(
                             children: [
                               Icon(Icons.repeat, color: colorScheme.primary,),
@@ -414,19 +417,22 @@ class _EventEditingPageState extends State<EventEditingPage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              GestureDetector(
-                                onTap: () => setState(() {
-                                  daysThisWeek = !daysThisWeek;
-                                }),
-                                child: Text(
-                                  daysThisWeek
-                                      ? AppLocalizations.of(context)!.dayPickerThis
-                                      : AppLocalizations.of(context)!.dayPickerNext,
-                                  style: TextStyle(
-                                      color: colorScheme.onBackground,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'Montserrat'),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () => setState(() {
+                                    daysThisWeek = !daysThisWeek;
+                                  }),
+                                  child: Text(
+                                    daysThisWeek
+                                        ? AppLocalizations.of(context)!.dayPickerThis
+                                        : AppLocalizations.of(context)!.dayPickerNext,
+                                    style: TextStyle(
+                                        color: colorScheme.onBackground,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Montserrat'),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
                               ),
                               IconButton(
@@ -674,7 +680,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
   Widget buildTitle() => TextFormField(
         autofocus: false,
-        style: TextStyle(
+        style: const TextStyle(
             color: SimpleWidgets.softColor,
             fontSize: 20,
             fontFamily: 'Segoe UI'),
@@ -732,7 +738,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                             onPressed: () => Navigator.pop(context),
                             child: const Text(
                               'CANCEL',
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 18, fontFamily: 'Montserrat'),
                             )),
                         TextButton(
                             onPressed: () => Navigator.pop(
@@ -742,7 +748,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                                     minutes: selectedMinute)),
                             child: const Text(
                               'OK',
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 18, fontFamily: 'Montserrat'),
                             )),
                       ],
                       //title: Text('Select Duration'),
@@ -760,14 +766,17 @@ class _EventEditingPageState extends State<EventEditingPage> {
                                           child: Text(
                                     AppLocalizations.of(context)!.hoursCapital,
                                     style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                        TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Montserrat'),
                                   ))),
                                   Expanded(
                                       child: Center(
                                           child: Text(AppLocalizations.of(context)!.minutesCapital,
                                               style: TextStyle(
                                                   fontWeight:
-                                                      FontWeight.bold)))),
+                                                      FontWeight.bold, fontFamily: 'Montserrat')
+                                          )
+                                      )
+                                  ),
                                 ],
                               ),
                             ),

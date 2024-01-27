@@ -20,40 +20,37 @@ class WeekView extends StatelessWidget {
     setDefaultCellDate();
     final events = Provider.of<AppointmentProvider>(context).events;
 
-    return Localizations.override(
-      context: context,
-      child: SfCalendar(
-        view: CalendarView.week,
-        firstDayOfWeek: 1,
-        dataSource: EventDataSource(events),
-        initialSelectedDate: DateTime.now(),
-        //cellBorderColor: Colors.transparent,
-        appointmentBuilder: appointmentBuilder,
-        onTap: (details) async {
-          if(details.appointments != null) {
-            final event = details.appointments!.first;
-            final myAppointment = MyAppointment(
-              id: event.id,
-              startTime: event.startTime,
-              endTime: event.endTime,
-              subject: event.subject,
-              color: event.color,
-              recurrenceRule: event.recurrenceRule,
-              notes: event.notes,
-                isCompleted: event.recurrenceRule == null ? event.isCompleted : 0,
-            );
-      
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventViewingPage(appointment: myAppointment)));
-          } else if(details.targetElement == CalendarElement.calendarCell) {
-            DateTime tappedDate = details.date!;
-      
-            //save cell info
-            final SharedPreferences prefs = await SharedPreferences.getInstance();
-            prefs.setString('selectedDateTime', tappedDate.toIso8601String());
-          }
-        },
-        headerHeight: 0,
-      ),
+    return SfCalendar(
+      view: CalendarView.week,
+      firstDayOfWeek: 1,
+      dataSource: EventDataSource(events),
+      initialSelectedDate: DateTime.now(),
+      //cellBorderColor: Colors.transparent,
+      appointmentBuilder: appointmentBuilder,
+      onTap: (details) async {
+        if(details.appointments != null) {
+          final event = details.appointments!.first;
+          final myAppointment = MyAppointment(
+            id: event.id,
+            startTime: event.startTime,
+            endTime: event.endTime,
+            subject: event.subject,
+            color: event.color,
+            recurrenceRule: event.recurrenceRule,
+            notes: event.notes,
+              isCompleted: event.recurrenceRule == null ? event.isCompleted : 0,
+          );
+
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventViewingPage(appointment: myAppointment)));
+        } else if(details.targetElement == CalendarElement.calendarCell) {
+          DateTime tappedDate = details.date!;
+
+          //save cell info
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('selectedDateTime', tappedDate.toIso8601String());
+        }
+      },
+      headerHeight: 0,
     );
 
   }
