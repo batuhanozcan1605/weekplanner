@@ -12,6 +12,7 @@ import 'package:weekplanner/widgets/color_listview_widget.dart';
 import '../ad_helper.dart';
 import '../model/Events.dart';
 import '../model/MyAppointment.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EventEditingPage extends StatefulWidget {
   const EventEditingPage(
@@ -195,7 +196,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
               ))
         ],
         title: Text(
-          "ADD PLAN",
+          AppLocalizations.of(context)!.addPlan,
           style: TextStyle(
               color: colorScheme.onBackground, fontFamily: 'Montserrat'),
         ),
@@ -272,12 +273,13 @@ class _EventEditingPageState extends State<EventEditingPage> {
                             ),
                             iconSize: 30,
                           ),
-                          const Text("Event",
-                              style: TextStyle(
+                          Text(AppLocalizations.of(context)!.event,
+                              style: const TextStyle(
                                   color: SimpleWidgets.softColor,
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: 'Segoe UI')),
+                                  fontFamily: 'Segoe UI')
+                          ),
                         ],
                       )),
                 ],
@@ -305,7 +307,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                             ),
                           ),
                           Text(
-                            'Color',
+                            AppLocalizations.of(context)!.color,
                             style: TextStyle(
                                 color: colorScheme.onBackground,
                                 fontSize: 18,
@@ -357,7 +359,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Time',
+                              AppLocalizations.of(context)!.time,
                               style: TextStyle(
                                   color: colorScheme.onBackground,
                                   fontSize: 18,
@@ -374,9 +376,9 @@ class _EventEditingPageState extends State<EventEditingPage> {
                           title: Row(
                             children: [
                               Icon(Icons.repeat, color: colorScheme.primary,),
-                              SizedBox(width: 5,),
+                              const SizedBox(width: 5,),
                               Text(
-                                'Repeat Each Week',
+                                AppLocalizations.of(context)!.repeat,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: colorScheme.primary),
@@ -418,8 +420,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
                                 }),
                                 child: Text(
                                   daysThisWeek
-                                      ? "Days - This Week"
-                                      : "Days - Next Week",
+                                      ? AppLocalizations.of(context)!.dayPickerThis
+                                      : AppLocalizations.of(context)!.dayPickerNext,
                                   style: TextStyle(
                                       color: colorScheme.onBackground,
                                       fontSize: 16,
@@ -460,7 +462,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
   Widget myCheckBox() => Row(
         children: [
-          const Text('Everyday'),
+          Text(AppLocalizations.of(context)!.everyDay),
           daysThisWeek
               ? Checkbox(
                   activeColor: Colors.deepPurple,
@@ -672,13 +674,13 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
   Widget buildTitle() => TextFormField(
         autofocus: false,
-        style: const TextStyle(
+        style: TextStyle(
             color: SimpleWidgets.softColor,
             fontSize: 20,
             fontFamily: 'Segoe UI'),
         decoration: InputDecoration(
           border: InputBorder.none,
-          hintText: 'Enter a title or add one',
+          hintText: AppLocalizations.of(context)!.hintText,
           hintStyle: TextStyle(color: SimpleWidgets.softColor.withOpacity(0.6)),
         ),
         onFieldSubmitted: (_) {},
@@ -692,10 +694,10 @@ class _EventEditingPageState extends State<EventEditingPage> {
             color: SimpleWidgets.softColor,
             fontSize: 14,
             fontFamily: 'Segoe UI'),
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
             border: InputBorder.none,
-            hintText: 'Details',
-            hintStyle: TextStyle(color: SimpleWidgets.softColor)),
+            hintText: AppLocalizations.of(context)!.details,
+            hintStyle: const TextStyle(color: SimpleWidgets.softColor)),
         onFieldSubmitted: (_) {},
         controller: detailController,
       );
@@ -748,7 +750,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                         width: (width / 412) * 400,
                         child: Column(
                           children: [
-                            const Expanded(
+                             Expanded(
                               flex: 2,
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -756,13 +758,13 @@ class _EventEditingPageState extends State<EventEditingPage> {
                                   Expanded(
                                       child: Center(
                                           child: Text(
-                                    'HOURS',
+                                    AppLocalizations.of(context)!.hoursCapital,
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold),
                                   ))),
                                   Expanded(
                                       child: Center(
-                                          child: Text('MINUTES',
+                                          child: Text(AppLocalizations.of(context)!.minutesCapital,
                                               style: TextStyle(
                                                   fontWeight:
                                                       FontWeight.bold)))),
@@ -840,7 +842,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                 ),
               ),
               Text(
-                'Duration',
+                AppLocalizations.of(context)!.duration,
                 style: TextStyle(
                     color: colorScheme.primary,
                     fontWeight: FontWeight.bold,
@@ -864,7 +866,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
         Flexible(
           flex: 1,
           child: Text(
-            '${selectedDuration!.inHours} hours',
+            '${selectedDuration!.inHours} ${AppLocalizations.of(context)!.hours}',
             style: TextStyle(
                 color: colorScheme.onBackground,
                 fontSize: 16,
@@ -875,7 +877,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
         Flexible(
           flex: 1,
           child: Text(
-              '${(selectedDuration!.inMinutes % 60).toString()} minutes',
+              '${(selectedDuration!.inMinutes % 60).toString()} ${AppLocalizations.of(context)!.minutes}',
               style: TextStyle(
                   color: colorScheme.onBackground,
                   fontSize: 16,
@@ -912,7 +914,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
               child: selectedDateObjects.isNotEmpty
                   ? const Center(child: Text("-"))
                   : buildDropdownField(
-                      text: Utils.toDate(fromDate),
+                      text: Utils.toDate(fromDate, context),
                       onClicked: () => pickFromDateTime(pickDate: true)),
             ),
             Expanded(
@@ -938,7 +940,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
             Expanded(
               flex: 3,
               child: buildDropdownField(
-                  text: Utils.toDate(toDate),
+                  text: Utils.toDate(toDate, context),
                   onClicked: () => pickToDateTime(pickDate: true)),
             ),
             Expanded(
@@ -1199,7 +1201,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
   void _showInterstitialAd() {
     if(_interstitialAd != null) {
-      print("not null");
+
       _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
         onAdDismissedFullScreenContent: (ad) {
           ad.dispose();
@@ -1211,7 +1213,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
         }
       );
       _interstitialAd!.show();
-      print("show ad");
+
       _interstitialAd = null;
     }
   }
@@ -1222,8 +1224,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
     showedAdCount++;
     print(showedAdCount);
-    if (showedAdCount % 4 == 0) {
-      print("it has entered");
+    if (showedAdCount % 5 == 0) {
+
       _showInterstitialAd();
     }
 

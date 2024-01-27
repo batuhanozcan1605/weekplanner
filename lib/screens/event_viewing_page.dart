@@ -92,7 +92,7 @@ class _EventViewingPageState extends State<EventViewingPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(Utils.toDate(widget.appointment.startTime)),
+                        Text(Utils.toDate(widget.appointment.startTime, context)),
                         Text(Utils.toTime(widget.appointment.startTime)),
                       ],
                     ),
@@ -113,7 +113,7 @@ class _EventViewingPageState extends State<EventViewingPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(Utils.toDate(widget.appointment.endTime)),
+                          Text(Utils.toDate(widget.appointment.endTime, context)),
                           Text(Utils.toTime(widget.appointment.endTime)),
                         ],
                       ),

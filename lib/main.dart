@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weekplanner/database/DatabaseHelper.dart';
 import 'package:weekplanner/database/DatabaseHelper2.dart';
 import 'package:weekplanner/database/UniqueIdDao.dart';
+import 'package:weekplanner/l10n/l10n.dart';
 import 'package:weekplanner/provider/appointment_provider.dart';
 import 'package:weekplanner/screens/main_screen.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +13,8 @@ import 'package:weekplanner/screens/onboarding_screen.dart';
 import 'package:weekplanner/theme/theme_provider.dart';
 import 'database/AppointmentDao.dart';
 import 'model/MyAppointment.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,7 +45,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Week Planner App',
-      //themeMode: Provider.of<ThemeProvider>(context).themeMode,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: null,
       theme: Provider.of<ThemeProvider>(context).themeData,
       home: const StartApp(),
     );

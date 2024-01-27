@@ -1,0 +1,17 @@
+{
+  "addPlan": "PLAN EKLE",
+  "hintText": "Başlık girin veya ekleyin",
+  "details": "Detaylar",
+  "color": "Renk",
+  "event": "Etkinlik",
+  "time": "Zaman",
+  "duration": "Süre",
+  "repeat": "Her Hafta Tekrarla",
+  "dayPickerThis": "Günler - Bu Hafta",
+  "dayPickerNext": "Günler - Gelecek Hafta",
+  "everyDay": "Her Gün",
+  "hours" : "saat",
+  "minutes" : "dakika",
+  "hoursCapital" : "SAAT",
+  "minutesCapital" : "DAKİKA"
+}

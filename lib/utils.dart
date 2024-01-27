@@ -3,8 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class Utils {
-  static String toDate(DateTime dateTime) {
-    final date = DateFormat.MMMEd().format(dateTime);
+  static String toDate(DateTime dateTime, context) {
+    final date = DateFormat.MMMEd(Localizations.localeOf(context).languageCode).format(dateTime);
 
     return date;
   }

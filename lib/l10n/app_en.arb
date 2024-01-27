@@ -1,0 +1,18 @@
+{
+  "addPlan" : "ADD PLAN",
+  "hintText" : "Enter a title or add one",
+  "details" : "Details",
+  "color" : "Color",
+  "event" : "Event",
+  "color" : "Color",
+  "time" : "Time",
+  "duration" : "Duration",
+  "repeat" : "Repeat Each Week",
+  "dayPickerThis" : "Days - This Week",
+  "dayPickerNext" : "Days - Next Week",
+  "everyDay" : "Everyday",
+  "hours" : "hours",
+  "minutes" : "minutes",
+  "hoursCapital" : "HOURS",
+  "minutesCapital" : "MINUTES",
+}
