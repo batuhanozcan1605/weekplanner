@@ -348,7 +348,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
             Padding(
                 padding: const EdgeInsets.only(top: 11.0),
                 child: Container(
-                  height: 390,
+                  height: 410,
                   decoration: BoxDecoration(
                     color: colorScheme.secondary,
                     borderRadius: BorderRadius.circular(11.0),
@@ -415,24 +415,22 @@ class _EventEditingPageState extends State<EventEditingPage> {
                           padding:
                               const EdgeInsets.only(left: 13.0, right: 13.0),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
                             children: [
-                              Expanded(
-                                child: GestureDetector(
-                                  onTap: () => setState(() {
-                                    daysThisWeek = !daysThisWeek;
-                                  }),
-                                  child: Text(
-                                    daysThisWeek
-                                        ? AppLocalizations.of(context)!.dayPickerThis
-                                        : AppLocalizations.of(context)!.dayPickerNext,
-                                    style: TextStyle(
-                                        color: colorScheme.onBackground,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'Montserrat'),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
+                              GestureDetector(
+                                onTap: () => setState(() {
+                                  daysThisWeek = !daysThisWeek;
+                                }),
+                                child: Text(
+                                  daysThisWeek
+                                      ? AppLocalizations.of(context)!.dayPickerThis
+                                      : AppLocalizations.of(context)!.dayPickerNext,
+                                  style: TextStyle(
+                                      color: colorScheme.onBackground,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Montserrat'),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                               IconButton(
@@ -446,7 +444,6 @@ class _EventEditingPageState extends State<EventEditingPage> {
                                           Icons.arrow_forward_ios_rounded)
                                       : const Icon(
                                           Icons.arrow_back_ios_new_rounded)),
-                              myCheckBox(),
                             ],
                           ),
                         ),
@@ -457,6 +454,9 @@ class _EventEditingPageState extends State<EventEditingPage> {
                                   horizontal: 8.0, vertical: 8.0),
                               child: dayPicker(),
                             ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [myCheckBox()]),
                     ],
                   ),
                 )),
