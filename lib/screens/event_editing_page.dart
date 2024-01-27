@@ -766,12 +766,12 @@ class _EventEditingPageState extends State<EventEditingPage> {
                                           child: Text(
                                     AppLocalizations.of(context)!.hoursCapital,
                                     style:
-                                        TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Montserrat'),
+                                        const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Montserrat'),
                                   ))),
                                   Expanded(
                                       child: Center(
                                           child: Text(AppLocalizations.of(context)!.minutesCapital,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   fontWeight:
                                                       FontWeight.bold, fontFamily: 'Montserrat')
                                           )
@@ -1232,7 +1232,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
     int showedAdCount = prefs.getInt('showedAdCount') ?? 0;
 
     showedAdCount++;
-    print(showedAdCount);
+
     if (showedAdCount % 5 == 0) {
 
       _showInterstitialAd();

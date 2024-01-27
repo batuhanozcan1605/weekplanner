@@ -28,6 +28,12 @@
   "tuto3" : "You can add existing events from here.",
   "tuto4" : "You can create recurring event from here.",
   "tuto5" : "You can select multiple days from here for in this week and next week.",
-  "tuto6" : "This list is scrollable."
+  "tuto6" : "This list is scrollable.",
 
+  "onboarding1" : "A simplistic week planner.",
+  "onboarding2" : "Overview your week and manage your time efficiently.",
+  "onboarding3" : "Be aware of your free time.",
+  "onboarding4" : "You don't need overwhelming features. \nNo micro-management, no reminders, no monthly view, no time picking more than half-hour accuracy.",
+  "theme" : "Change Theme",
+  "letsStart" : "Let's Start"
 }
