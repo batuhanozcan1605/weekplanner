@@ -1,0 +1,38 @@
+{
+  "addPlan": "添加计划",
+  "hintText": "输入标题或添加一个",
+  "details": "详细信息",
+  "color": "颜色",
+  "event": "事件",
+  "time": "时间",
+  "duration": "持续时间",
+  "repeat": "每周重复",
+  "dayPickerThis": "天 - 本周",
+  "dayPickerNext": "天 - 下周",
+  "everyDay": "每天",
+  "hours": "小时",
+  "minutes": "分钟",
+  "hoursCapital": "小时",
+  "minutesCapital": "分钟",
+  "today": "今天",
+
+  "must": "必须",
+  "daily": "每日",
+  "social": "社交",
+  "selfImprovement": "自我提升",
+  "latest": "最新",
+
+  "tuto1": "您可以在此更改日历视图。",
+  "tuto2": "您可以从这里添加事件。\n（在分配之前点击要分配的日历单元格）",
+  "tuto3": "您可以从这里添加现有事件。",
+  "tuto4": "您可以从这里创建重复事件。",
+  "tuto5": "您可以在这里选择本周和下周的多个天数。",
+  "tuto6": "此列表可滚动。",
+
+  "onboarding1": "简约的周计划器。",
+  "onboarding2": "概览您的一周，高效管理您的时间。",
+  "onboarding3": "注意您的空闲时间。",
+  "onboarding4": "您无需繁琐的功能。\n没有微观管理，没有提醒，没有月视图，没有超过半小时准确度的时间选择。",
+  "theme": "更改主题",
+  "letsStart": "让我们开始"
+}
