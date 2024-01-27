@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weekplanner/database/DatabaseHelper.dart';
 import 'package:weekplanner/database/DatabaseHelper2.dart';
@@ -21,6 +22,8 @@ void main() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   MobileAds.instance.initialize();
   final isDark = sharedPreferences.getBool('isDark') ?? true;
+  String systemLocale = Intl.systemLocale;
+  print('Preferred Language: ${Intl.systemLocale}');
 
   runApp(
       MultiProvider(
@@ -52,7 +55,7 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate
       ],
       supportedLocales: L10n.all,
-      locale: const Locale('es'),
+      locale: null,
       theme: Provider.of<ThemeProvider>(context).themeData,
       home: const StartApp(),
     );
