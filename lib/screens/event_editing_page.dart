@@ -527,8 +527,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
     final provider = Provider.of<AppointmentProvider>(context, listen: false);
     int highestId = provider.getHighestId() + 1;
     for (int i = 0; i < selectedDateObjects.length; i++) {
-      DateTime newFromDate = DateTime(fromDate.year, fromDate.month,
-          selectedDateObjects[i].day, fromDate.hour, fromDate.minute);
+      DateTime newFromDate = DateTime(selectedDateObjects[i].year, selectedDateObjects[i].month,
+          selectedDateObjects[i].day, selectedDateObjects[i].hour, selectedDateObjects[i].minute);
 
       DateTime checkToDateIf00 = newFromDate.add(Duration(
           hours: selectedDuration!.inHours,
@@ -566,6 +566,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
     final provider = Provider.of<AppointmentProvider>(context, listen: false);
 
     if (selectedDateObjects.isNotEmpty) {
+      print("selected days events: ${selectedDaysEvents()}");
       provider.addSelectedDaysEvents(selectedDaysEvents(), icon);
       Navigator.popUntil(context, (route) => route.isFirst);
       return;
