@@ -528,7 +528,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
     int highestId = provider.getHighestId() + 1;
     for (int i = 0; i < selectedDateObjects.length; i++) {
       DateTime newFromDate = DateTime(selectedDateObjects[i].year, selectedDateObjects[i].month,
-          selectedDateObjects[i].day, selectedDateObjects[i].hour, selectedDateObjects[i].minute);
+          selectedDateObjects[i].day, fromDate.hour, fromDate.minute);
 
       DateTime checkToDateIf00 = newFromDate.add(Duration(
           hours: selectedDuration!.inHours,
