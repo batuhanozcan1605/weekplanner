@@ -54,7 +54,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
             padding: EdgeInsets.all(10.0),
             child: Text(
               'SKIP TUTORIAL',
-              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+              style:
+                  TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
             ),
           ),
         ),
@@ -181,7 +182,6 @@ class _EventEditingPageState extends State<EventEditingPage> {
         actions: [
           IconButton(
               onPressed: () {
-
                 interstitialAdFrequency();
 
                 Future.delayed(const Duration(milliseconds: 1000));
@@ -190,7 +190,6 @@ class _EventEditingPageState extends State<EventEditingPage> {
                 } else {
                   saveForm();
                 }
-
               },
               icon: Icon(
                 Icons.check,
@@ -260,7 +259,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                                       builder: (BuildContext context) =>
                                           const ChooseEvent()));
 
-                              if(chosenEvent != null) {
+                              if (chosenEvent != null) {
                                 setState(() {
                                   selectedEvent = chosenEvent;
                                   titleController.text = selectedEvent!.subject;
@@ -280,8 +279,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                                   color: SimpleWidgets.softColor,
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: 'Segoe UI')
-                          ),
+                                  fontFamily: 'Segoe UI')),
                         ],
                       )),
                 ],
@@ -378,8 +376,13 @@ class _EventEditingPageState extends State<EventEditingPage> {
                           key: repeatEachWeek,
                           title: Row(
                             children: [
-                              Icon(Icons.repeat, color: colorScheme.primary,),
-                              const SizedBox(width: 5,),
+                              Icon(
+                                Icons.repeat,
+                                color: colorScheme.primary,
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
                               Text(
                                 AppLocalizations.of(context)!.repeat,
                                 style: TextStyle(
@@ -415,7 +418,6 @@ class _EventEditingPageState extends State<EventEditingPage> {
                           padding:
                               const EdgeInsets.only(left: 13.0, right: 13.0),
                           child: Row(
-
                             children: [
                               GestureDetector(
                                 onTap: () => setState(() {
@@ -423,8 +425,10 @@ class _EventEditingPageState extends State<EventEditingPage> {
                                 }),
                                 child: Text(
                                   daysThisWeek
-                                      ? AppLocalizations.of(context)!.dayPickerThis
-                                      : AppLocalizations.of(context)!.dayPickerNext,
+                                      ? AppLocalizations.of(context)!
+                                          .dayPickerThis
+                                      : AppLocalizations.of(context)!
+                                          .dayPickerNext,
                                   style: TextStyle(
                                       color: colorScheme.onBackground,
                                       fontSize: 16,
@@ -454,9 +458,11 @@ class _EventEditingPageState extends State<EventEditingPage> {
                                   horizontal: 8.0, vertical: 8.0),
                               child: dayPicker(),
                             ),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [myCheckBox()]),
+                      isEditing
+                          ? const Center()
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [myCheckBox()]),
                     ],
                   ),
                 )),
@@ -527,8 +533,12 @@ class _EventEditingPageState extends State<EventEditingPage> {
     final provider = Provider.of<AppointmentProvider>(context, listen: false);
     int highestId = provider.getHighestId() + 1;
     for (int i = 0; i < selectedDateObjects.length; i++) {
-      DateTime newFromDate = DateTime(selectedDateObjects[i].year, selectedDateObjects[i].month,
-          selectedDateObjects[i].day, fromDate.hour, fromDate.minute);
+      DateTime newFromDate = DateTime(
+          selectedDateObjects[i].year,
+          selectedDateObjects[i].month,
+          selectedDateObjects[i].day,
+          fromDate.hour,
+          fromDate.minute);
 
       DateTime checkToDateIf00 = newFromDate.add(Duration(
           hours: selectedDuration!.inHours,
@@ -739,7 +749,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
                             onPressed: () => Navigator.pop(context),
                             child: const Text(
                               'CANCEL',
-                              style: TextStyle(fontSize: 18, fontFamily: 'Montserrat'),
+                              style: TextStyle(
+                                  fontSize: 18, fontFamily: 'Montserrat'),
                             )),
                         TextButton(
                             onPressed: () => Navigator.pop(
@@ -749,7 +760,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
                                     minutes: selectedMinute)),
                             child: const Text(
                               'OK',
-                              style: TextStyle(fontSize: 18, fontFamily: 'Montserrat'),
+                              style: TextStyle(
+                                  fontSize: 18, fontFamily: 'Montserrat'),
                             )),
                       ],
                       //title: Text('Select Duration'),
@@ -757,7 +769,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                         width: (width / 412) * 400,
                         child: Column(
                           children: [
-                             Expanded(
+                            Expanded(
                               flex: 2,
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -766,18 +778,18 @@ class _EventEditingPageState extends State<EventEditingPage> {
                                       child: Center(
                                           child: Text(
                                     AppLocalizations.of(context)!.hoursCapital,
-                                    style:
-                                        const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Montserrat'),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Montserrat'),
                                   ))),
                                   Expanded(
                                       child: Center(
-                                          child: Text(AppLocalizations.of(context)!.minutesCapital,
+                                          child: Text(
+                                              AppLocalizations.of(context)!
+                                                  .minutesCapital,
                                               style: const TextStyle(
-                                                  fontWeight:
-                                                      FontWeight.bold, fontFamily: 'Montserrat')
-                                          )
-                                      )
-                                  ),
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: 'Montserrat')))),
                                 ],
                               ),
                             ),
@@ -1037,7 +1049,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
         return ListTile(
           title: Text(
             text,
-            style: TextStyle(color: colorScheme.onBackground, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: colorScheme.onBackground, fontWeight: FontWeight.bold),
           ),
           onTap: onClicked,
         );
@@ -1203,25 +1216,21 @@ class _EventEditingPageState extends State<EventEditingPage> {
         adUnitId: AdHelper.interstitialAdUnitId,
         request: const AdRequest(),
         adLoadCallback: InterstitialAdLoadCallback(
-            onAdLoaded: (ad)=> _interstitialAd = ad,
-            onAdFailedToLoad: (LoadAdError error) => _interstitialAd = null,
-        )
-    );
+          onAdLoaded: (ad) => _interstitialAd = ad,
+          onAdFailedToLoad: (LoadAdError error) => _interstitialAd = null,
+        ));
   }
 
   void _showInterstitialAd() {
-    if(_interstitialAd != null) {
-
-      _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
-        onAdDismissedFullScreenContent: (ad) {
-          ad.dispose();
-          _createInterstitialAd();
-        },
-        onAdFailedToShowFullScreenContent: (ad, error) {
-          ad.dispose();
-          _createInterstitialAd();
-        }
-      );
+    if (_interstitialAd != null) {
+      _interstitialAd!.fullScreenContentCallback =
+          FullScreenContentCallback(onAdDismissedFullScreenContent: (ad) {
+        ad.dispose();
+        _createInterstitialAd();
+      }, onAdFailedToShowFullScreenContent: (ad, error) {
+        ad.dispose();
+        _createInterstitialAd();
+      });
       _interstitialAd!.show();
 
       _interstitialAd = null;
@@ -1235,11 +1244,9 @@ class _EventEditingPageState extends State<EventEditingPage> {
     showedAdCount++;
 
     if (showedAdCount % 5 == 0) {
-
       _showInterstitialAd();
     }
 
     prefs.setInt('showedAdCount', showedAdCount);
   }
-
 }
