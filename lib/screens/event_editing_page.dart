@@ -680,6 +680,12 @@ class _EventEditingPageState extends State<EventEditingPage> {
             : 'FREQ=WEEKLY;BYDAY=$days',
         isCompleted: widget.appointment!.isCompleted,
       );
+
+      if(widget.appointment!.isCompleted == 1) {
+        provider.editCompletedEvent(widget.appointment!);
+        String uniqueId = Utils.getUniqueId(widget.appointment!.id.toString(), widget.appointment!.startTime);
+        provider.addUniqueId(uniqueId);
+      }
       provider.editEvent(editedEvent, widget.appointment!);
 
       Navigator.popUntil(context, (route) => route.isFirst);

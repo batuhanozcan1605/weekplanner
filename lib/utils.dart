@@ -5,6 +5,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class Utils {
+  static String getUniqueId(String eventId, DateTime occurrenceDateTime) {
+    return '$eventId-${occurrenceDateTime.toIso8601String()}';
+  }
+
   static String toDate(DateTime dateTime, context) {
     final date = DateFormat.MMMEd(Localizations.localeOf(context).languageCode).format(dateTime);
 
