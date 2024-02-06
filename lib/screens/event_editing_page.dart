@@ -609,6 +609,10 @@ class _EventEditingPageState extends State<EventEditingPage> {
     );
 
     if (isEditing) {
+
+        String uniqueId = Utils.getUniqueId(widget.appointment!.id.toString(), widget.appointment!.startTime);
+        bool completed = provider.uniqueIds.contains(uniqueId);
+
       final editedEvent = MyAppointment(
         id: widget.appointment!.id,
         subject: titleController.text,
@@ -617,9 +621,13 @@ class _EventEditingPageState extends State<EventEditingPage> {
         endTime: toDate,
         icon: icon,
         color: backgroundColor,
-        isCompleted: widget.appointment!.isCompleted,
+        isCompleted: completed ? 1 : widget.appointment!.isCompleted,
       );
+
+      provider.editCompletedEvent(widget.appointment!);
+      provider.deleteUniqueIds(uniqueId);
       provider.editEvent(editedEvent, widget.appointment!);
+      
       Navigator.pop(context);
       //Navigator.popUntil(context, (route) => route.isFirst);
     } else {
