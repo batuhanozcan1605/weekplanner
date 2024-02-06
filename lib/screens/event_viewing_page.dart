@@ -122,12 +122,12 @@ class _EventViewingPageState extends State<EventViewingPage> {
                 ),
               ),
               widget.appointment.recurrenceRule != null
-                  ? const Row(
+                  ? Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Icon(
                           Icons.repeat,
-                          color: SimpleWidgets.themePurple,
+                          color: colorScheme.primary,
                         ),
                         SizedBox(
                           width: 8,

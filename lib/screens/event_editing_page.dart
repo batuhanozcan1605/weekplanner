@@ -627,7 +627,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
       provider.editCompletedEvent(widget.appointment!);
       provider.deleteUniqueIds(uniqueId);
       provider.editEvent(editedEvent, widget.appointment!);
-      
+
       Navigator.pop(context);
       //Navigator.popUntil(context, (route) => route.isFirst);
     } else {
