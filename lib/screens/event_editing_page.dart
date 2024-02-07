@@ -755,6 +755,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                 builder: (BuildContext context) {
                   var screenSize = MediaQuery.of(context).size;
                   final width = screenSize.width;
+                  final height = screenSize.height;
                   int selectedHour = selectedDuration!.inHours;
                   int selectedMinute = selectedDuration!.inMinutes % 60;
                   return AlertDialog(
@@ -781,6 +782,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                       //title: Text('Select Duration'),
                       content: SizedBox(
                         width: (width / 412) * 400,
+                        height: (height/915) * 450,
                         child: Column(
                           children: [
                             Expanded(
@@ -1185,7 +1187,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
                         ),
                       );
                     }),
-                  ));
+                  )
+        );
       });
 
   String _getDayAbbreviation(int index) {
