@@ -23,6 +23,8 @@ class _ColorListViewState extends State<ColorListView> {
 
   @override
   Widget build(BuildContext context) {
+    var screenSize = MediaQuery.of(context).size;
+    final width = screenSize.width;
 
     return SizedBox(
       height: 50,
@@ -38,7 +40,7 @@ class _ColorListViewState extends State<ColorListView> {
               widget.onColorSelected(colors[index]);
             },
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5), // Add horizontal padding
+              padding: EdgeInsets.symmetric(horizontal: (width/412)*5), // Add horizontal padding
               child: Container(
                 color: Colors.transparent,
                 height: 40,
