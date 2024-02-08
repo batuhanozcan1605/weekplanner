@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weekplanner/provider/appointment_provider.dart';
+import 'package:weekplanner/screens/settings_page.dart';
 import '../screens/main_screen.dart';
 import '../theme/theme.dart';
 import '../theme/theme_provider.dart';
@@ -63,12 +64,18 @@ class PseudoAppBar extends StatelessWidget {
             );
           },
         ),
+
         IconButton(
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> const SettingsPage()));
+             },
+            icon: Icon(Icons.settings)),
+        /*IconButton(
           onPressed: () {
             themeProvider.toggleTheme();
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const MainScreen()));
           },
-          icon: Icon(themeProvider.themeData == lightTheme ? Icons.light_mode : Icons.dark_mode, color: colorScheme.onBackground,),),
+          icon: Icon(themeProvider.themeData == lightTheme ? Icons.light_mode : Icons.dark_mode, color: colorScheme.onBackground,),),*/
         //const MenuButton(),
       ],
     );
