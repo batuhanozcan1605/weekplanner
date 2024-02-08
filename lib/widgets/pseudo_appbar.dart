@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weekplanner/provider/appointment_provider.dart';
-import 'menu_button.dart';
+import '../screens/main_screen.dart';
+import '../theme/theme.dart';
+import '../theme/theme_provider.dart';
 
 class PseudoAppBar extends StatelessWidget {
   const PseudoAppBar({super.key, this.globalKey});
@@ -11,11 +13,13 @@ class PseudoAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AppointmentProvider>(context, listen: false);
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
     ColorScheme colorScheme = Theme.of(context).colorScheme;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Icon(Icons.pie_chart, color: colorScheme.background,),
+        IconButton( onPressed: () {  }, icon: Icon(Icons.pie_chart, color: colorScheme.background,)),
         Consumer<AppointmentProvider>(
           builder: (BuildContext context, AppointmentProvider value, Widget? child) {
             return Row(
@@ -28,7 +32,7 @@ class PseudoAppBar extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(Icons.view_timeline, color: value.scheduleView == true ? colorScheme.primary : colorScheme.onBackground),
-                      const SizedBox(height: 10,),
+                      const SizedBox(height: 5,),
                       Text('TO DO', style: TextStyle(color: value.scheduleView == true ? colorScheme.primary : colorScheme.onBackground, fontFamily: 'Montserrat'),),
                     ],
                   ),
@@ -39,7 +43,7 @@ class PseudoAppBar extends StatelessWidget {
                   child: Column(
                     children: [
                       Icon(Icons.view_week_rounded, color: value.weekView == true ? colorScheme.primary : colorScheme.onBackground),
-                      const SizedBox(height: 10,),
+                      const SizedBox(height: 5,),
                       Text('WEEKS', style: TextStyle(color: value.weekView == true ? colorScheme.primary : colorScheme.onBackground, fontFamily: 'Montserrat'),),
                     ],
                   ),
@@ -50,7 +54,7 @@ class PseudoAppBar extends StatelessWidget {
                   child: Column(
                     children: [
                       Icon(Icons.view_day, color: value.dayView == true ? colorScheme.primary : colorScheme.onBackground),
-                      const SizedBox(height: 10,),
+                      const SizedBox(height: 5,),
                       Text('DAYS', style: TextStyle(color: value.dayView == true ? colorScheme.primary : colorScheme.onBackground, fontFamily: 'Montserrat'),),
                     ],
                   ),
@@ -59,7 +63,13 @@ class PseudoAppBar extends StatelessWidget {
             );
           },
         ),
-        const MenuButton(),
+        IconButton(
+          onPressed: () {
+            themeProvider.toggleTheme();
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const MainScreen()));
+          },
+          icon: Icon(themeProvider.themeData == lightTheme ? Icons.light_mode : Icons.dark_mode, color: colorScheme.onBackground,),),
+        //const MenuButton(),
       ],
     );
   }
