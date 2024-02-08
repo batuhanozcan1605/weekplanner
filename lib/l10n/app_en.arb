@@ -35,5 +35,7 @@
   "onboarding3" : "Be aware of your free time.",
   "onboarding4" : "You don't need overwhelming features. \nNo micro-management, no reminders, no monthly view, no time picking more than half-hour accuracy.",
   "theme" : "Change Theme",
-  "letsStart" : "Let's Start"
+  "letsStart" : "Let's Start",
+
+  "languages" : "Languages"
 }

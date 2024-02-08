@@ -34,5 +34,7 @@
   "onboarding3" : "Sea consciente de su tiempo libre.",
   "onboarding4" : "No necesita funciones abrumadoras. \nSin microgestión, sin recordatorios, sin vista mensual, sin selección de tiempo con más precisión que media hora.",
   "theme" : "Cambiar Tema",
-  "letsStart" : "Comencemos"
+  "letsStart" : "Comencemos",
+
+  "languages" : "Idiomas"
 }

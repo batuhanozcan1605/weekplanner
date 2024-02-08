@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:weekplanner/ad_helper.dart';
+import 'package:weekplanner/screens/language_page.dart';
 import 'package:weekplanner/screens/main_screen.dart';
 import 'package:weekplanner/theme/theme.dart';
 import '../theme/theme_provider.dart';
@@ -79,7 +80,10 @@ class _SettingsPageState extends State<SettingsPage> {
                       fontFamily: 'Montserrat'),
                 ),
                 onTap: () {
-
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => LanguagePage()));
                 },
               ),
             ],

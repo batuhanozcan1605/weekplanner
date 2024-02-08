@@ -34,6 +34,8 @@
   "onboarding3": "Boş zamanlarınızın farkında olun.",
   "onboarding4": "Aşırı özelliklere ihtiyacınız yok. \nDetaylı yönetim, hatırlatıcılar, aylık görünüm, yarım saat hassasiyetinden fazla zaman seçimi yok.",
   "theme" : "Temayı değiştir.",
-  "letsStart" : "Hadi Başlayalım!"
+  "letsStart" : "Hadi Başlayalım!",
+
+  "languages" : "Diller"
 
 }
