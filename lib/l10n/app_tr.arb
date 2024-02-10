@@ -36,6 +36,12 @@
   "theme" : "Temayı değiştir.",
   "letsStart" : "Hadi Başlayalım!",
 
+  "settings": "Ayarlar",
+  "tapToToggle": "Tema değiştirmek için dokunun",
+  "changeLang": "Dili Değiştir",
+  "deleteEvents": "Tüm Etkinlikleri Sil",
+  "about": "Hakkında",
+
   "languages" : "Diller"
 
 }

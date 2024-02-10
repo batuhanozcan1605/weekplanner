@@ -36,5 +36,11 @@
   "theme" : "Cambiar Tema",
   "letsStart" : "Comencemos",
 
+  "settings": "Ajustes",
+  "tapToToggle": "Toque para cambiar el tema",
+  "changeLang": "Cambiar idioma",
+  "deleteEvents": "Eliminar todos los eventos",
+  "about": "Acerca de",
+
   "languages" : "Idiomas"
 }

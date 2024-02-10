@@ -36,5 +36,11 @@
   "theme": "更改主题",
   "letsStart": "让我们开始",
 
+  "settings": "设置",
+  "tapToToggle": "点击切换主题",
+  "changeLang": "更改语言",
+  "deleteEvents": "删除所有事件",
+  "about": "关于",
+
   "languages" : "语言"
 }

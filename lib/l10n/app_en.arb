@@ -37,5 +37,11 @@
   "theme" : "Change Theme",
   "letsStart" : "Let's Start",
 
+  "settings" : "Settings",
+  "tapToToggle" : "Tap to toggle theme",
+  "changeLang" : "Change Language",
+  "deleteEvents" : "Delete All Events",
+  "about" : "About",
+
   "languages" : "Languages"
 }

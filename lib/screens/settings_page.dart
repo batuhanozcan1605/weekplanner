@@ -8,6 +8,7 @@ import 'package:weekplanner/screens/language_page.dart';
 import 'package:weekplanner/screens/main_screen.dart';
 import 'package:weekplanner/theme/theme.dart';
 import '../theme/theme_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -35,7 +36,7 @@ class _SettingsPageState extends State<SettingsPage> {
         appBar: AppBar(
           backgroundColor: colorScheme.background,
           title: Text(
-            'Settings',
+            AppLocalizations.of(context)!.settings,
             style: TextStyle(
                 color: colorScheme.onBackground, fontFamily: 'Montserrat'),
           ),
@@ -56,7 +57,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   color: colorScheme.onBackground,
                 ),
                 title: Text(
-                  'Tap to toggle theme',
+                  AppLocalizations.of(context)!.tapToToggle,
                   style: TextStyle(
                       color: colorScheme.onBackground,
                       fontFamily: 'Montserrat'),
@@ -77,7 +78,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 tileColor: colorScheme.secondary,
                 leading: Icon(Icons.language),
                 title: Text(
-                  'Change Language',
+                  AppLocalizations.of(context)!.changeLang,
                   style: TextStyle(
                       color: colorScheme.onBackground,
                       fontFamily: 'Montserrat'),
@@ -97,7 +98,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 tileColor: colorScheme.secondary,
                 leading: Icon(Icons.delete_forever),
                 title: Text(
-                  'Delete All Events',
+                  AppLocalizations.of(context)!.deleteEvents,
                   style: TextStyle(
                       color: colorScheme.onBackground,
                       fontFamily: 'Montserrat'),
@@ -146,7 +147,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 tileColor: colorScheme.secondary,
                 leading: Icon(Icons.info_rounded),
                 title: Text(
-                  'About',
+                  AppLocalizations.of(context)!.about,
                   style: TextStyle(
                       color: colorScheme.onBackground,
                       fontFamily: 'Montserrat'),

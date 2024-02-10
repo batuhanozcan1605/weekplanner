@@ -14,8 +14,6 @@ import '../model/Events.dart';
 import '../model/MyAppointment.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../provider/settings_provider.dart';
-
 class EventEditingPage extends StatefulWidget {
   const EventEditingPage(
       {super.key,
@@ -348,7 +346,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
             Padding(
                 padding: const EdgeInsets.only(top: 11.0),
                 child: Container(
-                  height: 410,
+                  height: 469,
                   decoration: BoxDecoration(
                     color: colorScheme.secondary,
                     borderRadius: BorderRadius.circular(11.0),
@@ -385,11 +383,13 @@ class _EventEditingPageState extends State<EventEditingPage> {
                               const SizedBox(
                                 width: 5,
                               ),
-                              Text(
-                                AppLocalizations.of(context)!.repeat,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: colorScheme.primary),
+                              Flexible(
+                                child: Text(
+                                  AppLocalizations.of(context)!.repeat,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: colorScheme.primary),
+                                ),
                               ),
                             ],
                           ),
@@ -479,7 +479,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
           Text(AppLocalizations.of(context)!.everyDay),
           daysThisWeek
               ? Checkbox(
-                  activeColor: Colors.deepPurple,
+                  activeColor: backgroundColor,
                   checkColor: SimpleWidgets.softColor,
                   value: isChecked,
                   onChanged: (value) {
@@ -509,7 +509,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                   },
                 )
               : Checkbox(
-                  activeColor: Colors.deepPurple,
+                  activeColor: backgroundColor,
                   checkColor: SimpleWidgets.softColor,
                   value: isCheckedNextWeek,
                   onChanged: (value) {
@@ -913,7 +913,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                 fontWeight: FontWeight.bold),
           ),
         ),
-        //SizedBox(width: 8),
+        SizedBox(width: 8),
         Flexible(
           flex: 1,
           child: Text(
@@ -929,8 +929,6 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
   Widget buildFrom(colorScheme) => Builder(
     builder: (context) {
-      final settingsProvider = Provider.of<SettingsProvider>(context, listen: false);
-      final locale = settingsProvider.appLocale;
       return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 4.0),
             child: Row(
