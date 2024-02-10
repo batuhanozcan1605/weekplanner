@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weekplanner/provider/locale_provider.dart';
+import 'package:weekplanner/provider/settings_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:weekplanner/screens/main_screen.dart';
 
@@ -35,7 +35,7 @@ class LanguagePage extends StatelessWidget {
                   color: colorScheme.onBackground, fontFamily: 'Montserrat'),
             ),
             onTap: () {
-              changeLocale(context, 'en');
+              _changeLocale(context, 'en');
             },
           ),
           ListTile(
@@ -46,7 +46,7 @@ class LanguagePage extends StatelessWidget {
                   color: colorScheme.onBackground, fontFamily: 'Montserrat'),
             ),
             onTap: () {
-              changeLocale(context, 'es');
+              _changeLocale(context, 'es');
             },
           ),
           ListTile(
@@ -57,7 +57,7 @@ class LanguagePage extends StatelessWidget {
                   color: colorScheme.onBackground, fontFamily: 'Montserrat'),
             ),
             onTap: () {
-              changeLocale(context, 'tr');
+              _changeLocale(context, 'tr');
             },
           ),
           ListTile(
@@ -74,7 +74,7 @@ class LanguagePage extends StatelessWidget {
                   color: colorScheme.onBackground, fontFamily: 'Montserrat'),
             ),
             onTap: () {
-              changeLocale(context, 'zh');
+              _changeLocale(context, 'zh');
             },  
           ),
         ]),
@@ -82,9 +82,9 @@ class LanguagePage extends StatelessWidget {
     );
   }
 
-  void changeLocale(context, String localeCode) {
-    Provider.of<LocaleProvider>(context, listen: false)
-        .changeLocale(Locale(localeCode));
+  void _changeLocale(context, String localeCode) {
+    Provider.of<SettingsProvider>(context, listen: false)
+        .changeLocale(localeCode);
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MainScreen()));
   }
 

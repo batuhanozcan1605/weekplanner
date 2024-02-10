@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -7,7 +9,7 @@ import 'package:weekplanner/database/DatabaseHelper2.dart';
 import 'package:weekplanner/database/UniqueIdDao.dart';
 import 'package:weekplanner/l10n/l10n.dart';
 import 'package:weekplanner/provider/appointment_provider.dart';
-import 'package:weekplanner/provider/locale_provider.dart';
+import 'package:weekplanner/provider/settings_provider.dart';
 import 'package:weekplanner/screens/main_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:weekplanner/screens/onboarding_screen.dart';
@@ -22,13 +24,14 @@ void main() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   MobileAds.instance.initialize();
   final isDark = sharedPreferences.getBool('isDark') ?? true;
+  final locale = sharedPreferences.getString('locale') ?? 'null';
 
   runApp(
       MultiProvider(
         providers: [
           ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider(isDark)),
           ChangeNotifierProvider<AppointmentProvider>(create: (_) => AppointmentProvider()),
-          ChangeNotifierProvider<LocaleProvider>(create: (_) => LocaleProvider())
+          ChangeNotifierProvider<SettingsProvider>(create: (_) => SettingsProvider(locale))
         ],
             child: const MyApp()),
       );
@@ -54,7 +57,7 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate
       ],
       supportedLocales: L10n.all,
-      locale: Provider.of<LocaleProvider>(context).appLocale,
+      locale: Provider.of<SettingsProvider>(context).appLocale,
       theme: Provider.of<ThemeProvider>(context).themeData,
       home: const StartApp(),
     );
