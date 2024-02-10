@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weekplanner/provider/locale_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:weekplanner/screens/main_screen.dart';
 
 class LanguagePage extends StatelessWidget {
   @override
@@ -34,8 +35,7 @@ class LanguagePage extends StatelessWidget {
                   color: colorScheme.onBackground, fontFamily: 'Montserrat'),
             ),
             onTap: () {
-              Provider.of<LocaleProvider>(context, listen: false)
-                  .changeLocale(Locale('en'));
+              changeLocale(context, 'en');
             },
           ),
           ListTile(
@@ -46,8 +46,7 @@ class LanguagePage extends StatelessWidget {
                   color: colorScheme.onBackground, fontFamily: 'Montserrat'),
             ),
             onTap: () {
-              Provider.of<LocaleProvider>(context, listen: false)
-                  .changeLocale(Locale('es'));
+              changeLocale(context, 'es');
             },
           ),
           ListTile(
@@ -58,8 +57,7 @@ class LanguagePage extends StatelessWidget {
                   color: colorScheme.onBackground, fontFamily: 'Montserrat'),
             ),
             onTap: () {
-              Provider.of<LocaleProvider>(context, listen: false)
-                  .changeLocale(Locale('tr'));
+              changeLocale(context, 'tr');
             },
           ),
           ListTile(
@@ -76,12 +74,18 @@ class LanguagePage extends StatelessWidget {
                   color: colorScheme.onBackground, fontFamily: 'Montserrat'),
             ),
             onTap: () {
-              Provider.of<LocaleProvider>(context, listen: false)
-                  .changeLocale(Locale('zh'));
-            },
+              changeLocale(context, 'zh');
+            },  
           ),
         ]),
       ),
     );
   }
+
+  void changeLocale(context, String localeCode) {
+    Provider.of<LocaleProvider>(context, listen: false)
+        .changeLocale(Locale(localeCode));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MainScreen()));
+  }
+
 }
