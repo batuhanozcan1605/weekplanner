@@ -279,7 +279,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                                   color: SimpleWidgets.softColor,
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: 'Segoe UI')),
+                                  fontFamily: 'Montserrat')),
                         ],
                       )),
                 ],
@@ -1106,7 +1106,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                             width: tileWidth,
                             decoration: BoxDecoration(
                               color: selectedDays[index]
-                                  ? Colors.deepPurple
+                                  ? backgroundColor
                                   : Colors.grey,
                               borderRadius: BorderRadius.circular(8),
                             ),
