@@ -5,6 +5,7 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import '../model/MyAppointment.dart';
 import '../model/event_data_source.dart';
 import '../provider/appointment_provider.dart';
+import '../screens/event_editing_page.dart';
 import '../screens/event_viewing_page.dart';
 
 class WeekView extends StatelessWidget {
@@ -25,7 +26,6 @@ class WeekView extends StatelessWidget {
       firstDayOfWeek: 1,
       dataSource: EventDataSource(events),
       initialSelectedDate: DateTime.now(),
-      //cellBorderColor: Colors.transparent,
       appointmentBuilder: appointmentBuilder,
       onTap: (details) async {
         if(details.appointments != null) {
@@ -44,11 +44,14 @@ class WeekView extends StatelessWidget {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventViewingPage(appointment: myAppointment)));
         } else if(details.targetElement == CalendarElement.calendarCell) {
           DateTime tappedDate = details.date!;
-
           //save cell info
           final SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('selectedDateTime', tappedDate.toIso8601String());
         }
+      },
+      onLongPress: (CalendarLongPressDetails details) {
+        DateTime date = details.date!;
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventEditingPage(cellDate: date,)));
       },
       headerHeight: 0,
     );
