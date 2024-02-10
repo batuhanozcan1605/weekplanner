@@ -14,6 +14,8 @@ import '../model/Events.dart';
 import '../model/MyAppointment.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../provider/settings_provider.dart';
+
 class EventEditingPage extends StatefulWidget {
   const EventEditingPage(
       {super.key,
@@ -925,44 +927,50 @@ class _EventEditingPageState extends State<EventEditingPage> {
     );
   }
 
-  Widget buildFrom(colorScheme) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4.0),
-        child: Row(
-          children: [
-            Expanded(
-              flex: 1,
-              child: IconButton(
-                icon: Icon(Icons.arrow_forward, color: colorScheme.primary),
-                onPressed: () {
-                  setState(() {
-                    selectedDateObjects = [];
-                    selectedDays.fillRange(
-                        0, selectedNextWeekDays.length, false);
-                    selectedNextWeekDays.fillRange(
-                        0, selectedNextWeekDays.length, false);
-                    isChecked = false;
-                    isCheckedNextWeek = false;
-                  });
-                  pickFromDateTime(pickDate: true);
-                },
-              ),
+  Widget buildFrom(colorScheme) => Builder(
+    builder: (context) {
+      final settingsProvider = Provider.of<SettingsProvider>(context, listen: false);
+      final locale = settingsProvider.appLocale;
+      return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: IconButton(
+                    icon: Icon(Icons.arrow_forward, color: colorScheme.primary),
+                    onPressed: () {
+                      setState(() {
+                        selectedDateObjects = [];
+                        selectedDays.fillRange(
+                            0, selectedNextWeekDays.length, false);
+                        selectedNextWeekDays.fillRange(
+                            0, selectedNextWeekDays.length, false);
+                        isChecked = false;
+                        isCheckedNextWeek = false;
+                      });
+                      pickFromDateTime(pickDate: true);
+                    },
+                  ),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: selectedDateObjects.isNotEmpty
+                      ? const Center(child: Text("-"))
+                      : buildDropdownField(
+                          text: Utils.toDate(fromDate, context),
+                          onClicked: () => pickFromDateTime(pickDate: true)),
+                ),
+                Expanded(
+                    flex: 2,
+                    child: buildDropdownField(
+                        text: Utils.toTime(fromDate),
+                        onClicked: () => pickFromDateTime(pickDate: false))),
+              ],
             ),
-            Expanded(
-              flex: 3,
-              child: selectedDateObjects.isNotEmpty
-                  ? const Center(child: Text("-"))
-                  : buildDropdownField(
-                      text: Utils.toDate(fromDate, context),
-                      onClicked: () => pickFromDateTime(pickDate: true)),
-            ),
-            Expanded(
-                flex: 2,
-                child: buildDropdownField(
-                    text: Utils.toTime(fromDate),
-                    onClicked: () => pickFromDateTime(pickDate: false))),
-          ],
-        ),
-      );
+          );
+    }
+  );
 
   Widget buildTo() => Padding(
         padding: const EdgeInsets.only(left: 14.0),
@@ -990,8 +998,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
         ),
       );
 
-  Future pickFromDateTime({required bool pickDate}) async {
-    final date = await pickDateTime(fromDate, pickDate: pickDate);
+  Future pickFromDateTime({required bool pickDate, Locale? locale}) async {
+    final date = await pickDateTime(fromDate, pickDate: pickDate, locale: locale);
     if (date == null) return;
 
     if (date.isAfter(toDate)) {
@@ -1027,9 +1035,11 @@ class _EventEditingPageState extends State<EventEditingPage> {
     DateTime initialDate, {
     required bool pickDate,
     DateTime? firstDate,
+        Locale? locale
   }) async {
     if (pickDate) {
       final date = await showDatePicker(
+          locale: locale,
           context: context,
           initialDate: initialDate,
           firstDate: firstDate ?? DateTime(2021, 8),
