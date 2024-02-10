@@ -106,6 +106,15 @@ class AppointmentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void deleteAll() {
+    AppointmentDao().deleteAll();
+    _appointments.clear();
+    _uniqueIds.clear();
+    _isCompleted.clear();
+    _icons.clear();
+    notifyListeners();
+  }
+
   void deleteUniqueIds(String uniqueId) {
     UniqueIdDao().deleteAppointment(uniqueId);
     _uniqueIds.remove(uniqueId);

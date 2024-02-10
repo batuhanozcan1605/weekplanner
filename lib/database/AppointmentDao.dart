@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weekplanner/database/DatabaseHelper.dart';
+import 'package:weekplanner/database/DatabaseHelper2.dart';
 import '../model/MyAppointment.dart';
 
 class AppointmentDao {
@@ -26,6 +27,14 @@ class AppointmentDao {
         whereArgs: [id],
       );
     }
+
+  Future<void> deleteAll() async {
+    final db = await DatabaseHelper.database();
+    final db2 = await DatabaseHelper2.database();
+    // Delete all rows from the table
+    await db.delete('appointments');
+    await db2.delete('uniqueId');
+  }
 
     Future<void> updateAppointment(MyAppointment appointment) async {
       final database = await DatabaseHelper.database();
