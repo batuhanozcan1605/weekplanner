@@ -1,0 +1,40 @@
+{
+  "addPlan" : "AGREGAR PLAN",
+  "hintText" : "Ingrese un título o agréguelo",
+  "details" : "Detalles",
+  "color" : "Color",
+  "event" : "Evento",
+  "time" : "Hora",
+  "duration" : "Duración",
+  "repeat" : "Repetir cada semana",
+  "dayPickerThis" : "Días - Esta semana",
+  "dayPickerNext" : "Días - Próxima semana",
+  "everyDay" : "Todos los días",
+  "hours" : "horas",
+  "minutes" : "minutos",
+  "hoursCapital" : "HORAS",
+  "minutesCapital" : "MINUTOS",
+  "today" : "Hoy",
+
+  "must" : "DEBE",
+  "daily" : "DIARIO",
+  "social" : "SOCIAL",
+  "selfImprovement" : "AUTO-MEJORA",
+  "latest" : "Último",
+
+  "tuto1" : "Puede cambiar la vista del calendario aquí.",
+  "tuto2" : "Puede agregar un evento desde aquí.\n(Pulse en la celda del calendario que desea asignar antes)",
+  "tuto3" : "Puede agregar eventos existentes desde aquí.",
+  "tuto4" : "Puede crear un evento recurrente desde aquí.",
+  "tuto5" : "Puede seleccionar varios días desde aquí para esta semana y la próxima.",
+  "tuto6" : "Esta lista es desplazable.",
+
+  "onboarding1" : "Un planificador de semana simplista.",
+  "onboarding2" : "Revise su semana y administre su tiempo eficientemente.",
+  "onboarding3" : "Sea consciente de su tiempo libre.",
+  "onboarding4" : "No necesita funciones abrumadoras. \nSin microgestión, sin recordatorios, sin vista mensual, sin selección de tiempo con más precisión que media hora.",
+  "theme" : "Cambiar Tema",
+  "letsStart" : "Comencemos",
+
+  "languages" : "Idiomas"
+}

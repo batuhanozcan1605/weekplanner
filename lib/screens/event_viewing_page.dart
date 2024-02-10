@@ -92,7 +92,7 @@ class _EventViewingPageState extends State<EventViewingPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(Utils.toDate(widget.appointment.startTime)),
+                        Text(Utils.toDate(widget.appointment.startTime, context)),
                         Text(Utils.toTime(widget.appointment.startTime)),
                       ],
                     ),
@@ -113,7 +113,7 @@ class _EventViewingPageState extends State<EventViewingPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(Utils.toDate(widget.appointment.endTime)),
+                          Text(Utils.toDate(widget.appointment.endTime, context)),
                           Text(Utils.toTime(widget.appointment.endTime)),
                         ],
                       ),
@@ -122,12 +122,12 @@ class _EventViewingPageState extends State<EventViewingPage> {
                 ),
               ),
               widget.appointment.recurrenceRule != null
-                  ? const Row(
+                  ? Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Icon(
                           Icons.repeat,
-                          color: SimpleWidgets.themePurple,
+                          color: colorScheme.primary,
                         ),
                         SizedBox(
                           width: 8,

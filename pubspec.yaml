@@ -37,7 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   syncfusion_flutter_calendar: ^24.1.45
   syncfusion_flutter_core: ^24.1.45
-  intl: ^0.18.0
+  intl: any
   provider: ^6.1.1
   interval_time_picker: ^2.0.0+5
   sqflite: ^2.3.0
@@ -51,11 +51,16 @@ dependencies:
   flutter_inset_box_shadow: ^1.0.8
   google_mobile_ads: ^4.0.0
   tutorial_coach_mark: ^1.2.11
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  flutter_launcher_icons: ^0.13.1
+flutter_icons:
+  image_path: "icons/calendar-logo.png"
+  android: true
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -72,6 +77,7 @@ flutter:
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
+  generate: true
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:

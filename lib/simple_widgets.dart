@@ -37,14 +37,17 @@ class SimpleWidgets {
                   flex: 2,
                   child: Align(
                     alignment: Alignment.bottomCenter,
-                    child: FittedBox(
-                      fit: BoxFit.fitHeight,
-                      child: Text(
-                        subject,
-                        style: TextStyle(
-                          fontFamily: 'Segoe UI',
-                          fontSize: 16,
-                          color: colorScheme.onBackground,
+                    child: Container(
+                      padding: EdgeInsets.all(1.0),
+                      child: FittedBox(
+                        fit: BoxFit.contain,
+                        child: Text(
+                          subject,
+                          style: TextStyle(
+                            fontFamily: 'Segoe UI',
+                            fontSize: 16,
+                            color: colorScheme.onBackground,
+                          ),
                         ),
                       ),
                     ),
@@ -81,7 +84,7 @@ class SimpleWidgets {
           child: Text(
         hours.toString(),
         style: TextStyle(
-            color: colorScheme.onBackground, fontWeight: FontWeight.bold, fontSize: 32),
+            color: colorScheme.onBackground, fontWeight: FontWeight.bold, fontSize: 32, fontFamily: 'Montserrat'),
       ));
     });
   }
@@ -93,7 +96,7 @@ class SimpleWidgets {
           child: Text(
             minutes.toString(),
             style: TextStyle(
-                color: colorScheme.onBackground, fontWeight: FontWeight.bold, fontSize: 32),
+                color: colorScheme.onBackground, fontWeight: FontWeight.bold, fontSize: 32, fontFamily: 'Montserrat'),
           ));
     });
   }

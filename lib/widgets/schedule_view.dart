@@ -7,6 +7,8 @@ import '../provider/appointment_provider.dart';
 import '../screens/event_viewing_page.dart';
 import 'dart:math';
 
+import '../utils.dart';
+
 
 class ScheduleView extends StatefulWidget {
   const ScheduleView({super.key});
@@ -77,7 +79,7 @@ class _ScheduleViewState extends State<ScheduleView> with SingleTickerProviderSt
     final uniqueIds = Provider.of<AppointmentProvider>(context).uniqueIds;
     final event = details.appointments.first;
     //print('Appointment Details: $event');
-    String uniqueId = getUniqueId(event.id.toString(), event.startTime);
+    String uniqueId = Utils.getUniqueId(event.id.toString(), event.startTime);
 
     return Container(
       width: details.bounds.width,
@@ -152,9 +154,7 @@ class _ScheduleViewState extends State<ScheduleView> with SingleTickerProviderSt
   }
 }
 
-String getUniqueId(String eventId, DateTime occurrenceDateTime) {
-  return '$eventId-${occurrenceDateTime.toIso8601String()}';
-}
+
 
 Widget scheduleViewHeaderBuilder(
     BuildContext buildContext, ScheduleViewMonthHeaderDetails details) {

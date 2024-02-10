@@ -5,6 +5,7 @@ import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:weekplanner/theme/theme.dart';
 import '../theme/theme_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
@@ -75,10 +76,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       const SizedBox(
                         width: 20,
                       ),
-                      const Text(
-                        'A simplistic week planner.',
+                      Text(
+                        AppLocalizations.of(context)!.onboarding1,
                         style:
-                            TextStyle(fontFamily: 'Montserrat', fontSize: 16),
+                            const TextStyle(fontFamily: 'Montserrat', fontSize: 16),
                       ),
                     ],
                   ),
@@ -95,53 +96,53 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       SizedBox(
                         width: height/(refPhoneHeight/20),
                       ),
-                      const Flexible(
+                      Flexible(
                           child: Text(
-                        'Overview your week and manage your time efficiently.',
+                              AppLocalizations.of(context)!.onboarding2,
                         style:
-                            TextStyle(fontFamily: 'Montserrat', fontSize: 16),
+                            const TextStyle(fontFamily: 'Montserrat', fontSize: 16),
                       )),
                     ],
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 24.0),
+                Padding(
+                  padding: const EdgeInsets.only(top: 24.0),
                   child: Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.crop_free_rounded,
                         color: Color(0xFFE53935),
                         size: 30,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
                       Flexible(
                           child: Text(
-                        'Be aware of your free time.',
+                              AppLocalizations.of(context)!.onboarding3,
                         style:
-                            TextStyle(fontFamily: 'Montserrat', fontSize: 16),
+                            const TextStyle(fontFamily: 'Montserrat', fontSize: 16),
                       )),
                     ],
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 24.0),
+                Padding(
+                  padding: const EdgeInsets.only(top: 24.0),
                   child: Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.not_interested_outlined,
                         color: Color(0xFF42A1E9),
                         size: 30,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
                       Flexible(
                           child: Text(
-                        "You don't need overwhelming features. \nNo micro-management, no reminders, no monthly view, no time picking more than half-hour accuracy.",
+                            AppLocalizations.of(context)!.onboarding4,
                         style:
-                            TextStyle(fontFamily: 'Montserrat', fontSize: 16),
+                            const TextStyle(fontFamily: 'Montserrat', fontSize: 16),
                       )),
                     ],
                   ),
@@ -203,7 +204,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 ),
                 SizedBox(height: height/(refPhoneHeight/38),),
                 Text(
-                  "Change Theme",
+                  AppLocalizations.of(context)!.theme,
                   style:
                   TextStyle(
                       fontFamily: 'Montserrat',
@@ -224,9 +225,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (context) => const SplashScreen()));
           },
-          child: const Text(
-            "LET'S START",
-            style: TextStyle(fontFamily: 'Montserrat', fontSize: 18),
+          child: Text(
+            AppLocalizations.of(context)!.letsStart,
+            style: const TextStyle(fontFamily: 'Montserrat', fontSize: 18),
           ),
         ),
       ),

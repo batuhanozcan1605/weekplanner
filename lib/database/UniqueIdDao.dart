@@ -15,7 +15,7 @@ class UniqueIdDao {
   Future<void> deleteAppointment(String uniqueId) async {
     final database = await DatabaseHelper2.database();
     await database.delete(
-      'uniqueId.db',
+      'uniqueId',
       where: 'uniqueId = ?',
       whereArgs: [uniqueId],
     );

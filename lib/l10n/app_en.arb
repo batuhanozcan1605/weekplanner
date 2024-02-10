@@ -1,0 +1,41 @@
+{
+  "addPlan" : "ADD PLAN",
+  "hintText" : "Enter a title or add one",
+  "details" : "Details",
+  "color" : "Color",
+  "event" : "Event",
+  "color" : "Color",
+  "time" : "Time",
+  "duration" : "Duration",
+  "repeat" : "Repeat Each Week",
+  "dayPickerThis" : "Days - This Week",
+  "dayPickerNext" : "Days - Next Week",
+  "everyDay" : "Everyday",
+  "hours" : "hours",
+  "minutes" : "minutes",
+  "hoursCapital" : "HOURS",
+  "minutesCapital" : "MINUTES",
+  "today" : "Today",
+
+  "must" : "MUST",
+  "daily" : "DAILY",
+  "social" : "SOCIAL",
+  "selfImprovement" : "SELF-IMPROVEMENT",
+  "latest" : "Latest",
+
+  "tuto1" : "You can change the calender view here.",
+  "tuto2" : "You can add an event from here.\n(Tap to the calender cell you want to assign before)",
+  "tuto3" : "You can add existing events from here.",
+  "tuto4" : "You can create recurring event from here.",
+  "tuto5" : "You can select multiple days from here for in this week and next week.",
+  "tuto6" : "This list is scrollable.",
+
+  "onboarding1" : "A simplistic week planner.",
+  "onboarding2" : "Overview your week and manage your time efficiently.",
+  "onboarding3" : "Be aware of your free time.",
+  "onboarding4" : "You don't need overwhelming features. \nNo micro-management, no reminders, no monthly view, no time picking more than half-hour accuracy.",
+  "theme" : "Change Theme",
+  "letsStart" : "Let's Start",
+
+  "languages" : "Languages"
+}

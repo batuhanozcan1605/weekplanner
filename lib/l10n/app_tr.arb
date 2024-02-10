@@ -1,0 +1,41 @@
+{
+  "addPlan": "PLAN EKLE",
+  "hintText": "Başlık girin veya ekleyin",
+  "details": "Detaylar",
+  "color": "Renk",
+  "event": "Etkinlik",
+  "time": "Zaman",
+  "duration": "Süre",
+  "repeat": "Her Hafta Tekrarla",
+  "dayPickerThis": "Günler - Bu Hafta",
+  "dayPickerNext": "Günler - Gelecek Hafta",
+  "everyDay": "Her Gün",
+  "hours" : "saat",
+  "minutes" : "dakika",
+  "hoursCapital" : "SAAT",
+  "minutesCapital" : "DAKİKA",
+  "today" : "Bugün",
+
+  "must" : "MUTLAK",
+  "daily" : "GÜNLÜK",
+  "social" : "SOSYAL",
+  "selfImprovement" : "ÖZ GELİŞİM",
+  "latest" : "En son",
+
+  "tuto1": "Burada takvim görünümünü değiştirebilirsiniz.",
+  "tuto2": "Buradan etkinlik ekleyebilirsiniz.\n(Önce atamak istediğiniz takvim hücresine dokunun)",
+  "tuto3": "Buradan mevcut etkinlikleri ekleyebilirsiniz.",
+  "tuto4": "Buradan tekrarlanan etkinlik oluşturabilirsiniz.",
+  "tuto5": "Bu hafta ve gelecek hafta için buradan birden fazla gün seçebilirsiniz.",
+  "tuto6": "Bu liste kaydırılabilir.",
+
+  "onboarding1": "Basit bir hafta planlayıcısı.",
+  "onboarding2": "Haftanızı genel olarak gözden geçirin ve zamanınızı etkili bir şekilde yönetin.",
+  "onboarding3": "Boş zamanlarınızın farkında olun.",
+  "onboarding4": "Aşırı özelliklere ihtiyacınız yok. \nDetaylı yönetim, hatırlatıcılar, aylık görünüm, yarım saat hassasiyetinden fazla zaman seçimi yok.",
+  "theme" : "Temayı değiştir.",
+  "letsStart" : "Hadi Başlayalım!",
+
+  "languages" : "Diller"
+
+}
