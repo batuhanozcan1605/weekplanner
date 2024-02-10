@@ -3,6 +3,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:weekplanner/ad_helper.dart';
 import 'package:weekplanner/provider/appointment_provider.dart';
+import 'package:weekplanner/screens/about_page.dart';
 import 'package:weekplanner/screens/language_page.dart';
 import 'package:weekplanner/screens/main_screen.dart';
 import 'package:weekplanner/theme/theme.dart';
@@ -106,7 +107,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: Text('This will delete all events forever. \n Do you want to continue?', style: TextStyle(fontFamily: 'Montserrat', fontSize: 26),),
+                        title: Text('This will delete all events forever. \nDo you want to continue?', style: TextStyle(fontFamily: 'Montserrat', fontSize: 20),),
                         content: SizedBox(
                           height: 300,
                           child: Column(
@@ -135,6 +136,26 @@ class _SettingsPageState extends State<SettingsPage> {
                       );
                     },
                   );
+                },
+              ),
+              SizedBox(height: 18),
+              ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                tileColor: colorScheme.secondary,
+                leading: Icon(Icons.info_rounded),
+                title: Text(
+                  'About',
+                  style: TextStyle(
+                      color: colorScheme.onBackground,
+                      fontFamily: 'Montserrat'),
+                ),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AboutPage()));
                 },
               ),
             ],
