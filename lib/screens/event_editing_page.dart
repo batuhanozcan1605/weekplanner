@@ -1160,7 +1160,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                             width: tileWidth,
                             decoration: BoxDecoration(
                               color: selectedNextWeekDays[index]
-                                  ? Colors.deepPurple
+                                  ? backgroundColor
                                   : Colors.grey,
                               borderRadius: BorderRadius.circular(8),
                             ),
