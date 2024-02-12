@@ -90,7 +90,7 @@ class _DailyViewState extends State<DailyView> with SingleTickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    final events = Provider.of<AppointmentProvider>(context).events;
+    final appointments = Provider.of<AppointmentProvider>(context).appointments;
 
     return Column(
       children: [
@@ -120,7 +120,7 @@ class _DailyViewState extends State<DailyView> with SingleTickerProviderStateMix
                     },
                     controller: _controller,
                     //showNavigationArrow: true,
-                    dataSource: EventDataSource(events),
+                    dataSource: EventDataSource(appointments),
                     initialSelectedDate: DateTime.now(),
                     //cellBorderColor: Colors.transparent,
                     appointmentBuilder: appointmentBuilder,
@@ -135,8 +135,6 @@ class _DailyViewState extends State<DailyView> with SingleTickerProviderStateMix
                           color: event.color,
                           recurrenceRule: event.recurrenceRule,
                           notes: event.notes,
-                          isCompleted: event.recurrenceRule == null ? event
-                              .isCompleted : 0,
                         );
 
                         Navigator.of(context).push(MaterialPageRoute(

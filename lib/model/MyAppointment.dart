@@ -14,11 +14,11 @@ class MyAppointment extends Appointment {
     required super.startTime,
     required super.endTime,
     required super.subject,
-    required String super.notes,
+    required String? super.notes,
     required super.color,
     this.icon,
     this.recurrenceRule,
-    required this.isCompleted
+    this.isCompleted
   });
 
   // Convert to Map for database operations

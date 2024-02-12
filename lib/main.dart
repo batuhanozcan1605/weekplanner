@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:weekplanner/database/DatabaseHelper.dart';
 import 'package:weekplanner/database/DatabaseHelper2.dart';
 import 'package:weekplanner/database/UniqueIdDao.dart';
@@ -123,16 +124,17 @@ class _SplashScreenState extends State<SplashScreen> {
 
       // Fetch data from the database
 
-      List<MyAppointment> fetchedAppointments = await AppointmentDao().getAllAppointments();
+      List<MyAppointment> fetchedMyAppointments = await AppointmentDao().getAllAppointments();
       List<String> fetchedUniqueIds = await UniqueIdDao().getAllUniqueIds();
-      AppointmentDao().deleteObsoleteData(fetchedAppointments);
+      AppointmentDao().deleteObsoleteData(fetchedMyAppointments);
 
       // ignore: use_build_context_synchronously
       final provider = Provider.of<AppointmentProvider>(context, listen: false);
       // Initialize your provider with the fetched data
-      provider.initializeWithAppointments(fetchedAppointments);
-      provider.initializeIcons(fetchedIcons(fetchedAppointments));
-      provider.initializeIsCompleted(fetchedIsCompleted(fetchedAppointments));
+      provider.initializeWithMyAppointments(fetchedMyAppointments);
+      provider.initializeWithAppointments(fetchedAppointments(fetchedMyAppointments));
+      provider.initializeIcons(fetchedIcons(fetchedMyAppointments));
+      provider.initializeIsCompleted(fetchedIsCompleted(fetchedMyAppointments));
       provider.initializeUniqueIds(fetchedUniqueIds);
 
     } catch (error) {
@@ -141,6 +143,27 @@ class _SplashScreenState extends State<SplashScreen> {
       // Navigate to an error screen or retry loading
     }
 
+  }
+
+  List<Appointment> fetchedAppointments(fetchedMyAppointments) {
+    List<Appointment> appointments = [];
+
+    for(int i = 0; i < fetchedMyAppointments.length; i++) {
+
+      final appointment = Appointment(
+          id: fetchedMyAppointments[i].id,
+          startTime: fetchedMyAppointments[i].startTime,
+          endTime: fetchedMyAppointments[i].endTime,
+          recurrenceRule: fetchedMyAppointments[i].recurrenceRule,
+          subject: fetchedMyAppointments[i].subject,
+          notes: fetchedMyAppointments[i].notes,
+          color: fetchedMyAppointments[i].color
+      );
+
+      appointments.add(appointment);
+    }
+
+    return appointments;
   }
 
   Map<int, IconData> fetchedIcons(List<MyAppointment> fetchedAppointments) {

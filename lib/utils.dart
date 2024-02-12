@@ -1,10 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:weekplanner/model/MyAppointment.dart';
 
 
 class Utils {
+  static Appointment appointmentConverter(MyAppointment myAppointment){
+    Appointment appointment = Appointment(
+        id: myAppointment.id,
+        startTime: myAppointment.startTime,
+        endTime: myAppointment.endTime,
+        color: myAppointment.color,
+        recurrenceRule: myAppointment.recurrenceRule,
+        subject: myAppointment.subject,
+        notes: myAppointment.notes
+    );
+    return appointment;
+  }
+
   static String getUniqueId(String eventId, DateTime occurrenceDateTime) {
     return '$eventId-${occurrenceDateTime.toIso8601String()}';
   }

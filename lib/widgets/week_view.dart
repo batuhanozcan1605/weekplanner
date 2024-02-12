@@ -8,23 +8,36 @@ import '../provider/appointment_provider.dart';
 import '../screens/event_editing_page.dart';
 import '../screens/event_viewing_page.dart';
 
-class WeekView extends StatelessWidget {
+class WeekView extends StatefulWidget {
   const WeekView({super.key});
 
+  @override
+  State<WeekView> createState() => _WeekViewState();
+}
+
+class _WeekViewState extends State<WeekView> {
   Future<void> setDefaultCellDate() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('selectedDateTime', DateTime.now().toIso8601String());
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     setDefaultCellDate();
-    final events = Provider.of<AppointmentProvider>(context).events;
+    final provider = Provider.of<AppointmentProvider>(context, listen: false);
+    final appointments = Provider.of<AppointmentProvider>(context).appointments;
 
     return SfCalendar(
       view: CalendarView.week,
       firstDayOfWeek: 1,
-      dataSource: EventDataSource(events),
+      allowDragAndDrop: true,
+      onDragEnd: (AppointmentDragEndDetails appointmentDragEndDetails) {
+        dynamic appointment = appointmentDragEndDetails.appointment!;
+        provider.editDraggedAppointment(appointment);
+      },
+      dataSource: EventDataSource(appointments),
       initialSelectedDate: DateTime.now(),
       appointmentBuilder: appointmentBuilder,
       onTap: (details) async {
@@ -38,7 +51,6 @@ class WeekView extends StatelessWidget {
             color: event.color,
             recurrenceRule: event.recurrenceRule,
             notes: event.notes,
-              isCompleted: event.recurrenceRule == null ? event.isCompleted : 0,
           );
 
           Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventViewingPage(appointment: myAppointment)));
@@ -49,21 +61,22 @@ class WeekView extends StatelessWidget {
           prefs.setString('selectedDateTime', tappedDate.toIso8601String());
         }
       },
-      onLongPress: (CalendarLongPressDetails details) {
+      /*onLongPress: (CalendarLongPressDetails details) {
         DateTime date = details.date!;
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventEditingPage(cellDate: date,)));
-      },
+      },*/
       headerHeight: 0,
     );
 
   }
+
   Widget appointmentBuilder(
       BuildContext context,
       CalendarAppointmentDetails details,
       ) {
     final icons = Provider.of<AppointmentProvider>(context).icons;
     final event = details.appointments.first;
-
+    print('object event $event ');
     return Container(
       width: details.bounds.width,
       height: details.bounds.height,
@@ -75,7 +88,6 @@ class WeekView extends StatelessWidget {
         child: Icon(icons[event.id], color: Colors.white),
       ),
     );
-
 
   }
 }
