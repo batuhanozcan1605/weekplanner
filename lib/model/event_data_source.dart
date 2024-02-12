@@ -11,6 +11,9 @@ class EventDataSource extends CalendarDataSource{
   Appointment getEvent(int index) => appointments![index] as Appointment;
 
   @override
+  Object? getId(int index) => getId(index);
+
+  @override
   DateTime getStartTime(int index) => getEvent(index).startTime;
 
 
@@ -27,6 +30,11 @@ class EventDataSource extends CalendarDataSource{
 
   @override
   String? getRecurrenceRule(int index) => getEvent(index).recurrenceRule;
+
+  @override
+  List<DateTime>? getRecurrenceExceptionDates(int index) {
+    return super.getRecurrenceExceptionDates(index);
+  }
 
 
 }

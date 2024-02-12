@@ -37,6 +37,7 @@ class AppointmentDao {
 
     Future<void> updateAppointment(MyAppointment appointment) async {
       final database = await DatabaseHelper.database();
+      print('gelen id ne ${appointment.id}');
       await database.update(
         'appointments',
         appointment.toMap(),

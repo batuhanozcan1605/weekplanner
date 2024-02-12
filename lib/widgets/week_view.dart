@@ -33,9 +33,17 @@ class _WeekViewState extends State<WeekView> {
       view: CalendarView.week,
       firstDayOfWeek: 1,
       allowDragAndDrop: true,
+      onDragStart: (AppointmentDragStartDetails  appointmentDragStartDetails){
+        dynamic appointment = appointmentDragStartDetails.appointment;
+        int id = appointment.id as int;
+        provider.setIdOnDragStart(id);
+      },
       onDragEnd: (AppointmentDragEndDetails appointmentDragEndDetails) {
-        dynamic appointment = appointmentDragEndDetails.appointment!;
-        provider.editDraggedAppointment(appointment);
+        dynamic appointment = appointmentDragEndDetails.appointment;
+        AppointmentType appointmentType = appointment.appointmentType;
+        print('appo type: $appointmentType');
+        provider.editDraggedAppointment(appointment, appointmentType);
+
       },
       dataSource: EventDataSource(appointments),
       initialSelectedDate: DateTime.now(),

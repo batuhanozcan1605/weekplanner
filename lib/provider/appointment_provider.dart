@@ -12,18 +12,19 @@ class AppointmentProvider extends ChangeNotifier {
   Map<int, IconData> _icons = {};
   Map<int, int> _isCompleted = {};
   List<String> _uniqueIds = [];
+  int _idOnDragStart = -1;
 
   List<MyAppointment> get events => _myAppointments;
   List<Appointment> get appointments => _appointments;
   Map<int, IconData> get icons => _icons;
   Map<int, int> get isCompleted => _isCompleted;
   List<String> get uniqueIds => _uniqueIds;
+  int get idOnDragStart => _idOnDragStart;
 
   //main screen providers
   bool _scheduleView = false;
   bool _weekView = true;
   bool _dayView = false;
-  int rebuildCalender = 0;
 
   bool get scheduleView => _scheduleView;
   bool get weekView => _weekView;
@@ -163,8 +164,16 @@ class AppointmentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void editDraggedAppointment(Appointment appointment) {
+  void editDraggedAppointment(Appointment appointment, AppointmentType appointmentType) {
+
     int id = appointment.id as int;
+    print("appo id $id");
+    if(appointmentType == AppointmentType.changedOccurrence) {
+      print('id dragstart $_idOnDragStart');
+      _icons[id] = _icons[_idOnDragStart]!;
+      //_isCompleted[id] = _isCompleted[_idOnDragStart]!;
+      notifyListeners();
+    }
 
     final myAppointment = MyAppointment(
         id: id,
@@ -175,11 +184,17 @@ class AppointmentProvider extends ChangeNotifier {
         color: appointment.color,
         recurrenceRule: appointment.recurrenceRule,
         icon: _icons[appointment.id],
-        isCompleted: _isCompleted[appointment.id]
+        isCompleted: 0
     );
-
+    print('object update $myAppointment');
+    appointmentType == AppointmentType.changedOccurrence ?
+    AppointmentDao().insertAppointment(myAppointment) :
     AppointmentDao().updateAppointment(myAppointment);
+  }
 
+  void setIdOnDragStart(id) {
+    _idOnDragStart = id;
+    notifyListeners();
   }
 
   void editCompletedEvent(MyAppointment event) {
