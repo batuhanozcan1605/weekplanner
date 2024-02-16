@@ -37,5 +37,18 @@
   "changeLang": "Изменить язык",
   "deleteEvents": "Удалить все события",
   "about": "О программе",
-  "languages": "Языки"
+  "languages": "Языки",
+
+  "january": "Январь",
+  "february": "Февраль",
+  "march": "Март",
+  "april": "Апрель",
+  "may": "Май",
+  "june": "Июнь",
+  "july": "Июль",
+  "august": "Август",
+  "september": "Сентябрь",
+  "october": "Октябрь",
+  "november": "Ноябрь",
+  "december": "Декабрь"
 }
