@@ -15,6 +15,9 @@
   "hoursCapital" : "HORAS",
   "minutesCapital" : "MINUTOS",
   "today" : "Hoy",
+  "from": "DE",
+  "to": "A",
+
 
   "must" : "DEBE",
   "daily" : "DIARIO",

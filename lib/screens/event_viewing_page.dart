@@ -7,6 +7,7 @@ import 'package:weekplanner/utils.dart';
 import '../ad_helper.dart';
 import '../model/MyAppointment.dart';
 import '../provider/appointment_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EventViewingPage extends StatefulWidget {
   const EventViewingPage({super.key, required this.appointment});
@@ -84,7 +85,7 @@ class _EventViewingPageState extends State<EventViewingPage> {
                   Expanded(
                       flex: 1,
                       child: Text(
-                        'FROM',
+                         AppLocalizations.of(context)!.from,
                         style: TextStyle(color: colorScheme.primary),
                       )),
                   Expanded(
@@ -106,7 +107,7 @@ class _EventViewingPageState extends State<EventViewingPage> {
                   children: [
                     Expanded(
                         flex: 1,
-                        child: Text('TO',
+                        child: Text(AppLocalizations.of(context)!.to,
                             style: TextStyle(color: colorScheme.primary))),
                     Expanded(
                       flex: 2,
