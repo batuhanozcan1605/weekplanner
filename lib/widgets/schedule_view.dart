@@ -6,7 +6,7 @@ import '../model/event_data_source.dart';
 import '../provider/appointment_provider.dart';
 import '../screens/event_viewing_page.dart';
 import 'dart:math';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../utils.dart';
 
 
@@ -78,7 +78,7 @@ class _ScheduleViewState extends State<ScheduleView> with SingleTickerProviderSt
     final icons = Provider.of<AppointmentProvider>(context).icons;
     final uniqueIds = Provider.of<AppointmentProvider>(context).uniqueIds;
     final event = details.appointments.first;
-    //print('Appointment Details: $event');
+
     String uniqueId = Utils.getUniqueId(event.id.toString(), event.startTime);
 
     return Container(
@@ -159,6 +159,8 @@ class _ScheduleViewState extends State<ScheduleView> with SingleTickerProviderSt
 Widget scheduleViewHeaderBuilder(
     BuildContext buildContext, ScheduleViewMonthHeaderDetails details) {
   final String monthName = _getMonthName(details.date.month);
+  final localization = AppLocalizations.of(buildContext)!;
+
   return Stack(
     children: [
       Image(
@@ -166,7 +168,16 @@ Widget scheduleViewHeaderBuilder(
           fit: BoxFit.cover,
           width: details.bounds.width,
           height: details.bounds.height),
-
+      Positioned(
+        left: 55,
+        right: 0,
+        top: 40,
+        bottom: 0,
+        child: Text(
+          _getLocaleMonthName(details.date.month, localization),
+          style: TextStyle(fontSize: 28, fontFamily: 'Montserrat'),
+        ),
+      )
     ],
   );
 }
@@ -196,5 +207,33 @@ String _getMonthName(int month) {
     return 'november';
   } else {
     return 'december';
+  }
+}
+
+String _getLocaleMonthName(int month, localization) {
+  if (month == 01) {
+    return localization.january;
+  } else if (month == 02) {
+    return localization.february;
+  } else if (month == 03) {
+    return localization.march;
+  } else if (month == 04) {
+    return localization.april;
+  } else if (month == 05) {
+    return localization.may;
+  } else if (month == 06) {
+    return localization.june;
+  } else if (month == 07) {
+    return localization.july;
+  } else if (month == 08) {
+    return localization.august;
+  } else if (month == 09) {
+    return localization.september;
+  } else if (month == 10) {
+    return localization.october;
+  } else if (month == 11) {
+    return localization.november;
+  } else {
+    return localization.december;
   }
 }
