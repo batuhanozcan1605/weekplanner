@@ -52,6 +52,17 @@ class LanguagePage extends StatelessWidget {
           ListTile(
             tileColor: colorScheme.secondary,
             title: Text(
+              'Português',
+              style: TextStyle(
+                  color: colorScheme.onBackground, fontFamily: 'Montserrat'),
+            ),
+            onTap: () {
+              _changeLocale(context, 'pt');
+            },
+          ),
+          ListTile(
+            tileColor: colorScheme.secondary,
+            title: Text(
               'Русский',
               style: TextStyle(
                   color: colorScheme.onBackground, fontFamily: 'Montserrat'),
