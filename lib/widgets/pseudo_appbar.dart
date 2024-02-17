@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weekplanner/provider/appointment_provider.dart';
+import 'package:weekplanner/purchase_api.dart';
 import 'package:weekplanner/screens/settings_page.dart';
-import '../screens/main_screen.dart';
-import '../theme/theme.dart';
 import '../theme/theme_provider.dart';
 
 class PseudoAppBar extends StatelessWidget {
@@ -11,16 +10,39 @@ class PseudoAppBar extends StatelessWidget {
   // ignore: prefer_typing_uninitialized_variables
   final globalKey;
 
+  Future fetchOffers(context) async {
+    final offerings = await PurchaseApi.fetchOffers();
+    if(offerings.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('No plans found')));
+    }else{
+      final packages = offerings
+          .map((offer) => offer.availablePackages)
+          .expand((pair) => pair)
+          .toList();
+
+      /*Utils.showSheet(
+        context,
+          (context) => PaywallWidget(
+            packages: packages,
+            title: 'Remove Ads'
+          )
+      );*/
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AppointmentProvider>(context, listen: false);
-    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
     ColorScheme colorScheme = Theme.of(context).colorScheme;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        IconButton( onPressed: () {  }, icon: Icon(Icons.pie_chart, color: colorScheme.background,)),
+        IconButton(
+            onPressed: () {
+
+          }, icon: Icon(Icons.workspace_premium_rounded,)),
         Consumer<AppointmentProvider>(
           builder: (BuildContext context, AppointmentProvider value, Widget? child) {
             return Row(
