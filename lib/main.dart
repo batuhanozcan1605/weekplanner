@@ -9,7 +9,9 @@ import 'package:weekplanner/database/DatabaseHelper2.dart';
 import 'package:weekplanner/database/UniqueIdDao.dart';
 import 'package:weekplanner/l10n/l10n.dart';
 import 'package:weekplanner/provider/appointment_provider.dart';
+import 'package:weekplanner/provider/revenuecat_provider.dart';
 import 'package:weekplanner/provider/settings_provider.dart';
+import 'package:weekplanner/purchase_api.dart';
 import 'package:weekplanner/screens/main_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:weekplanner/screens/onboarding_screen.dart';
@@ -23,6 +25,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   MobileAds.instance.initialize();
+  PurchaseApi.init();
   final isDark = sharedPreferences.getBool('isDark') ?? true;
   final locale = sharedPreferences.getString('locale') ?? 'null';
 
@@ -31,7 +34,8 @@ void main() async {
         providers: [
           ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider(isDark)),
           ChangeNotifierProvider<AppointmentProvider>(create: (_) => AppointmentProvider()),
-          ChangeNotifierProvider<SettingsProvider>(create: (_) => SettingsProvider(locale))
+          ChangeNotifierProvider<SettingsProvider>(create: (_) => SettingsProvider(locale)),
+          ChangeNotifierProvider<RevenueCatProvider>(create: (_) => RevenueCatProvider())
         ],
             child: const MyApp()),
       );
