@@ -3,6 +3,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
+import 'package:weekplanner/model/entitlement.dart';
 import 'package:weekplanner/simple_widgets.dart';
 import 'package:weekplanner/provider/appointment_provider.dart';
 import 'package:weekplanner/utils.dart';
@@ -12,6 +13,8 @@ import '../ad_helper.dart';
 import '../model/Events.dart';
 import '../model/MyAppointment.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../provider/revenuecat_provider.dart';
 
 class EventEditingPage extends StatefulWidget {
   const EventEditingPage(
@@ -168,6 +171,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
         FixedExtentScrollController(initialItem: selectedDuration!.inHours);
     _scrollControllerMinute = FixedExtentScrollController(
         initialItem: selectedDuration!.inMinutes % 60);
+    final entitlement = Provider.of<RevenueCatProvider>(context).entitlement;
+    final showAds = entitlement == Entitlement.ads;
 
     return Scaffold(
       appBar: AppBar(
@@ -181,7 +186,9 @@ class _EventEditingPageState extends State<EventEditingPage> {
         actions: [
           IconButton(
               onPressed: () {
+                if(showAds) {
                 interstitialAdFrequency();
+                }
 
                 Future.delayed(const Duration(milliseconds: 1000));
                 if (isRecurrenceEnabled) {
@@ -335,13 +342,12 @@ class _EventEditingPageState extends State<EventEditingPage> {
               ),
             ),
             const SizedBox(height: 11),
-            _bannerAd == null
-                ? Container()
-                : SizedBox(
+            showAds
+                ? SizedBox(
                     height: 50,
                     width: 320,
                     child: AdWidget(ad: _bannerAd!),
-                  ),
+                  ) : Container(),
             Padding(
                 padding: const EdgeInsets.only(top: 11.0),
                 child: Container(

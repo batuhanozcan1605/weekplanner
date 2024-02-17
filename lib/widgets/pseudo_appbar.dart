@@ -5,6 +5,8 @@ import 'package:weekplanner/provider/appointment_provider.dart';
 import 'package:weekplanner/purchase_api.dart';
 import 'package:weekplanner/screens/settings_page.dart';
 import 'package:weekplanner/widgets/paywall_widget.dart';
+import '../model/entitlement.dart';
+import '../provider/revenuecat_provider.dart';
 import '../theme/theme_provider.dart';
 import '../utils.dart';
 
@@ -46,13 +48,20 @@ class PseudoAppBar extends StatelessWidget {
     final provider = Provider.of<AppointmentProvider>(context, listen: false);
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     final star = EmojiParser().get('star').code;
+    final entitlement = Provider.of<RevenueCatProvider>(context).entitlement;
+    final showAds = entitlement == Entitlement.ads;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         IconButton(
             onPressed: () async {
-              await fetchOffers(context, star);
+              print('show ads $showAds');
+              if(showAds) {
+                await fetchOffers(context, star);
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('You are already using the app without ads.')));
+              }
           }, icon: Icon(Icons.workspace_premium_rounded,)),
         Consumer<AppointmentProvider>(
           builder: (BuildContext context, AppointmentProvider value, Widget? child) {
