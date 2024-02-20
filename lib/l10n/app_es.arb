@@ -58,5 +58,8 @@
       "september": "Septiembre",
       "october": "Octubre",
       "november": "Noviembre",
-      "december": "Diciembre"
+      "december": "Diciembre",
+
+  "removeAds" : "Eliminar anuncios",
+  "description" : "Usa Strong Week sin anuncios."
 }

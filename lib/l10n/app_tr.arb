@@ -57,6 +57,9 @@
     "september": "Eylül",
     "october": "Ekim",
     "november": "Kasım",
-    "december": "Aralık"
+    "december": "Aralık",
+
+    "removeAds" : "Reklamları Kaldır",
+    "description" : "Reklamsız Strong Week'i kullanın."
 
 }

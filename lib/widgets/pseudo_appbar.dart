@@ -7,8 +7,8 @@ import 'package:weekplanner/screens/settings_page.dart';
 import 'package:weekplanner/widgets/paywall_widget.dart';
 import '../model/entitlement.dart';
 import '../provider/revenuecat_provider.dart';
-import '../theme/theme_provider.dart';
 import '../utils.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PseudoAppBar extends StatelessWidget {
   const PseudoAppBar({super.key, this.globalKey});
@@ -30,8 +30,8 @@ class PseudoAppBar extends StatelessWidget {
         context,
           (context) => PaywallWidget(
             packages: packages,
-            title: '$emoji' + '  Remove Ads',
-            description: 'Use Strong Week without ads.',
+            title: '$emoji  ' + AppLocalizations.of(context)!.removeAds,
+            description: AppLocalizations.of(context)!.description,
             onClickedPackage: (package) async {
               await PurchaseApi.purchasePackage(package);
 
@@ -47,6 +47,7 @@ class PseudoAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<AppointmentProvider>(context, listen: false);
     ColorScheme colorScheme = Theme.of(context).colorScheme;
+
     final star = EmojiParser().get('star').code;
     final entitlement = Provider.of<RevenueCatProvider>(context).entitlement;
     final showAds = entitlement == Entitlement.ads;
