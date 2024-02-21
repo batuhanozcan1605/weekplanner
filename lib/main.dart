@@ -155,6 +155,7 @@ class _SplashScreenState extends State<SplashScreen> {
           startTime: fetchedMyAppointments[i].startTime,
           endTime: fetchedMyAppointments[i].endTime,
           recurrenceRule: fetchedMyAppointments[i].recurrenceRule,
+          recurrenceExceptionDates: fetchedMyAppointments[i].recurrenceExceptionDates,
           subject: fetchedMyAppointments[i].subject,
           notes: fetchedMyAppointments[i].notes,
           color: fetchedMyAppointments[i].color

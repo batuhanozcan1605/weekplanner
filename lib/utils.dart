@@ -14,6 +14,7 @@ class Utils {
         endTime: myAppointment.endTime,
         color: myAppointment.color,
         recurrenceRule: myAppointment.recurrenceRule,
+        recurrenceExceptionDates: myAppointment.recurrenceExceptionDates,
         subject: myAppointment.subject,
         notes: myAppointment.notes
     );

@@ -134,6 +134,7 @@ class _DailyViewState extends State<DailyView> with SingleTickerProviderStateMix
                           subject: event.subject,
                           color: event.color,
                           recurrenceRule: event.recurrenceRule,
+                          recurrenceExceptionDates: event.recurrenceExceptionDates,
                           notes: event.notes,
                         );
 

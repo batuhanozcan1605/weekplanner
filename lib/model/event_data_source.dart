@@ -32,9 +32,6 @@ class EventDataSource extends CalendarDataSource{
   String? getRecurrenceRule(int index) => getEvent(index).recurrenceRule;
 
   @override
-  List<DateTime>? getRecurrenceExceptionDates(int index) {
-    return super.getRecurrenceExceptionDates(index);
-  }
-
+  List<DateTime>? getRecurrenceExceptionDates(int index) => getEvent(index).recurrenceExceptionDates;
 
 }

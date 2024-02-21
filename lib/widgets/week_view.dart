@@ -5,7 +5,6 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import '../model/MyAppointment.dart';
 import '../model/event_data_source.dart';
 import '../provider/appointment_provider.dart';
-import '../screens/event_editing_page.dart';
 import '../screens/event_viewing_page.dart';
 
 class WeekView extends StatefulWidget {
@@ -58,6 +57,7 @@ class _WeekViewState extends State<WeekView> {
             subject: event.subject,
             color: event.color,
             recurrenceRule: event.recurrenceRule,
+            recurrenceExceptionDates: event.recurrenceExceptionDates,
             notes: event.notes,
           );
 

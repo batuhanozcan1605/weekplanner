@@ -63,11 +63,14 @@ class _EventViewingPageState extends State<EventViewingPage> {
               color: colorScheme.onBackground,
             ),
             IconButton(
-              onPressed: () {
-                final provider =
-                    Provider.of<AppointmentProvider>(context, listen: false);
-                provider.deleteEvent(widget.appointment);
-                Navigator.pop(context);
+              onPressed: () async {
+                final provider = Provider.of<AppointmentProvider>(context, listen: false);
+                if(widget.appointment.recurrenceRule != null) {
+                  await showDeleteDialog(context, provider, icons[widget.appointment.id]);
+                }else{
+                  provider.deleteEvent(widget.appointment);
+                  Navigator.pop(context);
+                }
               },
               icon: const Icon(Icons.delete),
               color: colorScheme.onBackground,
@@ -169,4 +172,63 @@ class _EventViewingPageState extends State<EventViewingPage> {
         ),
     );
   }
+
+  List<DateTime>? setException() {
+    print("null mı ${widget.appointment.recurrenceExceptionDates}");
+    if(widget.appointment.recurrenceExceptionDates == null) {
+      final exceptionDate = <DateTime>[];
+      exceptionDate.add(widget.appointment.startTime);
+      print('exceptionDates1: $exceptionDate');
+      return exceptionDate;
+    }else{
+      List<DateTime>? exceptionDate = List.from(widget.appointment.recurrenceExceptionDates!);
+      print('exceptionDates2: $exceptionDate');
+      exceptionDate.add(widget.appointment.startTime);
+      return exceptionDate;
+    }
+  }
+
+
+  Future<void> showDeleteDialog(BuildContext context, provider, icon) async {
+    await showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Delete Event'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ElevatedButton(
+                onPressed: () {
+
+                  final editedEvent = MyAppointment(
+                    id: widget.appointment.id,
+                    subject: widget.appointment.subject,
+                    notes: widget.appointment.notes!,
+                    startTime: widget.appointment.startTime,
+                    endTime: widget.appointment.endTime,
+                    icon: icon,
+                    color: widget.appointment.color,
+                    recurrenceRule: widget.appointment.recurrenceRule,
+                    recurrenceExceptionDates: setException(),
+                  );
+                  print('editedEvent $editedEvent');
+                  provider.editEvent(editedEvent, widget.appointment);
+                  Navigator.pop(context);
+                },
+                child: Text('Only delete from this day'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  provider.deleteEvent(widget.appointment);
+                  Navigator.pop(context);
+                },
+                child: Text('Delete this recurring event completely'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+}
 }
