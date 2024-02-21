@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
+import 'package:rrule/rrule.dart';
+import 'package:weekplanner/screens/main_screen.dart';
 import 'package:weekplanner/simple_widgets.dart';
 import 'package:weekplanner/screens/event_editing_page.dart';
 import 'package:weekplanner/utils.dart';
@@ -177,13 +179,13 @@ class _EventViewingPageState extends State<EventViewingPage> {
     print("null mı ${widget.appointment.recurrenceExceptionDates}");
     if(widget.appointment.recurrenceExceptionDates == null) {
       final exceptionDate = <DateTime>[];
-      exceptionDate.add(widget.appointment.startTime);
+      exceptionDate.add(DateTime(widget.appointment.startTime.year, widget.appointment.startTime.month, widget.appointment.startTime.day));
       print('exceptionDates1: $exceptionDate');
       return exceptionDate;
     }else{
       List<DateTime>? exceptionDate = List.from(widget.appointment.recurrenceExceptionDates!);
       print('exceptionDates2: $exceptionDate');
-      exceptionDate.add(widget.appointment.startTime);
+      exceptionDate.add(DateTime(widget.appointment.startTime.year, widget.appointment.startTime.month, widget.appointment.startTime.day));
       return exceptionDate;
     }
   }
@@ -200,13 +202,14 @@ class _EventViewingPageState extends State<EventViewingPage> {
             children: <Widget>[
               ElevatedButton(
                 onPressed: () {
-
+                  DateTime firstDateOfRecurringEventStart = provider.firstDateOfRecurringEventStart(widget.appointment.id);
+                  DateTime firstDateOfRecurringEventEnd = provider.firstDateOfRecurringEventEnd(widget.appointment.id);
                   final editedEvent = MyAppointment(
                     id: widget.appointment.id,
                     subject: widget.appointment.subject,
                     notes: widget.appointment.notes!,
-                    startTime: widget.appointment.startTime,
-                    endTime: widget.appointment.endTime,
+                    startTime: firstDateOfRecurringEventStart, //sorun burda gibi
+                    endTime: firstDateOfRecurringEventEnd,
                     icon: icon,
                     color: widget.appointment.color,
                     recurrenceRule: widget.appointment.recurrenceRule,
@@ -214,14 +217,14 @@ class _EventViewingPageState extends State<EventViewingPage> {
                   );
                   print('editedEvent $editedEvent');
                   provider.editEvent(editedEvent, widget.appointment);
-                  Navigator.pop(context);
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen()));
                 },
                 child: Text('Only delete from this day'),
               ),
               ElevatedButton(
                 onPressed: () {
                   provider.deleteEvent(widget.appointment);
-                  Navigator.pop(context);
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen()));
                 },
                 child: Text('Delete this recurring event completely'),
               ),
@@ -231,4 +234,6 @@ class _EventViewingPageState extends State<EventViewingPage> {
       },
     );
 }
+
+
 }

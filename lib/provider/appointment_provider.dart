@@ -246,5 +246,22 @@ class AppointmentProvider extends ChangeNotifier {
     return latestEvents;
   }
 
+  DateTime firstDateOfRecurringEventStart(id) {
+    Appointment? appointment = _appointments.firstWhere(
+          (appointment) => appointment.id == id,
+    );
+
+      return appointment.startTime;
+
+  }
+
+  DateTime firstDateOfRecurringEventEnd(id) {
+    Appointment? appointment = _appointments.firstWhere(
+          (appointment) => appointment.id == id,
+    );
+
+    return appointment.endTime;
+
+  }
 
 }

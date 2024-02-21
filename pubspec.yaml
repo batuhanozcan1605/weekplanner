@@ -51,6 +51,7 @@ dependencies:
   flutter_inset_box_shadow: ^1.0.8
   google_mobile_ads: ^4.0.0
   tutorial_coach_mark: ^1.2.11
+  rrule: ^0.2.16
   flutter_localizations:
     sdk: flutter
 
