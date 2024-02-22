@@ -35,8 +35,8 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  syncfusion_flutter_calendar: ^24.2.6
-  syncfusion_flutter_core: ^24.2.6
+  syncfusion_flutter_calendar: ^24.1.45
+  syncfusion_flutter_core: ^24.1.45
   intl: any
   provider: ^6.1.1
   interval_time_picker: ^2.0.0+5
@@ -51,7 +51,8 @@ dependencies:
   flutter_inset_box_shadow: ^1.0.8
   google_mobile_ads: ^4.0.0
   tutorial_coach_mark: ^1.2.11
-  rrule: ^0.2.16
+  purchases_flutter: ^6.21.0
+  flutter_emoji: ^2.5.1
   flutter_localizations:
     sdk: flutter
 

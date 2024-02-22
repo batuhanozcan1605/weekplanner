@@ -311,5 +311,15 @@ class Utils {
 
   }
 
+  static void showSheet(BuildContext context, WidgetBuilder builder) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true, // Allow the bottom sheet to expand full screen
+      builder: builder,
+    );
+  }
 
 }
+
+
+

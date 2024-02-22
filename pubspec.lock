@@ -126,6 +126,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_emoji:
+    dependency: "direct main"
+    description:
+      name: flutter_emoji
+      sha256: "3cc794d2459738e6489cee63f50e85de3732257042f425611d255c8049ce1b81"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.5.1"
   flutter_inset_box_shadow:
     dependency: "direct main"
     description:
@@ -165,6 +173,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  freezed_annotation:
+    dependency: transitive
+    description:
+      name: freezed_annotation
+      sha256: c3fd9336eb55a38cc1bbd79ab17573113a8deccd0ecbbf926cca3c62803b5c2d
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.1"
   google_mobile_ads:
     dependency: "direct main"
     description:
@@ -173,6 +189,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.0"
+  http:
+    dependency: transitive
+    description:
+      name: http
+      sha256: a2bbf9d017fcced29139daa8ed2bba4ece450ab222871df93ca9eec6f80c34ba
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
+  http_parser:
+    dependency: transitive
+    description:
+      name: http_parser
+      sha256: "2aa08ce0341cc9b354a498388e30986515406668dbcc4f7c950c3e715496693b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.2"
   image:
     dependency: transitive
     description:
@@ -365,14 +397,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.1"
-  rrule:
+  purchases_flutter:
     dependency: "direct main"
     description:
-      name: rrule
-      sha256: "74a11d8b62bfe491340ccc2f0d19a0369402a92952180a090bb8ac865d024904"
+      name: purchases_flutter
+      sha256: f052ad084fa3befcd6831b9adc48098c5ea4e9c2fa8e02c5d5a119e594562fdc
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.16"
+    version: "6.21.0"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -494,26 +526,26 @@ packages:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_calendar
-      sha256: "1d5b2f47ebf19eb7c772819f06c8bd1bf5f6bedd1120bd744db01ed113f3417b"
+      sha256: "12c9750dc5b728cb2eee251533a7bcc0b66171f9c7d2c5a3ed665494534148f0"
       url: "https://pub.dev"
     source: hosted
-    version: "24.2.6"
+    version: "24.1.45"
   syncfusion_flutter_core:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_core
-      sha256: "4eed0d3ae50c16b5e8e4957f3c1917e9bd0315a08dfb49a104ca8fc10244bef3"
+      sha256: "4afb43254d436e1d41a2ee2761908650ce3ad3453f5bebd283dfe3185d5026a2"
       url: "https://pub.dev"
     source: hosted
-    version: "24.2.6"
+    version: "24.1.45"
   syncfusion_flutter_datepicker:
     dependency: transitive
     description:
       name: syncfusion_flutter_datepicker
-      sha256: "0c2314958bdc98c6a693aebee9617406df3a93776519e877f58f77829f918848"
+      sha256: "22e9845e3389a7554f5ccf683032ba4ce4cf9a19f656f5e811a075df31f78c9e"
       url: "https://pub.dev"
     source: hosted
-    version: "24.2.6"
+    version: "24.1.45"
   synchronized:
     dependency: transitive
     description:
@@ -538,14 +570,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.1"
-  time:
-    dependency: transitive
-    description:
-      name: time
-      sha256: ad8e018a6c9db36cb917a031853a1aae49467a93e0d464683e029537d848c221
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.4"
   timezone:
     dependency: transitive
     description:

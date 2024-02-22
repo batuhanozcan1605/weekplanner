@@ -1,26 +1,69 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_emoji/flutter_emoji.dart';
 import 'package:provider/provider.dart';
 import 'package:weekplanner/provider/appointment_provider.dart';
+import 'package:weekplanner/purchase_api.dart';
 import 'package:weekplanner/screens/settings_page.dart';
-import '../screens/main_screen.dart';
-import '../theme/theme.dart';
-import '../theme/theme_provider.dart';
+import 'package:weekplanner/widgets/paywall_widget.dart';
+import '../model/entitlement.dart';
+import '../provider/revenuecat_provider.dart';
+import '../utils.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PseudoAppBar extends StatelessWidget {
   const PseudoAppBar({super.key, this.globalKey});
   // ignore: prefer_typing_uninitialized_variables
   final globalKey;
 
+
+  Future fetchOffers(context, emoji) async {
+    final offerings = await PurchaseApi.fetchOffers();
+    if(offerings.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('No plans found')));
+    }else{
+      final packages = offerings
+          .map((offer) => offer.availablePackages)
+          .expand((pair) => pair)
+          .toList();
+
+      Utils.showSheet(
+        context,
+          (context) => PaywallWidget(
+            packages: packages,
+            title: '$emoji  ' + AppLocalizations.of(context)!.removeAds,
+            description: AppLocalizations.of(context)!.description,
+            onClickedPackage: (package) async {
+              await PurchaseApi.purchasePackage(package);
+
+              Navigator.pop(context);
+
+            },
+          )
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AppointmentProvider>(context, listen: false);
-    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
     ColorScheme colorScheme = Theme.of(context).colorScheme;
+
+    final star = EmojiParser().get('star').code;
+    final entitlement = Provider.of<RevenueCatProvider>(context).entitlement;
+    final showAds = entitlement == Entitlement.ads;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        IconButton( onPressed: () {  }, icon: Icon(Icons.pie_chart, color: colorScheme.background,)),
+        IconButton(
+            onPressed: () async {
+              print('show ads $showAds');
+              if(showAds) {
+                await fetchOffers(context, star);
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('You are already using the app without ads.')));
+              }
+          }, icon: Icon(Icons.workspace_premium_rounded,)),
         Consumer<AppointmentProvider>(
           builder: (BuildContext context, AppointmentProvider value, Widget? child) {
             return Row(
