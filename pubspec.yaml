@@ -51,6 +51,8 @@ dependencies:
   flutter_inset_box_shadow: ^1.0.8
   google_mobile_ads: ^4.0.0
   tutorial_coach_mark: ^1.2.11
+  purchases_flutter: ^6.21.0
+  flutter_emoji: ^2.5.1
   flutter_localizations:
     sdk: flutter
 

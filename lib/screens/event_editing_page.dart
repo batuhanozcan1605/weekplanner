@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:interval_time_picker/interval_time_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
+import 'package:weekplanner/model/entitlement.dart';
 import 'package:weekplanner/simple_widgets.dart';
 import 'package:weekplanner/provider/appointment_provider.dart';
 import 'package:weekplanner/utils.dart';
@@ -13,6 +13,8 @@ import '../ad_helper.dart';
 import '../model/Events.dart';
 import '../model/MyAppointment.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../provider/revenuecat_provider.dart';
 
 class EventEditingPage extends StatefulWidget {
   const EventEditingPage(
@@ -169,6 +171,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
         FixedExtentScrollController(initialItem: selectedDuration!.inHours);
     _scrollControllerMinute = FixedExtentScrollController(
         initialItem: selectedDuration!.inMinutes % 60);
+    final entitlement = Provider.of<RevenueCatProvider>(context).entitlement;
+    final showAds = entitlement == Entitlement.ads;
 
     return Scaffold(
       appBar: AppBar(
@@ -182,7 +186,9 @@ class _EventEditingPageState extends State<EventEditingPage> {
         actions: [
           IconButton(
               onPressed: () {
+                if(showAds) {
                 interstitialAdFrequency();
+                }
 
                 Future.delayed(const Duration(milliseconds: 1000));
                 if (isRecurrenceEnabled) {
@@ -279,7 +285,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                                   color: SimpleWidgets.softColor,
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: 'Segoe UI')),
+                                  fontFamily: 'Montserrat')),
                         ],
                       )),
                 ],
@@ -336,17 +342,16 @@ class _EventEditingPageState extends State<EventEditingPage> {
               ),
             ),
             const SizedBox(height: 11),
-            _bannerAd == null
-                ? Container()
-                : SizedBox(
+            showAds
+                ? SizedBox(
                     height: 50,
                     width: 320,
                     child: AdWidget(ad: _bannerAd!),
-                  ),
+                  ) : Container(),
             Padding(
                 padding: const EdgeInsets.only(top: 11.0),
                 child: Container(
-                  height: 410,
+                  height: 469,
                   decoration: BoxDecoration(
                     color: colorScheme.secondary,
                     borderRadius: BorderRadius.circular(11.0),
@@ -383,11 +388,13 @@ class _EventEditingPageState extends State<EventEditingPage> {
                               const SizedBox(
                                 width: 5,
                               ),
-                              Text(
-                                AppLocalizations.of(context)!.repeat,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: colorScheme.primary),
+                              Flexible(
+                                child: Text(
+                                  AppLocalizations.of(context)!.repeat,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: colorScheme.primary),
+                                ),
                               ),
                             ],
                           ),
@@ -477,7 +484,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
           Text(AppLocalizations.of(context)!.everyDay),
           daysThisWeek
               ? Checkbox(
-                  activeColor: Colors.deepPurple,
+                  activeColor: backgroundColor,
                   checkColor: SimpleWidgets.softColor,
                   value: isChecked,
                   onChanged: (value) {
@@ -507,7 +514,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                   },
                 )
               : Checkbox(
-                  activeColor: Colors.deepPurple,
+                  activeColor: backgroundColor,
                   checkColor: SimpleWidgets.softColor,
                   value: isCheckedNextWeek,
                   onChanged: (value) {
@@ -911,7 +918,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                 fontWeight: FontWeight.bold),
           ),
         ),
-        //SizedBox(width: 8),
+        SizedBox(width: 8),
         Flexible(
           flex: 1,
           child: Text(
@@ -925,44 +932,48 @@ class _EventEditingPageState extends State<EventEditingPage> {
     );
   }
 
-  Widget buildFrom(colorScheme) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4.0),
-        child: Row(
-          children: [
-            Expanded(
-              flex: 1,
-              child: IconButton(
-                icon: Icon(Icons.arrow_forward, color: colorScheme.primary),
-                onPressed: () {
-                  setState(() {
-                    selectedDateObjects = [];
-                    selectedDays.fillRange(
-                        0, selectedNextWeekDays.length, false);
-                    selectedNextWeekDays.fillRange(
-                        0, selectedNextWeekDays.length, false);
-                    isChecked = false;
-                    isCheckedNextWeek = false;
-                  });
-                  pickFromDateTime(pickDate: true);
-                },
-              ),
+  Widget buildFrom(colorScheme) => Builder(
+    builder: (context) {
+      return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: IconButton(
+                    icon: Icon(Icons.arrow_forward, color: colorScheme.primary),
+                    onPressed: () {
+                      setState(() {
+                        selectedDateObjects = [];
+                        selectedDays.fillRange(
+                            0, selectedNextWeekDays.length, false);
+                        selectedNextWeekDays.fillRange(
+                            0, selectedNextWeekDays.length, false);
+                        isChecked = false;
+                        isCheckedNextWeek = false;
+                      });
+                      pickFromDateTime(pickDate: true);
+                    },
+                  ),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: selectedDateObjects.isNotEmpty
+                      ? const Center(child: Text("-"))
+                      : buildDropdownField(
+                          text: Utils.toDate(fromDate, context),
+                          onClicked: () => pickFromDateTime(pickDate: true)),
+                ),
+                Expanded(
+                    flex: 2,
+                    child: buildDropdownField(
+                        text: Utils.toTime(fromDate),
+                        onClicked: () => pickFromDateTime(pickDate: false))),
+              ],
             ),
-            Expanded(
-              flex: 3,
-              child: selectedDateObjects.isNotEmpty
-                  ? const Center(child: Text("-"))
-                  : buildDropdownField(
-                      text: Utils.toDate(fromDate, context),
-                      onClicked: () => pickFromDateTime(pickDate: true)),
-            ),
-            Expanded(
-                flex: 2,
-                child: buildDropdownField(
-                    text: Utils.toTime(fromDate),
-                    onClicked: () => pickFromDateTime(pickDate: false))),
-          ],
-        ),
-      );
+          );
+    }
+  );
 
   Widget buildTo() => Padding(
         padding: const EdgeInsets.only(left: 14.0),
@@ -990,8 +1001,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
         ),
       );
 
-  Future pickFromDateTime({required bool pickDate}) async {
-    final date = await pickDateTime(fromDate, pickDate: pickDate);
+  Future pickFromDateTime({required bool pickDate, Locale? locale}) async {
+    final date = await pickDateTime(fromDate, pickDate: pickDate, locale: locale);
     if (date == null) return;
 
     if (date.isAfter(toDate)) {
@@ -1027,9 +1038,11 @@ class _EventEditingPageState extends State<EventEditingPage> {
     DateTime initialDate, {
     required bool pickDate,
     DateTime? firstDate,
+        Locale? locale
   }) async {
     if (pickDate) {
       final date = await showDatePicker(
+          locale: locale,
           context: context,
           initialDate: initialDate,
           firstDate: firstDate ?? DateTime(2021, 8),
@@ -1039,11 +1052,10 @@ class _EventEditingPageState extends State<EventEditingPage> {
           Duration(hours: initialDate.hour, minutes: initialDate.minute);
       return date.add(time);
     } else {
-      final timeOfDay = await showIntervalTimePicker(
+      final timeOfDay = await showTimePicker(
         context: context,
         initialTime: TimeOfDay.fromDateTime(initialDate),
-        interval: 30,
-        visibleStep: VisibleStep.thirtieths,
+        initialEntryMode: TimePickerEntryMode.input
       );
 
       if (timeOfDay == null) return null;
@@ -1106,7 +1118,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                             width: tileWidth,
                             decoration: BoxDecoration(
                               color: selectedDays[index]
-                                  ? Colors.deepPurple
+                                  ? backgroundColor
                                   : Colors.grey,
                               borderRadius: BorderRadius.circular(8),
                             ),
@@ -1160,7 +1172,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                             width: tileWidth,
                             decoration: BoxDecoration(
                               color: selectedNextWeekDays[index]
-                                  ? Colors.deepPurple
+                                  ? backgroundColor
                                   : Colors.grey,
                               borderRadius: BorderRadius.circular(8),
                             ),

@@ -1,0 +1,1 @@
+enum Entitlement { ads, adsRemoved }

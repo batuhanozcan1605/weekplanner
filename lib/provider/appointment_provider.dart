@@ -1,4 +1,7 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:weekplanner/database/UniqueIdDao.dart';
 import '../database/AppointmentDao.dart';
 import '../model/Events.dart';
@@ -106,6 +109,15 @@ class AppointmentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void deleteAll() {
+    AppointmentDao().deleteAll();
+    _appointments.clear();
+    _uniqueIds.clear();
+    _isCompleted.clear();
+    _icons.clear();
+    notifyListeners();
+  }
+
   void deleteUniqueIds(String uniqueId) {
     UniqueIdDao().deleteAppointment(uniqueId);
     _uniqueIds.remove(uniqueId);
@@ -131,10 +143,21 @@ class AppointmentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void editCompletedEvent(MyAppointment event) {
+  void editCompletedEvent(Appointment appointment) {
+      final myAppointment = MyAppointment(
+          id: appointment.id as int,
+          startTime: appointment.startTime,
+          endTime: appointment.endTime,
+          subject: appointment.subject,
+          notes: appointment.notes!,
+          color: appointment.color,
+          recurrenceRule: appointment.recurrenceRule,
+          icon: _icons[appointment.id],
+          isCompleted: _isCompleted[appointment.id]
+      );
 
-      AppointmentDao().updateIsCompleted(event);
-      _isCompleted[event.id!] = event.isCompleted;
+      AppointmentDao().updateIsCompleted(myAppointment);
+      _isCompleted[myAppointment.id!] = myAppointment.isCompleted;
 
     notifyListeners();
   }

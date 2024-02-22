@@ -15,6 +15,8 @@
   "hoursCapital": "小时",
   "minutesCapital": "分钟",
   "today": "今天",
+  "from": "从",
+  "to": "到",
 
   "must": "必须",
   "daily": "每日",
@@ -36,5 +38,27 @@
   "theme": "更改主题",
   "letsStart": "让我们开始",
 
-  "languages" : "语言"
+  "settings": "设置",
+  "tapToToggle": "点击切换主题",
+  "changeLang": "更改语言",
+  "deleteEvents": "删除所有事件",
+  "about": "关于",
+
+  "languages" : "语言",
+
+  "january": "一月",
+    "february": "二月",
+    "march": "三月",
+    "april": "四月",
+    "may": "五月",
+    "june": "六月",
+    "july": "七月",
+    "august": "八月",
+    "september": "九月",
+    "october": "十月",
+    "november": "十一月",
+    "december": "十二月",
+
+    "removeAds" : "移除广告",
+    "description" : "使用 Strong Week 无广告。"
 }

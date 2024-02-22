@@ -6,7 +6,11 @@ import 'package:weekplanner/screens/event_editing_page.dart';
 import 'package:weekplanner/utils.dart';
 import '../ad_helper.dart';
 import '../model/MyAppointment.dart';
+import '../model/entitlement.dart';
 import '../provider/appointment_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../provider/revenuecat_provider.dart';
 
 class EventViewingPage extends StatefulWidget {
   const EventViewingPage({super.key, required this.appointment});
@@ -39,6 +43,9 @@ class _EventViewingPageState extends State<EventViewingPage> {
   Widget build(BuildContext context) {
     final icons = Provider.of<AppointmentProvider>(context).icons;
     ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final entitlement = Provider.of<RevenueCatProvider>(context).entitlement;
+    final showAds = entitlement == Entitlement.ads;
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: colorScheme.background,
@@ -84,7 +91,7 @@ class _EventViewingPageState extends State<EventViewingPage> {
                   Expanded(
                       flex: 1,
                       child: Text(
-                        'FROM',
+                         AppLocalizations.of(context)!.from,
                         style: TextStyle(color: colorScheme.primary),
                       )),
                   Expanded(
@@ -106,7 +113,7 @@ class _EventViewingPageState extends State<EventViewingPage> {
                   children: [
                     Expanded(
                         flex: 1,
-                        child: Text('TO',
+                        child: Text(AppLocalizations.of(context)!.to,
                             style: TextStyle(color: colorScheme.primary))),
                     Expanded(
                       flex: 2,
@@ -154,13 +161,12 @@ class _EventViewingPageState extends State<EventViewingPage> {
               Expanded(
                 child: Align(
                   alignment: Alignment.bottomCenter,
-                  child: _bannerAd == null
-                      ? Container()
-                      : SizedBox(
-                          height: 250,
-                          width: 300,
-                          child: AdWidget(ad: _bannerAd!),
-                        ),
+                  child: showAds
+                      ? SizedBox(
+                    height: 50,
+                    width: 320,
+                    child: AdWidget(ad: _bannerAd!),
+                  ) : Container(),
                 ),
               )
             ],

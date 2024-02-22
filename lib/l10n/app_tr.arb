@@ -15,6 +15,8 @@
   "hoursCapital" : "SAAT",
   "minutesCapital" : "DAKİKA",
   "today" : "Bugün",
+  "from": "BAŞLANGIÇ",
+  "to": "BİTİŞ",
 
   "must" : "MUTLAK",
   "daily" : "GÜNLÜK",
@@ -36,6 +38,28 @@
   "theme" : "Temayı değiştir.",
   "letsStart" : "Hadi Başlayalım!",
 
-  "languages" : "Diller"
+  "settings": "Ayarlar",
+  "tapToToggle": "Tema değiştirmek için dokunun",
+  "changeLang": "Dili Değiştir",
+  "deleteEvents": "Tüm Etkinlikleri Sil",
+  "about": "Hakkında",
+
+  "languages" : "Diller",
+
+    "january": "Ocak",
+    "february": "Şubat",
+    "march": "Mart",
+    "april": "Nisan",
+    "may": "Mayıs",
+    "june": "Haziran",
+    "july": "Temmuz",
+    "august": "Ağustos",
+    "september": "Eylül",
+    "october": "Ekim",
+    "november": "Kasım",
+    "december": "Aralık",
+
+    "removeAds" : "Reklamları Kaldır",
+    "description" : "Reklamsız Strong Week'i kullanın."
 
 }

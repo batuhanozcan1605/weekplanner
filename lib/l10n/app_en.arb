@@ -16,6 +16,8 @@
   "hoursCapital" : "HOURS",
   "minutesCapital" : "MINUTES",
   "today" : "Today",
+  "from" : "FROM",
+  "to" : "TO",
 
   "must" : "MUST",
   "daily" : "DAILY",
@@ -37,5 +39,27 @@
   "theme" : "Change Theme",
   "letsStart" : "Let's Start",
 
-  "languages" : "Languages"
+  "settings" : "Settings",
+  "tapToToggle" : "Tap to toggle theme",
+  "changeLang" : "Change Language",
+  "deleteEvents" : "Delete All Events",
+  "about" : "About",
+
+  "languages" : "Languages",
+
+   "january": "January",
+   "february": "February",
+   "march": "March",
+   "april": "April",
+   "may": "May",
+   "june": "June",
+   "july": "July",
+   "august": "August",
+   "september": "September",
+   "october": "October",
+   "november": "November",
+   "december": "December",
+
+   "removeAds" : "Remove Ads",
+   "description" : "Use Strong Week without ads."
 }
