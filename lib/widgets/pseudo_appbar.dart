@@ -50,7 +50,8 @@ class PseudoAppBar extends StatelessWidget {
 
     final star = EmojiParser().get('star').code;
     final entitlement = Provider.of<RevenueCatProvider>(context).entitlement;
-    final showAds = entitlement == Entitlement.ads;
+    //final showAds = entitlement == Entitlement.ads;
+    bool showAds = false;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -63,7 +64,7 @@ class PseudoAppBar extends StatelessWidget {
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('You are already using the app without ads.')));
               }
-          }, icon: Icon(Icons.workspace_premium_rounded,)),
+          }, icon: Icon(Icons.workspace_premium_rounded, color: showAds ? colorScheme.onBackground : colorScheme.background,)),
         Consumer<AppointmentProvider>(
           builder: (BuildContext context, AppointmentProvider value, Widget? child) {
             return Row(

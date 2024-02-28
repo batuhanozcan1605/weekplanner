@@ -60,5 +60,8 @@
     "december": "十二月",
 
     "removeAds" : "移除广告",
-    "description" : "使用 Strong Week 无广告。"
+    "description" : "使用 Strong Week 无广告。",
+
+    "onlyDeleteThisDay": "仅从当天删除",
+    "deleteCompletely": "彻底删除此重复事件"
 }

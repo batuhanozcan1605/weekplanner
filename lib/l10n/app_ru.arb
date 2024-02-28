@@ -55,5 +55,8 @@
   "december": "Декабрь",
 
   "removeAds" : "Удалить рекламу",
-  "description" : "Используйте Strong Week без рекламы."
+  "description" : "Используйте Strong Week без рекламы.",
+
+  "onlyDeleteThisDay": "Удалить только с этого дня",
+  "deleteCompletely": "Полностью удалить это повторяющееся событие"
 }

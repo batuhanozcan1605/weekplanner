@@ -172,7 +172,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
     _scrollControllerMinute = FixedExtentScrollController(
         initialItem: selectedDuration!.inMinutes % 60);
     final entitlement = Provider.of<RevenueCatProvider>(context).entitlement;
-    final showAds = entitlement == Entitlement.ads;
+    //final showAds = entitlement == Entitlement.ads;
+    bool showAds = false;
 
     return Scaffold(
       appBar: AppBar(

@@ -44,7 +44,8 @@ class _EventViewingPageState extends State<EventViewingPage> {
     final icons = Provider.of<AppointmentProvider>(context).icons;
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     final entitlement = Provider.of<RevenueCatProvider>(context).entitlement;
-    final showAds = entitlement == Entitlement.ads;
+    //final showAds = entitlement == Entitlement.ads;
+    bool showAds = false;
 
     return Scaffold(
       appBar: AppBar(
@@ -235,7 +236,7 @@ class _EventViewingPageState extends State<EventViewingPage> {
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) => MainScreen()));
                 },
-                child: Text('Only delete from this day'),
+                child: Text(AppLocalizations.of(context)!.onlyDeleteThisDay),
               ),
               ElevatedButton(
                 onPressed: () {
@@ -243,7 +244,7 @@ class _EventViewingPageState extends State<EventViewingPage> {
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) => MainScreen()));
                 },
-                child: Text('Delete this recurring event completely'),
+                child: Text(AppLocalizations.of(context)!.deleteCompletely, textAlign: TextAlign.center),
               ),
             ],
           ),

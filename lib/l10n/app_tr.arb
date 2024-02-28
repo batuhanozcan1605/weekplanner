@@ -60,6 +60,9 @@
     "december": "Aralık",
 
     "removeAds" : "Reklamları Kaldır",
-    "description" : "Reklamsız Strong Week'i kullanın."
+    "description" : "Reklamsız Strong Week'i kullanın.",
+
+    "onlyDeleteThisDay": "Sadece bu günden sil",
+    "deleteCompletely": "Bu tekrarlayan etkinliği tamamen sil"
 
 }

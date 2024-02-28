@@ -54,5 +54,8 @@
   "december": "Dezembro",
 
   "removeAds" : "Remover anúncios",
-  "description" : "Use o Strong Week sem anúncios."
+  "description" : "Use o Strong Week sem anúncios.",
+
+  "onlyDeleteThisDay": "Apenas excluir deste dia",
+  "deleteCompletely": "Excluir este evento recorrente completamente"
 }

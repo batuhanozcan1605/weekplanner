@@ -85,7 +85,8 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     final entitlement = Provider.of<RevenueCatProvider>(context).entitlement;
-    final showAds = entitlement == Entitlement.ads;
+    //final showAds = entitlement == Entitlement.ads;
+    bool showAds = false;
 
     return Scaffold(
       body: SafeArea(
