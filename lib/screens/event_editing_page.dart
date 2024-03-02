@@ -1095,7 +1095,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
             child: daysThisWeek
                 ? ListView(
                     shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
+                    //physics: const NeverScrollableScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     children: List.generate(7, (index) {
                       return InkWell(
@@ -1149,7 +1149,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                   )
                 : ListView(
                     shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
+                    //physics: const NeverScrollableScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     children: List.generate(7, (index) {
                       return InkWell(
