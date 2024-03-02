@@ -64,5 +64,22 @@
   "description" : "Usa Strong Week sin anuncios.",
 
   "onlyDeleteThisDay": "Eliminar solo desde este día",
-  "deleteCompletely": "Eliminar este evento recurrente por completo"
+  "deleteCompletely": "Eliminar este evento recurrente por completo",
+
+  "mustActivity": "¿Tiene alguna actividad imprescindible que ocupe la mayor parte de su tiempo durante la semana y se repita a la misma hora?",
+     "suchAs": "TALES COMO",
+  "multipleDaysForThisEvent": "Después de definir su hora y duración, puede seleccionar fácilmente varios días para este evento a continuación.",
+  "continuee": "CONTINUAR",
+  "continueTo": "CONTINUAR AL CALENDARIO",
+  "work": "Trabajo",
+     "school": "Escuela",
+
+
+  "monday": "Lu",
+    "tuesday": "Ma",
+    "wednesday": "Mi",
+    "thursday": "Ju",
+    "friday": "Vi",
+    "saturday": "Sá",
+    "sunday": "Do"
 }

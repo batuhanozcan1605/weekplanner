@@ -64,5 +64,22 @@
    "description" : "Use Strong Week without ads.",
 
    "onlyDeleteThisDay" : "Only delete from this day",
-   "deleteCompletely" : "Delete this recurring event completely"
+   "deleteCompletely" : "Delete this recurring event completely",
+
+   "mustActivity" : "Do you have any must activity that takes up the most of your time in a week and is repeated at the same hours?",
+   "suchAs" : "SUCH AS",
+   "multipleDaysForThisEvent" : "After define its hour and duration, you can select multiple days for this event easily below.",
+   "continuee" : "CONTINUE",
+   "continueTo" : "CONTINUE TO CALENDAR",
+   "work" : "Work",
+   "school" : "School",
+
+   "monday": "Mo",
+     "tuesday": "Tu",
+     "wednesday": "We",
+     "thursday": "Th",
+     "friday": "Fr",
+     "saturday": "Sa",
+     "sunday": "Su"
+
 }

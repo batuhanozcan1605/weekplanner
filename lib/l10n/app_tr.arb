@@ -63,6 +63,23 @@
     "description" : "Reklamsız Strong Week'i kullanın.",
 
     "onlyDeleteThisDay": "Sadece bu günden sil",
-    "deleteCompletely": "Bu tekrarlayan etkinliği tamamen sil"
+    "deleteCompletely": "Bu tekrarlayan etkinliği tamamen sil",
+
+    "mustActivity": "Haftanın çoğunu kaplayan ve aynı saatlerde tekrarlanan herhangi bir zorunlu etkinliğiniz var mı?",
+       "suchAs": "ÖRNEĞİN",
+    "multipleDaysForThisEvent": "Saatini ve süresini belirledikten sonra, bu etkinlik için kolayca birden fazla gün seçebilirsiniz.",
+    "continuee": "DEVAM ET",
+    "continueTo": "TAKVİME DEVAM ET",
+    "work": "İş",
+       "school": "Okul",
+
+    "monday": "Pt",
+      "tuesday": "Sa",
+      "wednesday": "Ça",
+      "thursday": "Pe",
+      "friday": "Cu",
+      "saturday": "Ct",
+      "sunday": "Pa"
+
 
 }

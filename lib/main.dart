@@ -15,7 +15,7 @@ import 'package:weekplanner/provider/settings_provider.dart';
 import 'package:weekplanner/purchase_api.dart';
 import 'package:weekplanner/screens/main_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:weekplanner/screens/onboarding_screen.dart';
+import 'package:weekplanner/screens/onboarding/onboarding_screen.dart';
 import 'package:weekplanner/theme/theme_provider.dart';
 import 'database/AppointmentDao.dart';
 import 'model/MyAppointment.dart';
