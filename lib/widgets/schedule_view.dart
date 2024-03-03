@@ -58,6 +58,7 @@ class _ScheduleViewState extends State<ScheduleView> with SingleTickerProviderSt
             subject: event.subject,
             color: event.color,
             recurrenceRule: event.recurrenceRule,
+            recurrenceExceptionDates: event.recurrenceExceptionDates,
             notes: event.notes,
             isCompleted: event.recurrenceRule == null ? event.isCompleted : 0,
           );

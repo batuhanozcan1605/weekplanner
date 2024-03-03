@@ -1,28 +1,30 @@
-import 'dart:ffi';
-
 import 'package:flutter/cupertino.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:weekplanner/database/UniqueIdDao.dart';
+import 'package:weekplanner/utils.dart';
 import '../database/AppointmentDao.dart';
 import '../model/Events.dart';
 import '../model/MyAppointment.dart';
 
 class AppointmentProvider extends ChangeNotifier {
-  List<MyAppointment> _appointments = [];
+  List<MyAppointment> _myAppointments = [];
+  List<Appointment> _appointments = [];
   Map<int, IconData> _icons = {};
   Map<int, int> _isCompleted = {};
   List<String> _uniqueIds = [];
+  int _idOnDragStart = -1;
 
-  List<MyAppointment> get events => _appointments;
+  List<MyAppointment> get events => _myAppointments;
+  List<Appointment> get appointments => _appointments;
   Map<int, IconData> get icons => _icons;
   Map<int, int> get isCompleted => _isCompleted;
   List<String> get uniqueIds => _uniqueIds;
+  int get idOnDragStart => _idOnDragStart;
 
   //main screen providers
   bool _scheduleView = false;
   bool _weekView = true;
   bool _dayView = false;
-  int rebuildCalender = 0;
 
   bool get scheduleView => _scheduleView;
   bool get weekView => _weekView;
@@ -52,14 +54,21 @@ class AppointmentProvider extends ChangeNotifier {
 
 
   int getHighestId() {
-    var highestId = _appointments.isNotEmpty
-        ? _appointments.map((obj) => obj.id ?? 0).reduce((max, id) => id > max ? id : max)
+    var highestId = _myAppointments.isNotEmpty
+        ? _myAppointments.map((obj) => obj.id ?? 0).reduce((max, id) => id > max ? id : max)
         : 0;
     return highestId;
   }
-  void initializeWithAppointments(List<MyAppointment> fetchedAppointments) {
+  void initializeWithMyAppointments(List<MyAppointment> fetchedMyAppointments) {
+
+    _myAppointments = fetchedMyAppointments;
+    notifyListeners();
+  }
+
+  void initializeWithAppointments(List<Appointment> fetchedAppointments) {
 
     _appointments = fetchedAppointments;
+    print('debug $appointments');
     notifyListeners();
   }
 
@@ -80,10 +89,10 @@ class AppointmentProvider extends ChangeNotifier {
   }
 
   void addEvent(MyAppointment appointment, IconData icon) {
-    _appointments.add(appointment);
+    _myAppointments.add(appointment);
+    _appointments.add(Utils.appointmentConverter(appointment));
     _icons[appointment.id!]= icon;
     AppointmentDao().insertAppointment(appointment);
-
 
     notifyListeners();
   }
@@ -99,11 +108,14 @@ class AppointmentProvider extends ChangeNotifier {
     AppointmentDao().deleteAppointment(appointment.id!);
     if (appointment.recurrenceRule != null) {
       // Handle recurring appointment deletion
-      _appointments.removeWhere((existingEvent) =>
+      _myAppointments.removeWhere((existingEvent) =>
       existingEvent.id == appointment.id);
+      _appointments.removeWhere((existingEvent) =>
+      existingEvent.id == Utils.appointmentConverter(appointment).id);
     } else {
       // Handle non-recurring appointment deletion
-      _appointments.remove(appointment);
+      _myAppointments.remove(appointment);
+      _appointments.remove(Utils.appointmentConverter(appointment));
     }
 
     notifyListeners();
@@ -111,6 +123,7 @@ class AppointmentProvider extends ChangeNotifier {
 
   void deleteAll() {
     AppointmentDao().deleteAll();
+    _myAppointments.clear();
     _appointments.clear();
     _uniqueIds.clear();
     _isCompleted.clear();
@@ -129,35 +142,65 @@ class AppointmentProvider extends ChangeNotifier {
     AppointmentDao().updateAppointment(newEvent);
     if (oldEvent.recurrenceRule != null) {
       // Handle recurring appointment deletion
-      _appointments.removeWhere((existingEvent) =>
+      _myAppointments.removeWhere((existingEvent) =>
       existingEvent.id == oldEvent.id);
 
-      _appointments.add(newEvent);
+      _myAppointments.add(newEvent);
+
+      _appointments.removeWhere((existingEvent) =>
+      existingEvent.id == Utils.appointmentConverter(oldEvent).id);
+
+      _appointments.add(Utils.appointmentConverter(newEvent));
 
     } else {
-      AppointmentDao().updateAppointment(newEvent);
-    final index = _appointments.indexOf(oldEvent);
-    _appointments[index] = newEvent;
+
+      final index = _myAppointments.indexOf(oldEvent);
+      _myAppointments[index] = newEvent;
+
+      final index2 = _appointments.indexOf(Utils.appointmentConverter(oldEvent));
+      _appointments[index2] = Utils.appointmentConverter(newEvent);
 
     }
     notifyListeners();
   }
 
-  void editCompletedEvent(Appointment appointment) {
-      final myAppointment = MyAppointment(
-          id: appointment.id as int,
-          startTime: appointment.startTime,
-          endTime: appointment.endTime,
-          subject: appointment.subject,
-          notes: appointment.notes!,
-          color: appointment.color,
-          recurrenceRule: appointment.recurrenceRule,
-          icon: _icons[appointment.id],
-          isCompleted: _isCompleted[appointment.id]
-      );
+  void editDraggedAppointment(Appointment appointment, AppointmentType appointmentType) {
 
-      AppointmentDao().updateIsCompleted(myAppointment);
-      _isCompleted[myAppointment.id!] = myAppointment.isCompleted;
+    int id = appointment.id as int;
+    print("appo id $id");
+    if(appointmentType == AppointmentType.changedOccurrence) {
+      print('id dragstart $_idOnDragStart');
+      _icons[id] = _icons[_idOnDragStart]!;
+      //_isCompleted[id] = _isCompleted[_idOnDragStart]!;
+      notifyListeners();
+    }
+
+    final myAppointment = MyAppointment(
+        id: id,
+        startTime: appointment.startTime,
+        endTime: appointment.endTime,
+        subject: appointment.subject,
+        notes: appointment.notes,
+        color: appointment.color,
+        recurrenceRule: appointment.recurrenceRule,
+        icon: _icons[appointment.id],
+        isCompleted: 0
+    );
+    print('object update $myAppointment');
+    appointmentType == AppointmentType.changedOccurrence ?
+    AppointmentDao().insertAppointment(myAppointment) :
+    AppointmentDao().updateAppointment(myAppointment);
+  }
+
+  void setIdOnDragStart(id) {
+    _idOnDragStart = id;
+    notifyListeners();
+  }
+
+  void editCompletedEvent(MyAppointment event) {
+
+      AppointmentDao().updateIsCompleted(event);
+      _isCompleted[event.id!] = event.isCompleted;
 
     notifyListeners();
   }
@@ -166,7 +209,8 @@ class AppointmentProvider extends ChangeNotifier {
     for(int i=0; i < appointments.length; i++) {
       //print('DEBUG provider içi appointment: ${appointments[i]}');
       AppointmentDao().insertAppointment(appointments[i]);
-    _appointments.add(appointments[i]);
+      _myAppointments.add(appointments[i]);
+      _appointments.add(Utils.appointmentConverter(appointments[i]));
     _icons[appointments[i].id!]= icon;
     }
     notifyListeners();
@@ -175,9 +219,9 @@ class AppointmentProvider extends ChangeNotifier {
   List<Events> get4LatestEvents() {
     Set<Events> latestEventSet = {};
     List<Events> latestEvents = [];
-    for(int i= _appointments.length; i > _appointments.length-4 && i > 0; i--) {
+    for(int i= _myAppointments.length; i > _myAppointments.length-4 && i > 0; i--) {
 
-      final appointment = _appointments[i-1];
+      final appointment = _myAppointments[i-1];
 
       final event = Events(subject: appointment.subject, icon: appointment.icon, color: appointment.color);
       latestEventSet.add(event);
@@ -190,9 +234,9 @@ class AppointmentProvider extends ChangeNotifier {
   List<Events> getOther4LatestEvents() {
     Set<Events> latestEventSet = {};
     List<Events> latestEvents = [];
-    for(int i= _appointments.length-4; i > _appointments.length-8 && i > 0; i--) {
+    for(int i= _myAppointments.length-4; i > _myAppointments.length-8 && i > 0; i--) {
 
-      final appointment = _appointments[i-1];
+      final appointment = _myAppointments[i-1];
 
       final event = Events(subject: appointment.subject, icon: appointment.icon, color: appointment.color);
       latestEventSet.add(event);
@@ -202,5 +246,22 @@ class AppointmentProvider extends ChangeNotifier {
     return latestEvents;
   }
 
+  DateTime firstDateOfRecurringEventStart(id) {
+    Appointment? appointment = _appointments.firstWhere(
+          (appointment) => appointment.id == id,
+    );
+
+      return appointment.startTime;
+
+  }
+
+  DateTime firstDateOfRecurringEventEnd(id) {
+    Appointment? appointment = _appointments.firstWhere(
+          (appointment) => appointment.id == id,
+    );
+
+    return appointment.endTime;
+
+  }
 
 }

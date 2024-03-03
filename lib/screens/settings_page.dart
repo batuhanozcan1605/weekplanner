@@ -34,7 +34,8 @@ class _SettingsPageState extends State<SettingsPage> {
     final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
     final provider = Provider.of<AppointmentProvider>(context, listen: false);
     final entitlement = Provider.of<RevenueCatProvider>(context).entitlement;
-    final showAds = entitlement == Entitlement.ads;
+    //final showAds = entitlement == Entitlement.ads;
+    bool showAds = false;
 
     return Scaffold(
       appBar: AppBar(

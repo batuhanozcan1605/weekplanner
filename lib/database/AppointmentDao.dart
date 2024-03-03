@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:weekplanner/database/DatabaseHelper.dart';
 import 'package:weekplanner/database/DatabaseHelper2.dart';
@@ -37,6 +39,7 @@ class AppointmentDao {
 
     Future<void> updateAppointment(MyAppointment appointment) async {
       final database = await DatabaseHelper.database();
+      print('gelen id ne ${appointment.id}');
       await database.update(
         'appointments',
         appointment.toMap(),
@@ -58,6 +61,9 @@ class AppointmentDao {
         color: Color(maps[i]['color']),
         icon: IconData(maps[i]['icon'], fontFamily: 'MaterialIcons'),
         recurrenceRule: maps[i]['recurrenceRule'],
+        recurrenceExceptionDates: jsonDecode(maps[i]['recurrenceExceptionDates'])
+            .map<DateTime>((date) => DateTime.parse(date))
+            .toList(),
         isCompleted: maps[i]['isCompleted']
       );
     });

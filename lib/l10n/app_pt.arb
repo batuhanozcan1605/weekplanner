@@ -54,5 +54,25 @@
   "december": "Dezembro",
 
   "removeAds" : "Remover anúncios",
-  "description" : "Use o Strong Week sem anúncios."
+  "description" : "Use o Strong Week sem anúncios.",
+
+  "onlyDeleteThisDay": "Apenas excluir deste dia",
+  "deleteCompletely": "Excluir este evento recorrente completamente",
+
+  "mustActivity": "Você tem alguma atividade obrigatória que ocupa a maior parte do seu tempo durante a semana e se repete nas mesmas horas?",
+     "suchAs": "COMO POR EXEMPLO",
+  "multipleDaysForThisEvent": "Após definir sua hora e duração, você pode facilmente selecionar vários dias para este evento abaixo.",
+  "continuee": "CONTINUAR",
+  "continueTo": "CONTINUAR PARA O CALENDÁRIO",
+  "work": "Trabalho",
+     "school": "Escola",
+
+  "monday": "Seg",
+    "tuesday": "Ter",
+    "wednesday": "Qua",
+    "thursday": "Qui",
+    "friday": "Sex",
+    "saturday": "Sáb",
+    "sunday": "Dom"
+
 }

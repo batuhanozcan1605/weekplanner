@@ -1,10 +1,11 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:weekplanner/main.dart';
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
+import 'package:weekplanner/screens/onboarding/onboarding_screen2.dart';
 import 'package:weekplanner/theme/theme.dart';
-import '../theme/theme_provider.dart';
+import '../../const.dart';
+import '../../theme/theme_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -33,7 +34,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
     final height = screenSize.height;
-    double refPhoneHeight = 915.0;
+
     final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     Offset distance = isPressed ? const Offset(10, 10) : const Offset(28, 28);
@@ -76,10 +77,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       const SizedBox(
                         width: 20,
                       ),
-                      Text(
-                        AppLocalizations.of(context)!.onboarding1,
-                        style:
-                            const TextStyle(fontFamily: 'Montserrat', fontSize: 16),
+                      Flexible(
+                        child: Text(
+                          AppLocalizations.of(context)!.onboarding1,
+                          style:
+                              const TextStyle(fontFamily: 'Montserrat', fontSize: 16),
+                        ),
                       ),
                     ],
                   ),
@@ -223,7 +226,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         child: ElevatedButton(
           onPressed: () {
             Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => const SplashScreen()));
+                MaterialPageRoute(builder: (context) => const OnBoardingScreen2()));
           },
           child: Text(
             AppLocalizations.of(context)!.letsStart,

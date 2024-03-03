@@ -4,13 +4,14 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'MyAppointment.dart';
 
 class EventDataSource extends CalendarDataSource{
-  EventDataSource(List<MyAppointment> appointments) {
+  EventDataSource(List<Appointment> appointments) {
     this.appointments = appointments;
   }
 
-  MyAppointment getEvent(int index) => appointments![index] as MyAppointment;
+  Appointment getEvent(int index) => appointments![index] as Appointment;
 
- //IconData? getIcon(int index) => getEvent(index).icon;
+  @override
+  Object? getId(int index) => getId(index);
 
   @override
   DateTime getStartTime(int index) => getEvent(index).startTime;
@@ -30,5 +31,7 @@ class EventDataSource extends CalendarDataSource{
   @override
   String? getRecurrenceRule(int index) => getEvent(index).recurrenceRule;
 
+  @override
+  List<DateTime>? getRecurrenceExceptionDates(int index) => getEvent(index).recurrenceExceptionDates;
 
 }

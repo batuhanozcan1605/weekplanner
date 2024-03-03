@@ -172,7 +172,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
     _scrollControllerMinute = FixedExtentScrollController(
         initialItem: selectedDuration!.inMinutes % 60);
     final entitlement = Provider.of<RevenueCatProvider>(context).entitlement;
-    final showAds = entitlement == Entitlement.ads;
+    //final showAds = entitlement == Entitlement.ads;
+    bool showAds = false;
 
     return Scaffold(
       appBar: AppBar(
@@ -1094,7 +1095,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
             child: daysThisWeek
                 ? ListView(
                     shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
+                    //physics: const NeverScrollableScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     children: List.generate(7, (index) {
                       return InkWell(
@@ -1148,7 +1149,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                   )
                 : ListView(
                     shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
+                    //physics: const NeverScrollableScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     children: List.generate(7, (index) {
                       return InkWell(
