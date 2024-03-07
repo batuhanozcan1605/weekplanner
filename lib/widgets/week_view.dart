@@ -34,15 +34,14 @@ class _WeekViewState extends State<WeekView> {
       allowDragAndDrop: true,
       onDragStart: (AppointmentDragStartDetails  appointmentDragStartDetails){
         dynamic appointment = appointmentDragStartDetails.appointment;
-        int id = appointment.id as int;
-        provider.setIdOnDragStart(id);
+        //int id = appointment.id as int;
+        provider.setAppointmentOnDragStart(appointment);
       },
       onDragEnd: (AppointmentDragEndDetails appointmentDragEndDetails) {
         dynamic appointment = appointmentDragEndDetails.appointment;
         AppointmentType appointmentType = appointment.appointmentType;
         print('appo type: $appointmentType');
         provider.editDraggedAppointment(appointment, appointmentType);
-
       },
       dataSource: EventDataSource(appointments),
       initialSelectedDate: DateTime.now(),

@@ -42,6 +42,7 @@ class _EventViewingPageState extends State<EventViewingPage> {
   @override
   Widget build(BuildContext context) {
     final icons = Provider.of<AppointmentProvider>(context).icons;
+    final isCompleted = Provider.of<AppointmentProvider>(context).isCompleted;
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     final entitlement = Provider.of<RevenueCatProvider>(context).entitlement;
     //final showAds = entitlement == Entitlement.ads;
@@ -64,7 +65,9 @@ class _EventViewingPageState extends State<EventViewingPage> {
               Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) => EventEditingPage(
                       appointment: widget.appointment,
-                      iconFromEdit: icons[widget.appointment.id])));
+                      iconFromEdit: icons[widget.appointment.id],
+                      isCompletedFromEdit: isCompleted[widget.appointment.id]
+                  )));
             },
             icon: const Icon(Icons.edit),
             color: colorScheme.onBackground,

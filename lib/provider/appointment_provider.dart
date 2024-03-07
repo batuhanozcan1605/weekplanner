@@ -140,6 +140,7 @@ class AppointmentProvider extends ChangeNotifier {
 
   void editEvent(MyAppointment newEvent, MyAppointment oldEvent) {
     AppointmentDao().updateAppointment(newEvent);
+
     if (oldEvent.recurrenceRule != null) {
       // Handle recurring appointment deletion
       _myAppointments.removeWhere((existingEvent) =>
@@ -158,6 +159,7 @@ class AppointmentProvider extends ChangeNotifier {
       _myAppointments[index] = newEvent;
 
       final index2 = _appointments.indexOf(Utils.appointmentConverter(oldEvent));
+      print('index2 : $index2');
       _appointments[index2] = Utils.appointmentConverter(newEvent);
 
     }
@@ -184,16 +186,103 @@ class AppointmentProvider extends ChangeNotifier {
         color: appointment.color,
         recurrenceRule: appointment.recurrenceRule,
         icon: _icons[appointment.id],
-        isCompleted: 0
+        isCompleted: _isCompleted[appointment.id]
     );
+
     print('object update $myAppointment');
+    print("appo type ne: $appointmentType");
     appointmentType == AppointmentType.changedOccurrence ?
-    AppointmentDao().insertAppointment(myAppointment) :
-    AppointmentDao().updateAppointment(myAppointment);
+    insertOccurrenceAppointment(myAppointment, appointment) :
+    updateDraggedAppointment(myAppointment);
   }
 
-  void setIdOnDragStart(id) {
-    _idOnDragStart = id;
+  void insertOccurrenceAppointment(myAppointment, appointment) {
+    //paterni yenile
+
+    final result = _myAppointments.where((element) => element.id == appointment.recurrenceId);
+    MyAppointment recurredAppointment;
+
+// Check if any result is found
+    if (result.isNotEmpty) {
+      // Extract the first element from the iterable
+      recurredAppointment = result.first;
+      print('recurredAppointment ne: $recurredAppointment');
+      List<DateTime>? setException() {
+
+        if (recurredAppointment.recurrenceExceptionDates == null) {
+          final exceptionDate = <DateTime>[];
+          exceptionDate.add(DateTime(
+              recurredAppointment.startTime.year,
+              recurredAppointment.startTime.month,
+              recurredAppointment.startTime.day));
+          print('exceptionDates1: $exceptionDate');
+          return exceptionDate;
+        } else {
+          List<DateTime>? exceptionDate =
+          List.from(recurredAppointment.recurrenceExceptionDates!);
+          print('exceptionDates2: $exceptionDate');
+          exceptionDate.add(DateTime(
+              recurredAppointment.startTime.year,
+              recurredAppointment.startTime.month,
+              recurredAppointment.startTime.day));
+          return exceptionDate;
+        }
+      }
+
+      final newRecurringAppointment = MyAppointment(
+          id: recurredAppointment.id,
+          startTime: recurredAppointment.startTime,
+          endTime: recurredAppointment.endTime,
+          subject: recurredAppointment.subject,
+          notes: recurredAppointment.notes,
+          color: recurredAppointment.color,
+          recurrenceRule: recurredAppointment.recurrenceRule,
+          recurrenceExceptionDates: setException(),
+          icon: _icons[recurredAppointment.id],
+          isCompleted: _isCompleted[recurredAppointment.id]
+      );
+
+      AppointmentDao().updateAppointment(newRecurringAppointment);
+
+      _myAppointments.removeWhere((existingEvent) =>
+      existingEvent.id == recurredAppointment.id);
+
+      _myAppointments.add(newRecurringAppointment);
+
+    } else {
+
+      print('No recurred appointment found for id ${appointment.recurrenceId}');
+    }
+
+
+    //occured olanı ekle
+    _myAppointments.removeWhere((existingEvent) =>
+    existingEvent.id == appointment.id);
+    _appointments.remove(appointment);
+    AppointmentDao().deleteAppointment(appointment.id);
+    _myAppointments.add(myAppointment);
+    _appointments.add(Utils.appointmentConverter(myAppointment));
+    AppointmentDao().insertAppointment(myAppointment);
+    notifyListeners();
+  }
+
+  void updateDraggedAppointment(myAppointment) {
+
+    _myAppointments.add(myAppointment);
+    AppointmentDao().insertAppointment(myAppointment);
+  }
+
+  void setAppointmentOnDragStart(appointment) {
+    if(appointment.recurrenceRule == null) {
+    _myAppointments.removeWhere((existingEvent) =>
+    existingEvent.id == appointment.id);
+    _appointments.remove(appointment);
+    AppointmentDao().deleteAppointment(appointment.id);
+    } else {
+
+    }
+
+    _idOnDragStart = appointment.id;
     notifyListeners();
   }
 

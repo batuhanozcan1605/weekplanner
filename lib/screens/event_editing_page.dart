@@ -22,11 +22,13 @@ class EventEditingPage extends StatefulWidget {
       this.appointment,
       this.eventTemplate,
       this.iconFromEdit,
+      this.isCompletedFromEdit,
       this.cellDate});
 
   final MyAppointment? appointment;
   final Events? eventTemplate;
   final IconData? iconFromEdit;
+  final int? isCompletedFromEdit;
   final DateTime? cellDate;
 
   @override
@@ -619,7 +621,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
     if (isEditing) {
 
         String uniqueId = Utils.getUniqueId(widget.appointment!.id.toString(), widget.appointment!.startTime);
-        bool completed = provider.uniqueIds.contains(uniqueId);
+        bool completedRecurringEvent = provider.uniqueIds.contains(uniqueId);
+        print('completed $completedRecurringEvent uniqueId: $uniqueId');
 
       final editedEvent = MyAppointment(
         id: widget.appointment!.id,
@@ -627,12 +630,14 @@ class _EventEditingPageState extends State<EventEditingPage> {
         notes: detailController.text,
         startTime: fromDate,
         endTime: toDate,
-        icon: icon,
+        icon: widget.iconFromEdit,
         color: backgroundColor,
-        isCompleted: completed ? 1 : widget.appointment!.isCompleted,
+        isCompleted: completedRecurringEvent ? 1 : widget.isCompletedFromEdit,
       );
 
-      provider.editCompletedEvent(widget.appointment!);
+      print("editedEvent isCompleted: ${widget.appointment!.isCompleted}");
+
+      if(completedRecurringEvent) provider.editCompletedEvent(widget.appointment!);
       provider.deleteUniqueIds(uniqueId);
       provider.editEvent(editedEvent, widget.appointment!);
 
@@ -683,17 +688,22 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
     if (isEditing) {
       final wasRecurred = widget.appointment!.recurrenceRule != null;
+      DateTime firstDateOfRecurringEventStart = provider
+          .firstDateOfRecurringEventStart(widget.appointment!.id);
+      DateTime firstDateOfRecurringEventEnd = provider
+          .firstDateOfRecurringEventEnd(widget.appointment!.id);
       final editedEvent = MyAppointment(
         id: widget.appointment!.id,
         subject: titleController.text,
         notes: detailController.text,
-        startTime: fromDate,
-        endTime: toDate,
+        startTime: firstDateOfRecurringEventStart,
+        endTime: firstDateOfRecurringEventEnd,
         icon: icon,
         color: backgroundColor,
         recurrenceRule: wasRecurred
             ? widget.appointment!.recurrenceRule
             : 'FREQ=WEEKLY;BYDAY=$days',
+        recurrenceExceptionDates: widget.appointment!.recurrenceExceptionDates,
         isCompleted: widget.appointment!.isCompleted,
       );
 
