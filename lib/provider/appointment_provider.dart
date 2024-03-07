@@ -254,7 +254,6 @@ class AppointmentProvider extends ChangeNotifier {
       print('No recurred appointment found for id ${appointment.recurrenceId}');
     }
 
-
     //occured olanı ekle
     _myAppointments.removeWhere((existingEvent) =>
     existingEvent.id == appointment.id);
@@ -264,6 +263,7 @@ class AppointmentProvider extends ChangeNotifier {
     _appointments.add(Utils.appointmentConverter(myAppointment));
     AppointmentDao().insertAppointment(myAppointment);
     notifyListeners();
+
   }
 
   void updateDraggedAppointment(myAppointment) {

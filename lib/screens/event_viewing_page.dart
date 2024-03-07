@@ -47,6 +47,7 @@ class _EventViewingPageState extends State<EventViewingPage> {
     final entitlement = Provider.of<RevenueCatProvider>(context).entitlement;
     //final showAds = entitlement == Entitlement.ads;
     bool showAds = false;
+    String notes = widget.appointment.notes == 'isOccurrenceAppointment' ? '' : widget.appointment.notes as String;
 
     return Scaffold(
       appBar: AppBar(
@@ -163,7 +164,7 @@ class _EventViewingPageState extends State<EventViewingPage> {
               child: widget.appointment.notes == null
                   ? const Text("")
                   : Text(
-                      widget.appointment.notes!,
+                      notes,
                       style: TextStyle(color: colorScheme.onBackground),
                     ),
             ),
