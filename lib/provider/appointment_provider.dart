@@ -140,7 +140,7 @@ class AppointmentProvider extends ChangeNotifier {
 
   void editEvent(MyAppointment newEvent, MyAppointment oldEvent) {
     AppointmentDao().updateAppointment(newEvent);
-
+    _icons[oldEvent.id!]= newEvent.icon as IconData;
     if (oldEvent.recurrenceRule != null) {
       // Handle recurring appointment deletion
       _myAppointments.removeWhere((existingEvent) =>

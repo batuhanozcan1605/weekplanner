@@ -120,11 +120,14 @@ class _EventEditingPageState extends State<EventEditingPage> {
   List<DateTime> selectedDateObjects = [];
   Duration? selectedDuration = const Duration(hours: 2, minutes: 0);
   Events? selectedEvent;
+  late DateTime firstDateOfRecurringEventStart;
+  late DateTime firstDateOfRecurringEventEnd;
   bool showAds = false;
 
   @override
   void initState() {
     super.initState();
+
     if(showAds){
     _createBannerAd();
     _createInterstitialAd();
@@ -132,6 +135,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
     _checkTutorialStatus();
 
     widget.appointment != null ? isEditing = true : isEditing = false;
+
+
 
     if (widget.appointment == null) {
       isRecurrenceEnabled = false;
@@ -158,6 +163,12 @@ class _EventEditingPageState extends State<EventEditingPage> {
       icon = widget.iconFromEdit!;
       currentWeekDays = _getWeekDays(DateTime.now());
       nextWeekDays = _getNextWeekDays(DateTime.now());
+
+      final provider = Provider.of<AppointmentProvider>(context, listen: false);
+      firstDateOfRecurringEventStart = provider
+          .firstDateOfRecurringEventStart(event.id);
+      firstDateOfRecurringEventEnd = provider
+          .firstDateOfRecurringEventEnd(event.id);
     }
   }
 
@@ -170,6 +181,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
   @override
   Widget build(BuildContext context) {
+
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     _scrollControllerHour =
         FixedExtentScrollController(initialItem: selectedDuration!.inHours);
@@ -632,7 +644,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
         notes: detailController.text,
         startTime: fromDate,
         endTime: toDate,
-        icon: widget.iconFromEdit,
+        icon: selectedEvent == null ? widget.iconFromEdit : icon,
         color: backgroundColor,
         isCompleted: completedRecurringEvent ? 1 : widget.isCompletedFromEdit,
       );
@@ -690,17 +702,22 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
     if (isEditing) {
       final wasRecurred = widget.appointment!.recurrenceRule != null;
-      DateTime firstDateOfRecurringEventStart = provider
-          .firstDateOfRecurringEventStart(widget.appointment!.id);
-      DateTime firstDateOfRecurringEventEnd = provider
-          .firstDateOfRecurringEventEnd(widget.appointment!.id);
+      DateTime editedRecurredStartTime = DateTime(
+          firstDateOfRecurringEventStart.year, firstDateOfRecurringEventStart.month,  firstDateOfRecurringEventStart.day,
+        fromDate.hour, fromDate.minute
+      );
+
+      DateTime editedRecurredEndTime = DateTime(firstDateOfRecurringEventEnd.year, firstDateOfRecurringEventEnd.month, firstDateOfRecurringEventEnd.day,
+        toDate.hour, toDate.minute
+      );
+
       final editedEvent = MyAppointment(
         id: widget.appointment!.id,
         subject: titleController.text,
         notes: detailController.text,
-        startTime: firstDateOfRecurringEventStart,
-        endTime: firstDateOfRecurringEventEnd,
-        icon: widget.iconFromEdit,
+        startTime: editedRecurredStartTime,
+        endTime: editedRecurredEndTime,
+        icon: selectedEvent == null ? widget.iconFromEdit : icon,
         color: backgroundColor,
         recurrenceRule: wasRecurred
             ? widget.appointment!.recurrenceRule
@@ -956,6 +973,11 @@ class _EventEditingPageState extends State<EventEditingPage> {
                   child: IconButton(
                     icon: Icon(Icons.arrow_forward, color: colorScheme.primary),
                     onPressed: () {
+                      if(isEditing) {
+                        if(widget.appointment!.recurrenceRule != null){
+                          return;
+                        }
+                      }
                       setState(() {
                         selectedDateObjects = [];
                         selectedDays.fillRange(
@@ -975,7 +997,14 @@ class _EventEditingPageState extends State<EventEditingPage> {
                       ? const Center(child: Text("-"))
                       : buildDropdownField(
                           text: Utils.toDate(fromDate, context),
-                          onClicked: () => pickFromDateTime(pickDate: true)),
+                          onClicked: () {
+                            if(isEditing) {
+                              if(widget.appointment!.recurrenceRule != null){
+                                return;
+                              }
+                            }
+                            pickFromDateTime(pickDate: true);
+                          }),
                 ),
                 Expanded(
                     flex: 2,

@@ -229,8 +229,7 @@ class _EventViewingPageState extends State<EventViewingPage> {
                     id: widget.appointment.id,
                     subject: widget.appointment.subject,
                     notes: widget.appointment.notes!,
-                    startTime:
-                        firstDateOfRecurringEventStart, //sorun burda gibi
+                    startTime: firstDateOfRecurringEventStart,
                     endTime: firstDateOfRecurringEventEnd,
                     icon: icon,
                     color: widget.appointment.color,
