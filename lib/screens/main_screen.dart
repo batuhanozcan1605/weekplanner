@@ -28,6 +28,7 @@ class _MainScreenState extends State<MainScreen> {
   final fabKey = GlobalKey();
   late TutorialCoachMark tutorialCoachMark;
   bool showTutorial = true;
+  bool showAds = false;
 
   void _initMainScreenInAppTour() {
     tutorialCoachMark = TutorialCoachMark(
@@ -77,7 +78,9 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
+    if(showAds){
     _createBannerAd();
+    }
     _checkTutorialStatus();
   }
 
@@ -86,7 +89,7 @@ class _MainScreenState extends State<MainScreen> {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     final entitlement = Provider.of<RevenueCatProvider>(context).entitlement;
     //final showAds = entitlement == Entitlement.ads;
-    bool showAds = false;
+
 
     return Scaffold(
       body: SafeArea(

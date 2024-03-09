@@ -23,6 +23,7 @@ class EventViewingPage extends StatefulWidget {
 
 class _EventViewingPageState extends State<EventViewingPage> {
   BannerAd? _bannerAd;
+  bool showAds = false;
 
   void _createBannerAd() {
     _bannerAd = BannerAd(
@@ -36,6 +37,7 @@ class _EventViewingPageState extends State<EventViewingPage> {
   @override
   void initState() {
     super.initState();
+    if(showAds)
     _createBannerAd();
   }
 
@@ -46,7 +48,7 @@ class _EventViewingPageState extends State<EventViewingPage> {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     final entitlement = Provider.of<RevenueCatProvider>(context).entitlement;
     //final showAds = entitlement == Entitlement.ads;
-    bool showAds = false;
+
     String notes = widget.appointment.notes == 'isOccurrenceAppointment' ? '' : widget.appointment.notes as String;
 
     return Scaffold(
