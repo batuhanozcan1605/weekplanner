@@ -23,6 +23,7 @@ class EventViewingPage extends StatefulWidget {
 
 class _EventViewingPageState extends State<EventViewingPage> {
   BannerAd? _bannerAd;
+  bool showAds = false;
 
   void _createBannerAd() {
     _bannerAd = BannerAd(
@@ -36,16 +37,19 @@ class _EventViewingPageState extends State<EventViewingPage> {
   @override
   void initState() {
     super.initState();
+    if(showAds)
     _createBannerAd();
   }
 
   @override
   Widget build(BuildContext context) {
     final icons = Provider.of<AppointmentProvider>(context).icons;
+    final isCompleted = Provider.of<AppointmentProvider>(context).isCompleted;
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     final entitlement = Provider.of<RevenueCatProvider>(context).entitlement;
     //final showAds = entitlement == Entitlement.ads;
-    bool showAds = false;
+
+    String notes = widget.appointment.notes == 'isOccurrenceAppointment' ? '' : widget.appointment.notes as String;
 
     return Scaffold(
       appBar: AppBar(
@@ -64,7 +68,9 @@ class _EventViewingPageState extends State<EventViewingPage> {
               Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) => EventEditingPage(
                       appointment: widget.appointment,
-                      iconFromEdit: icons[widget.appointment.id])));
+                      iconFromEdit: icons[widget.appointment.id],
+                      isCompletedFromEdit: isCompleted[widget.appointment.id]
+                  )));
             },
             icon: const Icon(Icons.edit),
             color: colorScheme.onBackground,
@@ -160,7 +166,7 @@ class _EventViewingPageState extends State<EventViewingPage> {
               child: widget.appointment.notes == null
                   ? const Text("")
                   : Text(
-                      widget.appointment.notes!,
+                      notes,
                       style: TextStyle(color: colorScheme.onBackground),
                     ),
             ),
@@ -223,8 +229,7 @@ class _EventViewingPageState extends State<EventViewingPage> {
                     id: widget.appointment.id,
                     subject: widget.appointment.subject,
                     notes: widget.appointment.notes!,
-                    startTime:
-                        firstDateOfRecurringEventStart, //sorun burda gibi
+                    startTime: firstDateOfRecurringEventStart,
                     endTime: firstDateOfRecurringEventEnd,
                     icon: icon,
                     color: widget.appointment.color,
