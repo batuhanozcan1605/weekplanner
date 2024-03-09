@@ -13,7 +13,6 @@ import '../ad_helper.dart';
 import '../model/Events.dart';
 import '../model/MyAppointment.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import '../provider/revenuecat_provider.dart';
 
 class EventEditingPage extends StatefulWidget {
@@ -121,12 +120,15 @@ class _EventEditingPageState extends State<EventEditingPage> {
   List<DateTime> selectedDateObjects = [];
   Duration? selectedDuration = const Duration(hours: 2, minutes: 0);
   Events? selectedEvent;
+  bool showAds = false;
 
   @override
   void initState() {
     super.initState();
+    if(showAds){
     _createBannerAd();
     _createInterstitialAd();
+    }
     _checkTutorialStatus();
 
     widget.appointment != null ? isEditing = true : isEditing = false;
@@ -175,7 +177,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
         initialItem: selectedDuration!.inMinutes % 60);
     final entitlement = Provider.of<RevenueCatProvider>(context).entitlement;
     //final showAds = entitlement == Entitlement.ads;
-    bool showAds = false;
+
 
     return Scaffold(
       appBar: AppBar(
@@ -698,13 +700,13 @@ class _EventEditingPageState extends State<EventEditingPage> {
         notes: detailController.text,
         startTime: firstDateOfRecurringEventStart,
         endTime: firstDateOfRecurringEventEnd,
-        icon: icon,
+        icon: widget.iconFromEdit,
         color: backgroundColor,
         recurrenceRule: wasRecurred
             ? widget.appointment!.recurrenceRule
             : 'FREQ=WEEKLY;BYDAY=$days',
         recurrenceExceptionDates: widget.appointment!.recurrenceExceptionDates,
-        isCompleted: widget.appointment!.isCompleted,
+        isCompleted: widget.isCompletedFromEdit,
       );
 
       if(widget.appointment!.isCompleted == 1) {
